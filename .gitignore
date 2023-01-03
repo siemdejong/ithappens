@@ -1,4 +1,4 @@
-outputs/*
+outputs/*.pdf
 *.xlsx
 
 # Byte-compiled / optimized / DLL files
