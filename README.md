@@ -221,7 +221,7 @@ Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/si
 [issues-shield]: https://img.shields.io/github/issues/siemdejong/shit-happens.svg?style=for-the-badge
 [issues-url]: https://github.com/siemdejong/shit-happens/issues
 [license-shield]: https://img.shields.io/github/license/siemdejong/shit-happens.svg?style=for-the-badge
-[license-url]: https://github.com/siemdejong/shit-happens/blob/master/LICENSE.txt
+[license-url]: https://github.com/siemdejong/shit-happens/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
