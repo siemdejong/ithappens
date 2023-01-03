@@ -1,7 +1,6 @@
 import pandas as pd
 from pathlib import Path
 from card import Card
-import matplotlib
 from matplotlib.axes import Axes
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
