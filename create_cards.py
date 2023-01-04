@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimage
 from matplotlib.patches import Rectangle
 from tqdm import tqdm
-from utils import slugify
+from utils import slugify, merge_pdfs
 from glob import glob
 import argparse
 
@@ -14,6 +14,7 @@ import argparse
 class ShitHappensArgs(argparse.Namespace):
     input_dir: str
     name: str
+    merge: bool
 
 
 def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.DataFrame:
@@ -35,14 +36,14 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
 def plot_card(card: Card, input_dir: Path) -> Figure:
 
     # 128x89 cm for typical playing cards.
-    x_total = 128  # cm front and back
-    y_total = 89  # cm top to bottom
+    x_total = 62  # cm front and back
+    y_total = 88  # cm top to bottom
 
     # To be able to convert between centimeters and inches.
     cm_per_inch = 2.54
 
     # Add margin on all sides.
-    margin = 0.5
+    margin = 0.5  # cm
 
     x_size = (x_total + margin) / cm_per_inch
     y_size = (y_total + margin) / cm_per_inch
@@ -100,46 +101,46 @@ def plot_card(card: Card, input_dir: Path) -> Figure:
     ax.add_patch(mi_block)
 
     # Back.
-    game_name = "Shit Happens"
-    expansion_text = "expansion"
-    expansion_text_full = card.expansion_name + " " + expansion_text
+    # game_name = "Shit Happens"
+    # expansion_text = "expansion"
+    # expansion_text_full = card.expansion_name + " " + expansion_text
 
-    ax.text(
-        -x_size / 4,
-        0.7 * (y_size - margin) / 2,
-        game_name.upper(),
-        **text_kwargs,
-        color="yellow",
-        fontsize=170,
-        weight="regular",
-        verticalalignment="center",
-    )
+    # ax.text(
+    #     -x_size / 4,
+    #     0.7 * (y_size - margin) / 2,
+    #     game_name.upper(),
+    #     **text_kwargs,
+    #     color="yellow",
+    #     fontsize=170,
+    #     weight="regular",
+    #     verticalalignment="center",
+    # )
 
-    ax.text(
-        -x_size / 4,
-        0.6 * (y_size - margin) / 2,
-        expansion_text_full.upper(),
-        **text_kwargs,
-        color="yellow",
-        fontsize=70,
-        fontstyle="italic",
-        weight="ultralight",
-        verticalalignment="center",
-    )
+    # ax.text(
+    #     -x_size / 4,
+    #     0.6 * (y_size - margin) / 2,
+    #     expansion_text_full.upper(),
+    #     **text_kwargs,
+    #     color="yellow",
+    #     fontsize=70,
+    #     fontstyle="italic",
+    #     weight="ultralight",
+    #     verticalalignment="center",
+    # )
 
-    game_logo_path = Path(f"{input_dir}/images/game-logo.png")
-    game_logo = mpimage.imread(str(game_logo_path))[:, :, 0]
+    # game_logo_path = Path(f"{input_dir}/images/game-logo.png")
+    # game_logo = mpimage.imread(str(game_logo_path))[:, :, 0]
 
-    game_logoax = fig.add_axes([0.1, 0.2, 0.3, 0.5])
-    game_logoax.imshow(game_logo, cmap="binary")
-    game_logoax.axis("off")
+    # game_logoax = fig.add_axes([0.1, 0.2, 0.3, 0.5])
+    # game_logoax.imshow(game_logo, cmap="binary")
+    # game_logoax.axis("off")
 
-    expansion_logo_path = Path(f"{input_dir}/images/expansion-logo.jpg")
-    expansion_logo = mpimage.imread(str(expansion_logo_path))
+    # expansion_logo_path = Path(f"{input_dir}/images/expansion-logo.jpg")
+    # expansion_logo = mpimage.imread(str(expansion_logo_path))
 
-    expansion_logoax = fig.add_axes([0.1, 0.05, 0.3, 0.1])
-    expansion_logoax.imshow(expansion_logo)
-    expansion_logoax.axis("off")
+    # expansion_logoax = fig.add_axes([0.1, 0.05, 0.3, 0.1])
+    # expansion_logoax.imshow(expansion_logo)
+    # expansion_logoax.axis("off")
 
     ax.set_xlim(-x_size / 2, x_size / 2)
     ax.set_ylim(-y_size / 2, y_size / 2)
@@ -163,13 +164,20 @@ def save_card(
 
 
 def create_cards(
-    df: pd.DataFrame, expansion_name: str, input_dir: Path, output_dir: Path
+    df: pd.DataFrame,
+    expansion_name: str,
+    input_dir: Path,
+    output_dir: Path,
+    merge: bool,
 ) -> None:
     for i, row in tqdm(df.iterrows(), total=df.shape[0]):
         card = Card(row["desc"], row["misery_index"], expansion_name)
         card.fig = plot_card(card, input_dir)
         save_card(card, output_dir)
         # break
+
+    if merge:
+        merge_pdfs(output_dir)
 
 
 def main() -> None:
@@ -179,6 +187,9 @@ def main() -> None:
     )
     argParser.add_argument("input_dir", metavar="input_dir", help="Input directory.")
     argParser.add_argument("-n", "--name", help="Expansion name.")
+    argParser.add_argument(
+        "-m", "--merge", help="Merge output.", action=argparse.BooleanOptionalAction
+    )
     args = argParser.parse_args(namespace=ShitHappensArgs())
 
     input_dir = Path(args.input_dir)
@@ -208,7 +219,7 @@ def main() -> None:
 
     df = parse_excel(xlsx_path, 0, 1)
 
-    create_cards(df, expansion_name, input_dir, output_dir)
+    create_cards(df, expansion_name, input_dir, output_dir, args.merge)
 
 
 if __name__ == "__main__":

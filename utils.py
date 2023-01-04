@@ -1,5 +1,25 @@
 import unicodedata
 import re
+from glob import glob
+from PyPDF2 import PdfMerger
+from pathlib import Path
+from typing import Optional
+
+
+def merge_pdfs(input_dir: Path, output_dir: Optional[Path] = None):
+    """Merges all the pdf files in current directory.
+    Source: https://stackoverflow.com/a/47356404/8797886.
+    """
+    merger = PdfMerger()
+    allpdfs = [a for a in glob(str(input_dir / "*.pdf")) if "merged" not in a]
+    for pdf in allpdfs:
+        merger.append(pdf)
+
+    if output_dir is None:
+        output_dir = input_dir
+
+    with open(output_dir / "merged.pdf", "wb") as merged_pdf:
+        merger.write(merged_pdf)
 
 
 def slugify(value, allow_unicode=False):
@@ -21,3 +41,4 @@ def slugify(value, allow_unicode=False):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
