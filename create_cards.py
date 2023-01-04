@@ -4,6 +4,7 @@ from card import Card
 from matplotlib.axes import Axes
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 from typing import Optional
 from tqdm import tqdm
 from utils import slugify
@@ -39,18 +40,49 @@ def plot_card(card: Card) -> Axes:
     ax.axis("off")
 
     text_kwargs = dict(
-        verticalalignment="top",
         wrap=True,
-        color="yellow",
         weight="extra bold",
         horizontalalignment="center",
-        fontsize=130,
         fontfamily="Open Sans",
     )
 
-    desc = card.desc
+    # Front.
     mi_desc = "misery index"
-    mi = card.misery_index
+
+    ax.text(
+        x_size / 4,
+        0.8 * (y_size - margin) / 2,
+        card.desc.upper(),
+        **text_kwargs,
+        color="yellow",
+        fontsize=130,
+        verticalalignment="top",
+    )
+
+    ax.text(
+        x_size / 4,
+        0.0 - 0.6 * (y_size - margin) / 2,
+        mi_desc.upper(),
+        **text_kwargs,
+        color="yellow",
+        fontsize=130,
+        verticalalignment="center",
+    )
+
+    ax.text(
+        x_size / 4,
+        -0.9 * (y_size) / 2,
+        str(card.misery_index).upper(),
+        **text_kwargs,
+        color="black",
+        fontsize=230,
+        verticalalignment="center",
+    )
+
+    mi_block = Rectangle(
+        (x_size / 8, -1 * y_size / 2), 2 * x_size / 8, y_size / 8, fc="yellow",
+    )
+    ax.add_patch(mi_block)
 
     for pos, text in zip([0.8, -0.7, -0.8], [desc, mi_desc, mi]):
         ax.text(
