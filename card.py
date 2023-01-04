@@ -5,4 +5,5 @@ from matplotlib.figure import Figure
 class Card:
     desc: str
     misery_index: float
+    expansion_name: str
     fig: Figure  = field(init=False)

@@ -1,5 +1,4 @@
-outputs/*.pdf
-*.xlsx
+examples/zsn
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
