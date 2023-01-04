@@ -172,10 +172,12 @@ def create_cards(
         # break
 
 
-if __name__ == "__main__":
+def main() -> None:
 
-    argParser = argparse.ArgumentParser()
-    argParser.add_argument("-i", "--input_dir", help="Input directory.", required=True)
+    argParser = argparse.ArgumentParser(
+        description="Create custom Shit Happens expansion playing cards."
+    )
+    argParser.add_argument("input_dir", metavar="input_dir", help="Input directory.")
     argParser.add_argument("-n", "--name", help="Expansion name.")
     args = argParser.parse_args(namespace=ShitHappensArgs())
 
@@ -208,3 +210,9 @@ if __name__ == "__main__":
 
     create_cards(df, expansion_name, input_dir, output_dir)
 
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Interrupted.")
