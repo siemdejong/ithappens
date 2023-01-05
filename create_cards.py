@@ -1,21 +1,23 @@
-import pandas as pd
-from pathlib import Path
-from card import Card
-from matplotlib.offsetbox import TextArea, AnchoredOffsetbox, AnchoredText
-from matplotlib.path import Path as mpPath
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
-from matplotlib.text import Text, Annotation
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimage
-from matplotlib.patches import Rectangle, BoxStyle
-from tqdm import tqdm
-from utils import slugify, merge_pdfs
-from glob import glob
 import argparse
-from typing import Literal, Optional, Union
-from matplotlib.transforms import Bbox, Transform
 import textwrap
+from glob import glob
+from pathlib import Path
+from typing import Literal, Optional, Union
+
+import matplotlib.image as mpimage
+import matplotlib.pyplot as plt
+import pandas as pd
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.offsetbox import AnchoredOffsetbox, AnchoredText, TextArea
+from matplotlib.patches import BoxStyle, Rectangle
+from matplotlib.path import Path as mpPath
+from matplotlib.text import Annotation, Text
+from matplotlib.transforms import Bbox, Transform
+from tqdm import tqdm
+
+from card import Card
+from utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
@@ -103,7 +105,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
         intput_path: path of the Excel file
         desc_col: description column index
         misery_index_col: misery index column index
-    
+
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
@@ -212,7 +214,11 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.axis("off")
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontfamily="Open Sans",)
+    text_kwargs = dict(
+        wrap=True,
+        horizontalalignment="center",
+        fontfamily="Open Sans",
+    )
 
     game_name = "Shit Happens"
     expansion_text = "expansion"

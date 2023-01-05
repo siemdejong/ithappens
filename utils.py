@@ -1,9 +1,10 @@
-import unicodedata
 import re
+import unicodedata
 from glob import glob
-from PyPDF2 import PdfMerger
 from pathlib import Path
 from typing import Optional
+
+from PyPDF2 import PdfMerger
 
 
 def sort_pdfs_by_mi(fn: str):
@@ -23,7 +24,10 @@ def merge_pdfs(input_dir: Path, output_dir: Optional[Path] = None):
     merger = PdfMerger()
     allpdfs = [
         a
-        for a in sorted(glob(str(input_dir / "*.pdf")), key=sort_pdfs_by_mi,)
+        for a in sorted(
+            glob(str(input_dir / "*.pdf")),
+            key=sort_pdfs_by_mi,
+        )
         if "merged" not in a
     ]
     for pdf in allpdfs:
@@ -55,4 +59,3 @@ def slugify(value, allow_unicode=False):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
-
