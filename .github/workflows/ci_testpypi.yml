@@ -7,7 +7,7 @@ on:
       - pypi
 
 jobs:
-  build_sdist:
+  testpypi:
     if: |
       github.event_name == 'push'
     name: Build sdist and wheel on ${{ matrix.os }}
@@ -31,6 +31,7 @@ jobs:
         run: pip install build
 
       - name: Build sdist and wheel
+        id: build
         run: python -m build .
 
       - name: Install built matplotlib sdist
@@ -44,9 +45,9 @@ jobs:
 
       - name: Check README rendering for PyPI
         run: twine check dist/*
-
-- name: Publish to TestPyPI
-  uses: pypa/gh-action-pypi-publish@release/v1
-  with:
-    password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-    repository_url: https://test.pypi.org/legacy/
+  
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
