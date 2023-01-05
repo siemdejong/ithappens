@@ -6,12 +6,26 @@ from pathlib import Path
 from typing import Optional
 
 
+def sort_pdfs_by_mi(fn: str):
+    """Key for sorted() to sort filenames by leading number.
+    The number must be separated with '-'.
+    """
+    try:
+        return float(Path(fn).stem.split("-")[0])
+    except ValueError:
+        return -1
+
+
 def merge_pdfs(input_dir: Path, output_dir: Optional[Path] = None):
     """Merges all the pdf files in current directory.
     Source: https://stackoverflow.com/a/47356404/8797886.
     """
     merger = PdfMerger()
-    allpdfs = [a for a in glob(str(input_dir / "*.pdf")) if "merged" not in a]
+    allpdfs = [
+        a
+        for a in sorted(glob(str(input_dir / "*.pdf")), key=sort_pdfs_by_mi,)
+        if "merged" not in a
+    ]
     for pdf in allpdfs:
         merger.append(pdf)
 
