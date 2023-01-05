@@ -1,0 +1,8 @@
+name: shithappens
+channels:
+  - conda-forge
+dependencies:
+  - matplotlib
+  - pandas
+  - openpyxl
+  - tqdm

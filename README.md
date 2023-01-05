@@ -62,14 +62,14 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
-    <!-- <li>
+    <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
-    </li> -->
-    <!-- <li><a href="#usage">Usage</a></li> -->
+    </li>
+    <li><a href="#usage">Usage</a></li>
     <!-- <li><a href="#roadmap">Roadmap</a></li> -->
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -108,47 +108,66 @@ This project is not related to the original card game.
 
 
 <!-- GETTING STARTED -->
-<!-- ## Getting Started
+## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+A conda environment with python 3.11 or higher.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/siemdejong/shit-happens.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+Run
+```
+pip install shithappens
+```
+from within the target environment.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+To allow for pdf merging, run `pip install shithappens[merge]`.
+To show a progressbar, run `pip install shithappens[pbar]`.
+To install all dependencies, run `pip install shithappens[all]`.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
-<!-- ## Usage
+## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### CLI
+The tool is available as a command line interface (CLI).
+```
+usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] input_dir
+
+positional arguments:
+  input_dir             Input directory.
+
+options:
+  -h, --help            show this help message and exit
+  -n NAME, --name NAME  Expansion name.
+  -m, --merge, --no-merge
+                        Merge output.
+  -s {front,back,both}, --side {front,back,both}
+                        Side(s) to generate.
+```
+The input directory must be structured as follows:
+```
+expansion
+├───images
+│   ├───expansion-logo.jpg
+│   └───game-logo.png
+├───outputs
+│   ├───back
+│   └───front
+└───*.xlsx
+```
+If the output folder does not exist, it will be created.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -162,7 +181,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 See the [open issues](https://github.com/siemdejong/shit-happens/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p> --> -->
 
 
 

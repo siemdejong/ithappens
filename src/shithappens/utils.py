@@ -4,8 +4,6 @@ from glob import glob
 from pathlib import Path
 from typing import Optional
 
-from PyPDF2 import PdfMerger
-
 
 def sort_pdfs_by_mi(fn: str):
     """Key for sorted() to sort filenames by leading number.
@@ -21,6 +19,7 @@ def merge_pdfs(input_dir: Path, output_dir: Optional[Path] = None):
     """Merges all the pdf files in current directory.
     Source: https://stackoverflow.com/a/47356404/8797886.
     """
+    from PyPDF2 import PdfMerger
     merger = PdfMerger()
     allpdfs = [
         a
