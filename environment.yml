@@ -1,8 +1,16 @@
-name: shithappens
+name: shithappens-dev
 channels:
   - conda-forge
 dependencies:
   - matplotlib
   - pandas
+  - ca-certificates
+  - certifi
+  - openssl
+  - black
+  - isort
   - openpyxl
+  - build
+  - twine
+  - pypdf2
   - tqdm
