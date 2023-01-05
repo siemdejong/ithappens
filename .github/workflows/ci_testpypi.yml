@@ -34,11 +34,11 @@ jobs:
         id: build
         run: python -m build .
 
-      - name: Install built matplotlib sdist
-        run: pip install dist/matplotlib*.tar.gz
+      - name: Install built sdist
+        run: pip install dist/shithappens*.tar.gz
 
-      - name: Install built matplotlib wheel
-        run: pip install dist/matplotlib*.whl --force-reinstall
+      - name: Install built wheel
+        run: pip install dist/shithappens*.whl --force-reinstall
 
       - name: Install twine
         run: pip install twine
