@@ -105,7 +105,7 @@ class ShitHappensArgs(argparse.Namespace):
     merge: bool
     side: Literal["front", "back", "both"]
     workers: int
-    num_of_chunks: int
+    chunks: int
 
 
 def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.DataFrame:
@@ -339,10 +339,10 @@ def create_cards(
     merge: bool,
     side: Literal["front", "back", "both"],
     workers: int,
-    num_of_chunks: int,
+    chunks: int,
 ) -> None:
     nmax = df.shape[0]
-    chunksize = nmax // num_of_chunks
+    chunksize = nmax // chunks
     create_card_par = partial(
         create_card,
         expansion_name=expansion_name,
@@ -397,11 +397,9 @@ def main() -> None:
     argParser.add_argument("-w", "--workers", help="Number of workers.", default=4)
     argParser.add_argument(
         "-c",
-        "--number-of-chunks",
+        "--chunks",
         help="Number of chunks for the workers to process.",
         default=30,
-        dest="num_of_chunks",
-        type=int,
     )
     args = argParser.parse_args(namespace=ShitHappensArgs())
 
@@ -458,7 +456,7 @@ def main() -> None:
         args.merge,
         args.side,
         args.workers,
-        args.num_of_chunks,
+        args.chunks,
     )
 
 
