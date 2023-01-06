@@ -45,6 +45,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "shithappens.opensans.fonts.ttf" = ["*.ttf"]
+"shithappens.images" = ["*.png"]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/shit-happens"

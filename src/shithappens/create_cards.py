@@ -120,7 +120,12 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
-    df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col])
+    try:
+        df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col], engine="openpyxl")
+    except Exception:
+        print(f"{input_path} does not contain any Excel files.")
+        exit()
+
     return df
 
 
@@ -271,14 +276,28 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    game_logo_path = Path(f"{input_dir}/images/game-logo.png")
-    game_logo = mpimage.imread(str(game_logo_path))[:, :, 0]
+    # Game logo.
+    game_logo_path = f"{input_dir}/images/game-logo.png"
+    if not Path(game_logo_path).exists():
+        game_logo = resources.files("shithappens.images").joinpath(
+            "game-logo.png"
+        )
+        with resources.as_file(game_logo) as fpath:
+            game_logo_path = str(fpath)
+    game_logo = mpimage.imread(game_logo_path)[:, :, 0]
 
     game_logoax = fig.add_axes([0.1, 0.2, 0.3, 0.5])
     game_logoax.imshow(game_logo, cmap="binary")
     game_logoax.axis("off")
 
-    expansion_logo_path = Path(f"{input_dir}/images/expansion-logo.jpg")
+    # Expansion logo.
+    expansion_logo_path = f"{input_dir}/images/expansion-logo.png"
+    if not Path(expansion_logo_path).exists():
+        expansion_logo = resources.files("shithappens.images").joinpath(
+            "expansion-logo.png"
+        )
+        with resources.as_file(expansion_logo) as fpath:
+            expansion_logo_path = str(fpath)
     expansion_logo = mpimage.imread(str(expansion_logo_path))
 
     expansion_logoax = fig.add_axes([0.1, 0.05, 0.3, 0.1])
@@ -356,6 +375,7 @@ def create_cards(
         max_workers=workers,
         chunksize=chunksize,
         total=nmax,
+        desc="Plotting cards"
     )
 
     if merge:
@@ -410,13 +430,18 @@ def main() -> None:
     else:
         del tqdm
 
+
     input_dir = Path(args.input_dir)
-    output_dir = input_dir / "outputs"
+    while True:
+        if input_dir.exists():
+            break
+        input_dir = Path(input(f"Input directory {input_dir} does not exist. Please specify an existing input directory.\n"))
 
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
     if not xlsx_paths_num:
-        raise Exception(f"No Excel file exists in {input_dir}.")
+        print(f"Please provide an Excel file in {input_dir}.")
+        exit(1)
     elif xlsx_paths_num > 1:
         print("More than one input file found.")
         for i, xlsx_path in enumerate(xlsx_paths, 1):
@@ -425,6 +450,10 @@ def main() -> None:
         xlsx_path = Path(xlsx_paths[xlsx_index - 1])
     else:
         xlsx_path = Path(xlsx_paths[0])
+
+    output_dir = input_dir / "outputs"
+    print(f"Reading files from {input_dir}.")
+    print(f"Output files in {output_dir}.")
 
     if args.name:
         expansion_name = args.name

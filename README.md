@@ -160,7 +160,7 @@ The input directory must be structured as follows:
 ```
 expansion
 ├───images
-│   ├───expansion-logo.jpg
+│   ├───expansion-logo.png
 │   └───game-logo.png
 ├───outputs
 │   ├───back
