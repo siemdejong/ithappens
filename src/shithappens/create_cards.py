@@ -1,32 +1,32 @@
 import argparse
 import textwrap
+from functools import partial
 from glob import glob
-from pathlib import Path
-from typing import Literal, Optional, Union
 from importlib import resources
+from pathlib import Path
+from typing import Literal, Optional
 
+import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
-import matplotlib
-from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-import matplotlib.font_manager as fm
-from matplotlib.offsetbox import AnchoredOffsetbox, AnchoredText, TextArea
-from matplotlib.patches import BoxStyle, Rectangle
-from matplotlib.path import Path as mpPath
-from matplotlib.text import Annotation, Text
+from matplotlib.patches import Rectangle
+from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox, Transform
+from tqdm.contrib.concurrent import process_map
+
 try:
     from tqdm import tqdm
 except ImportError:
-    print("Install tqdm to add a progress bar.")
+
     def tqdm(iterable, *args, **kwargs):
         del args, kwargs
         return iterable
 
-from .card import Card
-from .utils import merge_pdfs, slugify
+
+from shithappens.card import Card
+from shithappens.utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
@@ -104,6 +104,8 @@ class ShitHappensArgs(argparse.Namespace):
     name: str
     merge: bool
     side: Literal["front", "back", "both"]
+    workers: int
+    chunks: int
 
 
 def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.DataFrame:
@@ -118,7 +120,12 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
-    df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col])
+    try:
+        df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col], engine="openpyxl")
+    except Exception:
+        print(f"{input_path} does not contain any Excel files.")
+        exit()
+
     return df
 
 
@@ -145,7 +152,9 @@ def plot_card_front(card: Card) -> Figure:
 
     ax.axis("off")
 
-    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-ExtraBold.ttf')
+    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
+        "OpenSans-ExtraBold.ttf"
+    )
     with resources.as_file(opensans_resource) as fpath:
         prop = fm.FontProperties(fname=fpath)
 
@@ -224,7 +233,9 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.axis("off")
 
-    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-Regular.ttf')
+    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
+        "OpenSans-Regular.ttf"
+    )
     with resources.as_file(opensans_resource) as fpath:
         prop = fm.FontProperties(fname=fpath)
 
@@ -245,7 +256,9 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-LightItalic.ttf')
+    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
+        "OpenSans-LightItalic.ttf"
+    )
     with resources.as_file(opensans_resource) as fpath:
         prop = fm.FontProperties(fname=fpath)
 
@@ -263,14 +276,28 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    game_logo_path = Path(f"{input_dir}/images/game-logo.png")
-    game_logo = mpimage.imread(str(game_logo_path))[:, :, 0]
+    # Game logo.
+    game_logo_path = f"{input_dir}/images/game-logo.png"
+    if not Path(game_logo_path).exists():
+        game_logo = resources.files("shithappens.images").joinpath(
+            "game-logo.png"
+        )
+        with resources.as_file(game_logo) as fpath:
+            game_logo_path = str(fpath)
+    game_logo = mpimage.imread(game_logo_path)[:, :, 0]
 
     game_logoax = fig.add_axes([0.1, 0.2, 0.3, 0.5])
     game_logoax.imshow(game_logo, cmap="binary")
     game_logoax.axis("off")
 
-    expansion_logo_path = Path(f"{input_dir}/images/expansion-logo.jpg")
+    # Expansion logo.
+    expansion_logo_path = f"{input_dir}/images/expansion-logo.png"
+    if not Path(expansion_logo_path).exists():
+        expansion_logo = resources.files("shithappens.images").joinpath(
+            "expansion-logo.png"
+        )
+        with resources.as_file(expansion_logo) as fpath:
+            expansion_logo_path = str(fpath)
     expansion_logo = mpimage.imread(str(expansion_logo_path))
 
     expansion_logoax = fig.add_axes([0.1, 0.05, 0.3, 0.1])
@@ -311,6 +338,18 @@ def save_card(
         )
 
 
+def create_card(row, expansion_name, input_dir, output_dir, side):
+    card = Card(row[1]["desc"], row[1]["misery_index"], expansion_name)
+
+    if side == "front" or side == "both":
+        card.fig_front = plot_card_front(card)
+        save_card(card, output_dir, "front")
+
+    if side == "back" or side == "both":
+        card.fig_back = plot_card_back(card, input_dir)
+        save_card(card, output_dir, "back")
+
+
 def create_cards(
     df: pd.DataFrame,
     expansion_name: str,
@@ -318,19 +357,26 @@ def create_cards(
     output_dir: Path,
     merge: bool,
     side: Literal["front", "back", "both"],
+    workers: int,
+    chunks: int,
 ) -> None:
-    for i, row in tqdm(df.iterrows(), total=df.shape[0]):
-        card = Card(row["desc"], row["misery_index"], expansion_name)
-
-        if side == "front" or side == "both":
-            card.fig_front = plot_card_front(card)
-            save_card(card, output_dir, "front")
-
-        if side == "back" or side == "both":
-            card.fig_back = plot_card_back(card, input_dir)
-            save_card(card, output_dir, "back")
-
-        # break
+    nmax = df.shape[0]
+    chunksize = nmax // chunks
+    create_card_par = partial(
+        create_card,
+        expansion_name=expansion_name,
+        input_dir=input_dir,
+        output_dir=output_dir,
+        side=side,
+    )
+    process_map(
+        create_card_par,
+        df.iterrows(),
+        max_workers=workers,
+        chunksize=chunksize,
+        total=nmax,
+        desc="Plotting cards"
+    )
 
     if merge:
         if side == "front" or side == "both":
@@ -343,27 +389,59 @@ def main() -> None:
     argParser = argparse.ArgumentParser(
         description="Create custom Shit Happens expansion playing cards."
     )
-    argParser.add_argument("input_dir", metavar="input_dir", help="Input directory.")
-    argParser.add_argument("-n", "--name", help="Expansion name.")
     argParser.add_argument(
-        "-m", "--merge", help="Merge output.", action=argparse.BooleanOptionalAction
+        "input_dir",
+        metavar="input_dir",
+        nargs="?",
+        help="Input directory. Defaults to current working directory.",
+        default=Path.cwd(),
+    )
+    argParser.add_argument(
+        "-n",
+        "--name",
+        help="Expansion name. If no name is specified, infers name from input_dir.",
+    )
+    argParser.add_argument(
+        "-m",
+        "--merge",
+        help="Merge output. Defaults to --no-merge",
+        action=argparse.BooleanOptionalAction,
     )
     argParser.add_argument(
         "-s",
         "--side",
-        help="Side(s) to generate.",
+        help="Side(s) to generate. Defaults to both.",
         choices=["front", "back", "both"],
         default="both",
     )
+    argParser.add_argument("-w", "--workers", help="Number of workers.", default=4)
+    argParser.add_argument(
+        "-c",
+        "--chunks",
+        help="Number of chunks for the workers to process.",
+        default=30,
+    )
     args = argParser.parse_args(namespace=ShitHappensArgs())
 
+    try:
+        import tqdm
+    except ImportError:
+        print("Install tqdm to add a progress bar.")
+    else:
+        del tqdm
+
+
     input_dir = Path(args.input_dir)
-    output_dir = input_dir / "outputs"
+    while True:
+        if input_dir.exists():
+            break
+        input_dir = Path(input(f"Input directory {input_dir} does not exist. Please specify an existing input directory.\n"))
 
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
     if not xlsx_paths_num:
-        raise Exception(f"No Excel file exists in {input_dir}.")
+        print(f"Please provide an Excel file in {input_dir}.")
+        exit(1)
     elif xlsx_paths_num > 1:
         print("More than one input file found.")
         for i, xlsx_path in enumerate(xlsx_paths, 1):
@@ -372,6 +450,10 @@ def main() -> None:
         xlsx_path = Path(xlsx_paths[xlsx_index - 1])
     else:
         xlsx_path = Path(xlsx_paths[0])
+
+    output_dir = input_dir / "outputs"
+    print(f"Reading files from {input_dir}.")
+    print(f"Output files in {output_dir}.")
 
     if args.name:
         expansion_name = args.name
@@ -387,18 +469,32 @@ def main() -> None:
     if args.merge:
         try:
             import PyPDF2
+
             args.merge = True
         except ImportError:
             args.merge = False
             print("Install pypdf2 for pdf merging.")
+        else:
+            del PyPDF2
 
-    create_cards(df, expansion_name, input_dir, output_dir, args.merge, args.side)
+    create_cards(
+        df,
+        expansion_name,
+        input_dir,
+        output_dir,
+        args.merge,
+        args.side,
+        args.workers,
+        args.chunks,
+    )
+
 
 def main_cli():
     try:
         main()
     except KeyboardInterrupt:
         print("Interrupted.")
+
 
 if __name__ == "__main__":
     main()

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shithappens"
-version = "0.1.4"
+version = "0.2.0"
 authors = [
   { name="Siem de Jong"},
 ]
@@ -45,6 +45,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "shithappens.opensans.fonts.ttf" = ["*.ttf"]
+"shithappens.images" = ["*.png"]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/shit-happens"
