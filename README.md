@@ -139,7 +139,7 @@ To install all dependencies, run `pip install shithappens[all]`.
 ### CLI
 The tool is available as a command line interface (CLI).
 ```
-usage: create_cards.py [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-w WORKERS] [-c CHUNKS] [input_dir]
+usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 help:
   -h, --help            show this help message and exit

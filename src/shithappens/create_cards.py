@@ -130,7 +130,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
 
 
 def plot_card_front(card: Card) -> Figure:
-    # 62x88 cm for typical playing cards.
+    # 62x88 mm for typical playing cards.
     x_total = 6.2  # cm front and back
     y_total = 8.8  # cm top to bottom
 
@@ -210,10 +210,9 @@ def plot_card_front(card: Card) -> Figure:
 
 
 def plot_card_back(card: Card, input_dir: Path) -> Figure:
-
-    # 128x89 cm for typical playing cards.
-    x_total = 62  # cm front and back
-    y_total = 88  # cm top to bottom
+    # 62x88 mm for typical playing cards.
+    x_total = 6.2  # cm front and back
+    y_total = 8.8  # cm top to bottom
 
     # To be able to convert between centimeters and inches.
     cm_per_inch = 2.54
@@ -229,7 +228,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     fig.set_size_inches(*xy_size)
     fig.set_facecolor("black")
-    fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
+    fig.subplots_adjust(left=0, bottom=0, right=1, top=1)
 
     ax.axis("off")
 
@@ -246,8 +245,8 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     expansion_text_full = card.expansion_name + " " + expansion_text
 
     ax.text(
-        -x_size / 4,
-        0.7 * (y_size - margin) / 2,
+        x_size / 2,
+        0.9 * y_size,
         game_name.upper(),
         **text_kwargs,
         color="yellow",
@@ -265,8 +264,8 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     ax.text(
-        -x_size / 4,
-        0.6 * (y_size - margin) / 2,
+        x_size / 2,
+        0.85 * y_size,
         expansion_text_full.upper(),
         **text_kwargs,
         color="yellow",
@@ -286,7 +285,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
             game_logo_path = str(fpath)
     game_logo = mpimage.imread(game_logo_path)[:, :, 0]
 
-    game_logoax = fig.add_axes([0.1, 0.2, 0.3, 0.5])
+    game_logoax = fig.add_axes([0.1, 0.3, 0.8, 0.5])
     game_logoax.imshow(game_logo, cmap="binary")
     game_logoax.axis("off")
 
@@ -300,12 +299,12 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
             expansion_logo_path = str(fpath)
     expansion_logo = mpimage.imread(str(expansion_logo_path))
 
-    expansion_logoax = fig.add_axes([0.1, 0.05, 0.3, 0.1])
+    expansion_logoax = fig.add_axes([0.1, 0.05, 0.8, 0.1])
     expansion_logoax.imshow(expansion_logo)
     expansion_logoax.axis("off")
 
-    ax.set_xlim(-x_size / 2, x_size / 2)
-    ax.set_ylim(-y_size / 2, y_size / 2)
+    ax.set_xlim(0, x_size)
+    ax.set_ylim(0, y_size)
 
     plt.close(fig)
 
