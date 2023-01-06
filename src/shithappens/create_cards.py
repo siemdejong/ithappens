@@ -1,24 +1,20 @@
 import argparse
-import concurrent.futures
 import textwrap
 from functools import partial
 from glob import glob
 from importlib import resources
 from pathlib import Path
-from typing import Literal, Optional, Union
+from typing import Literal, Optional
 
-import matplotlib
 import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from matplotlib.offsetbox import AnchoredOffsetbox, AnchoredText, TextArea
-from matplotlib.patches import BoxStyle, Rectangle
-from matplotlib.path import Path as mpPath
-from matplotlib.text import Annotation, Text
+from matplotlib.patches import Rectangle
+from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox, Transform
+from tqdm.contrib.concurrent import process_map
 
 try:
     from tqdm import tqdm
@@ -347,21 +343,20 @@ def create_cards(
 ) -> None:
     nmax = df.shape[0]
     chunksize = nmax // num_of_chunks
-    with concurrent.futures.ProcessPoolExecutor(workers) as executor:
-
-        create_card_par = partial(
-            create_card,
-            expansion_name=expansion_name,
-            input_dir=input_dir,
-            output_dir=output_dir,
-            side=side,
-        )
-        list(
-            tqdm(
-                executor.map(create_card_par, df.iterrows(), chunksize=chunksize),
-                total=nmax,
-            )
-        )
+    create_card_par = partial(
+        create_card,
+        expansion_name=expansion_name,
+        input_dir=input_dir,
+        output_dir=output_dir,
+        side=side,
+    )
+    process_map(
+        create_card_par,
+        df.iterrows(),
+        max_workers=workers,
+        chunksize=chunksize,
+        total=nmax,
+    )
 
     if merge:
         if side == "front" or side == "both":
