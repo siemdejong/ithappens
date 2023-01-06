@@ -139,18 +139,18 @@ To install all dependencies, run `pip install shithappens[all]`.
 ### CLI
 The tool is available as a command line interface (CLI).
 ```
-usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] input_dir
+usage: create_cards.py [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [input_dir]
 
 positional arguments:
-  input_dir             Input directory.
+  input_dir             Input directory. Defaults to current working directory.
 
 options:
   -h, --help            show this help message and exit
-  -n NAME, --name NAME  Expansion name.
+  -n NAME, --name NAME  Expansion name. If no name is specified, infers name from input_dir.
   -m, --merge, --no-merge
-                        Merge output.
+                        Merge output. Defaults to --no-merge
   -s {front,back,both}, --side {front,back,both}
-                        Side(s) to generate.
+                        Side(s) to generate. Defaults to both.
 ```
 The input directory must be structured as follows:
 ```
