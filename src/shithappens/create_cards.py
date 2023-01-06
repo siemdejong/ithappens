@@ -447,6 +447,8 @@ def main() -> None:
         except ImportError:
             args.merge = False
             print("Install pypdf2 for pdf merging.")
+        else:
+            del PyPDF2
 
     create_cards(
         df,
