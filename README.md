@@ -141,16 +141,20 @@ The tool is available as a command line interface (CLI).
 ```
 usage: create_cards.py [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
-positional arguments:
+help:
+  -h, --help            show this help message and exit
+
+input:
   input_dir             Input directory. Defaults to current working directory.
 
 options:
-  -h, --help            show this help message and exit
   -n NAME, --name NAME  Expansion name. If no name is specified, infers name from input_dir.
   -m, --merge, --no-merge
                         Merge output. Defaults to --no-merge
   -s {front,back,both}, --side {front,back,both}
                         Side(s) to generate. Defaults to both.
+
+multiprocessing:
   -w WORKERS, --workers WORKERS
                         Number of workers.
   -c CHUNKS, --chunks CHUNKS

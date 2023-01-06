@@ -386,42 +386,55 @@ def create_cards(
 
 
 def main() -> None:
-    argParser = argparse.ArgumentParser(
-        description="Create custom Shit Happens expansion playing cards."
+    arg_parser = argparse.ArgumentParser(
+        description="Create custom Shit Happens expansion playing cards.",
+        add_help=False
     )
-    argParser.add_argument(
+
+    help_group = arg_parser.add_argument_group('help')
+    help_group.add_argument("-h", "--help", action='help', help="show this help message and exit")
+
+    input_group = arg_parser.add_argument_group('input')
+
+    input_group.add_argument(
         "input_dir",
         metavar="input_dir",
         nargs="?",
         help="Input directory. Defaults to current working directory.",
         default=Path.cwd(),
     )
-    argParser.add_argument(
+
+    options_group = arg_parser.add_argument_group('options')
+
+    options_group.add_argument(
         "-n",
         "--name",
         help="Expansion name. If no name is specified, infers name from input_dir.",
     )
-    argParser.add_argument(
+    options_group.add_argument(
         "-m",
         "--merge",
         help="Merge output. Defaults to --no-merge",
         action=argparse.BooleanOptionalAction,
     )
-    argParser.add_argument(
+    options_group.add_argument(
         "-s",
         "--side",
         help="Side(s) to generate. Defaults to both.",
         choices=["front", "back", "both"],
         default="both",
     )
-    argParser.add_argument("-w", "--workers", help="Number of workers.", default=4)
-    argParser.add_argument(
+
+    multiprocessing_group = arg_parser.add_argument_group('multiprocessing')
+
+    multiprocessing_group.add_argument("-w", "--workers", help="Number of workers.", default=4)
+    multiprocessing_group.add_argument(
         "-c",
         "--chunks",
         help="Number of chunks for the workers to process.",
         default=30,
     )
-    args = argParser.parse_args(namespace=ShitHappensArgs())
+    args = arg_parser.parse_args(namespace=ShitHappensArgs())
 
     try:
         import tqdm
