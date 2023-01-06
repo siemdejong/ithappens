@@ -139,7 +139,7 @@ To install all dependencies, run `pip install shithappens[all]`.
 ### CLI
 The tool is available as a command line interface (CLI).
 ```
-usage: create_cards.py [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [input_dir]
+usage: create_cards.py [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 positional arguments:
   input_dir             Input directory. Defaults to current working directory.
@@ -151,6 +151,10 @@ options:
                         Merge output. Defaults to --no-merge
   -s {front,back,both}, --side {front,back,both}
                         Side(s) to generate. Defaults to both.
+  -w WORKERS, --workers WORKERS
+                        Number of workers.
+  -c CHUNKS, --chunks CHUNKS
+                        Number of chunks for the workers to process.
 ```
 The input directory must be structured as follows:
 ```
@@ -181,7 +185,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 See the [open issues](https://github.com/siemdejong/shit-happens/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p> --> -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
