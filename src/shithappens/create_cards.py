@@ -25,8 +25,8 @@ except ImportError:
         return iterable
 
 
-from card import Card
-from utils import merge_pdfs, slugify
+from shithappens.card import Card
+from shithappens.utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
