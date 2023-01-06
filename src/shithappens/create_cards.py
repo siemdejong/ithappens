@@ -1,21 +1,32 @@
-import pandas as pd
-from pathlib import Path
-from card import Card
-from matplotlib.offsetbox import TextArea, AnchoredOffsetbox, AnchoredText
-from matplotlib.path import Path as mpPath
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
-from matplotlib.text import Text, Annotation
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimage
-from matplotlib.patches import Rectangle, BoxStyle
-from tqdm import tqdm
-from utils import slugify, merge_pdfs
-from glob import glob
 import argparse
-from typing import Literal, Optional, Union
-from matplotlib.transforms import Bbox, Transform
 import textwrap
+from glob import glob
+from pathlib import Path
+from typing import Literal, Optional, Union
+from importlib import resources
+
+import matplotlib.image as mpimage
+import matplotlib.pyplot as plt
+import pandas as pd
+import matplotlib
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+import matplotlib.font_manager as fm
+from matplotlib.offsetbox import AnchoredOffsetbox, AnchoredText, TextArea
+from matplotlib.patches import BoxStyle, Rectangle
+from matplotlib.path import Path as mpPath
+from matplotlib.text import Annotation, Text
+from matplotlib.transforms import Bbox, Transform
+try:
+    from tqdm import tqdm
+except ImportError:
+    print("Install tqdm to add a progress bar.")
+    def tqdm(iterable, *args, **kwargs):
+        del args, kwargs
+        return iterable
+
+from .card import Card
+from .utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
@@ -73,7 +84,7 @@ def text_with_wrap_autofit(
         text.set_fontsize(fontsize)
 
         # Adjust the fontsize according to the box size.
-        bbox: Bbox = text.get_window_extent(fig.canvas.get_renderer())
+        bbox: Bbox = text.get_window_extent()
         adjusted_size = fontsize * rect_width / bbox.width
         if min_font_size is None or adjusted_size >= min_font_size:
             break
@@ -103,7 +114,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
         intput_path: path of the Excel file
         desc_col: description column index
         misery_index_col: misery index column index
-    
+
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
@@ -134,11 +145,13 @@ def plot_card_front(card: Card) -> Figure:
 
     ax.axis("off")
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontfamily="Open Sans")
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-ExtraBold.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     # Front.
-
-    # desc_ax = ax.inset_axes([0.1, 0.6, 0.8, 0.4])
     text_with_wrap_autofit(
         ax,
         card.desc.upper(),
@@ -152,7 +165,6 @@ def plot_card_front(card: Card) -> Figure:
         weight="extra bold",
         color="yellow",
     )
-    # desc_ax.axis("off")
 
     mi_desc = "misery index"
     ax.text(
@@ -212,7 +224,11 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.axis("off")
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontfamily="Open Sans",)
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-Regular.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     game_name = "Shit Happens"
     expansion_text = "expansion"
@@ -228,6 +244,12 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         weight="regular",
         verticalalignment="center",
     )
+
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-LightItalic.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     ax.text(
         -x_size / 4,
@@ -313,12 +335,11 @@ def create_cards(
     if merge:
         if side == "front" or side == "both":
             merge_pdfs(output_dir / "front")
-        elif side == "back" or side == "both":
+        if side == "back" or side == "both":
             merge_pdfs(output_dir / "back")
 
 
 def main() -> None:
-
     argParser = argparse.ArgumentParser(
         description="Create custom Shit Happens expansion playing cards."
     )
@@ -363,11 +384,21 @@ def main() -> None:
 
     df = parse_excel(xlsx_path, 0, 1)
 
+    if args.merge:
+        try:
+            import PyPDF2
+            args.merge = True
+        except ImportError:
+            args.merge = False
+            print("Install pypdf2 for pdf merging.")
+
     create_cards(df, expansion_name, input_dir, output_dir, args.merge, args.side)
 
-
-if __name__ == "__main__":
+def main_cli():
     try:
         main()
     except KeyboardInterrupt:
         print("Interrupted.")
+
+if __name__ == "__main__":
+    main()

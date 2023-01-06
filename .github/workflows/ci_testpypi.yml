@@ -1,0 +1,53 @@
+name: Build CI sdist and wheel and publish to PyPI
+
+on:
+  # Save CI by only running this on release branches or tags.
+  push:
+    branches:
+      - pypi
+
+jobs:
+  testpypi:
+    if: |
+      github.event_name == 'push'
+    name: Build sdist and wheel on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ['3.11']
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - uses: actions/setup-python@v4
+        name: Install Python
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install build
+        run: pip install build
+
+      - name: Build sdist and wheel
+        id: build
+        run: python -m build .
+
+      - name: Install built sdist
+        run: pip install dist/shithappens*.tar.gz
+
+      - name: Install built wheel
+        run: pip install dist/shithappens*.whl --force-reinstall
+
+      - name: Install twine
+        run: pip install twine
+
+      - name: Check README rendering for PyPI
+        run: twine check dist/*
+  
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
