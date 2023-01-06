@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shithappens"
-version = "0.1.3.post3"
+version = "0.1.4"
 authors = [
   { name="Siem de Jong"},
 ]
@@ -40,6 +40,11 @@ pbar = ["tqdm"]
 merge = ["PyPDF2"]
 all = ["tqdm", "PyPDF2"]
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"shithappens.opensans.fonts.ttf" = ["*.ttf"]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/shit-happens"

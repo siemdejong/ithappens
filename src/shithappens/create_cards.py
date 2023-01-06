@@ -3,12 +3,15 @@ import textwrap
 from glob import glob
 from pathlib import Path
 from typing import Literal, Optional, Union
+from importlib import resources
 
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+import matplotlib.font_manager as fm
 from matplotlib.offsetbox import AnchoredOffsetbox, AnchoredText, TextArea
 from matplotlib.patches import BoxStyle, Rectangle
 from matplotlib.path import Path as mpPath
@@ -142,11 +145,13 @@ def plot_card_front(card: Card) -> Figure:
 
     ax.axis("off")
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontfamily="Open Sans")
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-ExtraBold.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     # Front.
-
-    # desc_ax = ax.inset_axes([0.1, 0.6, 0.8, 0.4])
     text_with_wrap_autofit(
         ax,
         card.desc.upper(),
@@ -160,7 +165,6 @@ def plot_card_front(card: Card) -> Figure:
         weight="extra bold",
         color="yellow",
     )
-    # desc_ax.axis("off")
 
     mi_desc = "misery index"
     ax.text(
@@ -220,11 +224,11 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.axis("off")
 
-    text_kwargs = dict(
-        wrap=True,
-        horizontalalignment="center",
-        fontfamily="Open Sans",
-    )
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-Regular.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     game_name = "Shit Happens"
     expansion_text = "expansion"
@@ -240,6 +244,12 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         weight="regular",
         verticalalignment="center",
     )
+
+    opensans_resource = resources.files('shithappens.opensans.fonts.ttf').joinpath('OpenSans-LightItalic.ttf')
+    with resources.as_file(opensans_resource) as fpath:
+        prop = fm.FontProperties(fname=fpath)
+
+    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     ax.text(
         -x_size / 4,
