@@ -25,8 +25,8 @@ except ImportError:
         del args, kwargs
         return iterable
 
-from .card import Card
-from .utils import merge_pdfs, slugify
+from card import Card
+from utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
