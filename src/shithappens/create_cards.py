@@ -343,7 +343,7 @@ def main() -> None:
     argParser = argparse.ArgumentParser(
         description="Create custom Shit Happens expansion playing cards."
     )
-    argParser.add_argument("input_dir", metavar="input_dir", help="Input directory.")
+    argParser.add_argument("input_dir", metavar="input_dir", nargs="?", help="Input directory.", default=Path.cwd())
     argParser.add_argument("-n", "--name", help="Expansion name.")
     argParser.add_argument(
         "-m", "--merge", help="Merge output.", action=argparse.BooleanOptionalAction
