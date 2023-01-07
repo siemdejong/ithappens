@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.2 (2023-01-07)
+### Fix
+* Import locales folder the right way ([`7470f99`](https://github.com/siemdejong/shit-happens/commit/7470f99b2602e336de829185b0265153d4730103))
+
 ## v1.1.1 (2023-01-07)
 ### Fix
 * Compile language catalog on install ([`137ffc2`](https://github.com/siemdejong/shit-happens/commit/137ffc273ec8ef90670d722a8fde14cf67a7bd31))
