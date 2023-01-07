@@ -19,6 +19,6 @@ setup(
                 'extract_messages': babel.extract_messages,
                 'init_catalog': babel.init_catalog,
                 'update_catalog': babel.update_catalog,
-                # "install": CompileLocalesCatalog,
+                "install": CompileLocalesCatalog,
                 }
 )
