@@ -30,17 +30,15 @@ import sys
 SCRIPT_DIR = Path(__file__).absolute().parent
 sys.path.append(str(SCRIPT_DIR.parent))
 
-import sys
-
-SCRIPT_DIR = Path(__file__).absolute().parent
-sys.path.append(str(SCRIPT_DIR.parent))
-
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
 
 
 def install_lang(locale: str):
-    localedir = resources.files("shithappens").joinpath("locales")
+    locale_res = resources.files("shithappens.locales").joinpath(locale + "LC_MESSAGES/shithappens.mo")
+    print(locale_res)
+    with resources.as_file(locale_res) as locale_file:
+        localedir = locale_file.parent.parent
     lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
     global _
     _ = lang.gettext
