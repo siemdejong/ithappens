@@ -14,11 +14,13 @@ class CompileLocalesCatalog(install):
         self.execute(babel.compile_catalog, (), "Compile locales catalog.")
         install.run(self)
 
+
 setup(
-    cmdclass = {'compile_catalog': babel.compile_catalog,
-                'extract_messages': babel.extract_messages,
-                'init_catalog': babel.init_catalog,
-                'update_catalog': babel.update_catalog,
-                "install": CompileLocalesCatalog,
-                }
+    cmdclass={
+        "compile_catalog": babel.compile_catalog,
+        "extract_messages": babel.extract_messages,
+        "init_catalog": babel.init_catalog,
+        "update_catalog": babel.update_catalog,
+        "install": CompileLocalesCatalog,
+    }
 )

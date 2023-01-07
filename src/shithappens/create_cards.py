@@ -40,7 +40,7 @@ from shithappens.utils import merge_pdfs, slugify
 
 
 def install_lang(locale: str):
-    localedir = resources.files("shithappens.locales").joinpath("")
+    localedir = resources.files("shithappens").joinpath("locales")
     lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
     global _
     _ = lang.gettext
