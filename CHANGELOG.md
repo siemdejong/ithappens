@@ -2,7 +2,7 @@
 
 <!--next-version-placeholder-->
 
-## v0.1.0 (2023-01-07)
+## v0.5.0 (2023-01-07)
 ### Feature
 * Publish to testpypi and add auto versioning ([`311a0cf`](https://github.com/siemdejong/shit-happens/commit/311a0cfcae62e791182ee0b4b5b68fab1a798bd2))
 
