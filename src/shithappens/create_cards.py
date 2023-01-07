@@ -1,8 +1,10 @@
 import argparse
+import gettext
 import textwrap
 from functools import partial
 from glob import glob
 from importlib import resources
+from multiprocessing import Pool
 from pathlib import Path
 from typing import Literal, Optional
 
@@ -10,13 +12,11 @@ import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox, Transform
-from multiprocessing import Pool
-import gettext
 
 try:
     from tqdm import tqdm
@@ -30,12 +30,18 @@ import sys
 SCRIPT_DIR = Path(__file__).absolute().parent
 sys.path.append(str(SCRIPT_DIR.parent))
 
+import sys
+
+SCRIPT_DIR = Path(__file__).absolute().parent
+sys.path.append(str(SCRIPT_DIR.parent))
+
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
 
+
 def install_lang(locale: str):
-    localedir = resources.files('shithappens.locales').joinpath('')
-    lang = gettext.translation('shithappens', localedir=localedir, languages=[locale])
+    localedir = resources.files("shithappens.locales").joinpath("")
+    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
     global _
     _ = lang.gettext
 
@@ -133,12 +139,15 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
         Pandas DataFrame with index, description, and misery index.
     """
     try:
-        df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col], engine="openpyxl")
+        df = pd.read_excel(
+            input_path, usecols=[desc_col, misery_index_col], engine="openpyxl"
+        )
     except Exception:
         print(_("{} does not contain any Excel files.").format(input_path))
         exit()
 
     return df
+
 
 def plot_crop_marks(ax: Axes, bleed: float, factor: float = 0.6):
     """Plots crop marks on the given axis.
@@ -161,7 +170,7 @@ def plot_crop_marks(ax: Axes, bleed: float, factor: float = 0.6):
     vur = (x_size - bleed, y_size - crop_mark_len, y_size)
     vdr = (x_size - bleed, 0, crop_mark_len)
 
-    cropmarkstyle = {"color": 'white', "linewidth": 1}
+    cropmarkstyle = {"color": "white", "linewidth": 1}
 
     for horizontal_mark in [hul, hdl, hur, hdr]:
         ax.hlines(*horizontal_mark, **cropmarkstyle)
@@ -175,7 +184,7 @@ def plot_card_front(card: Card) -> Figure:
 
     # 62x88 mm for typical playing cards.
     x_size = 6.2 / cm_per_inch  # cm front and back
-    y_size = 8.8 / cm_per_inch # cm top to bottom
+    y_size = 8.8 / cm_per_inch  # cm top to bottom
 
     # Add margin on all sides.
     bleed = 0.5 / cm_per_inch  # cm
@@ -238,7 +247,9 @@ def plot_card_front(card: Card) -> Figure:
         verticalalignment="center",
     )
 
-    mi_block = Rectangle((bleed + x_size / 4, 0), x_size / 2, y_size / 8 + bleed, fc="yellow")
+    mi_block = Rectangle(
+        (bleed + x_size / 4, 0), x_size / 2, y_size / 8 + bleed, fc="yellow"
+    )
     ax.add_patch(mi_block)
 
     plot_crop_marks(ax, bleed)
@@ -257,7 +268,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     # 62x88 mm for typical playing cards.
     x_size = 6.2 / cm_per_inch  # cm front and back
-    y_size = 8.8 / cm_per_inch # cm top to bottom
+    y_size = 8.8 / cm_per_inch  # cm top to bottom
 
     # Add margin on all sides.
     bleed = 0.5 / cm_per_inch  # cm
@@ -320,9 +331,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     # Game logo.
     game_logo_path = f"{input_dir}/images/game-logo.png"
     if not Path(game_logo_path).exists():
-        game_logo = resources.files("shithappens.images").joinpath(
-            "game-logo.png"
-        )
+        game_logo = resources.files("shithappens.images").joinpath("game-logo.png")
         with resources.as_file(game_logo) as fpath:
             game_logo_path = str(fpath)
     game_logo = mpimage.imread(game_logo_path)[:, :, 0]
@@ -415,7 +424,13 @@ def create_cards(
     )
     with Pool(workers, install_lang, (locale,)) as p:
         desc = _("Plotting cards")
-        list(tqdm(p.imap_unordered(create_card_par, df.iterrows(), chunksize), total=nmax, desc=desc))
+        list(
+            tqdm(
+                p.imap_unordered(create_card_par, df.iterrows(), chunksize),
+                total=nmax,
+                desc=desc,
+            )
+        )
 
     if merge:
         if side == "front" or side == "both":
@@ -427,13 +442,15 @@ def create_cards(
 def main() -> None:
     arg_parser = argparse.ArgumentParser(
         description="Create custom Shit Happens expansion playing cards.",
-        add_help=False
+        add_help=False,
     )
 
-    help_group = arg_parser.add_argument_group('help')
-    help_group.add_argument("-h", "--help", action='help', help="show this help message and exit")
+    help_group = arg_parser.add_argument_group("help")
+    help_group.add_argument(
+        "-h", "--help", action="help", help="show this help message and exit"
+    )
 
-    input_group = arg_parser.add_argument_group('input')
+    input_group = arg_parser.add_argument_group("input")
 
     input_group.add_argument(
         "input_dir",
@@ -443,7 +460,7 @@ def main() -> None:
         default=Path.cwd(),
     )
 
-    options_group = arg_parser.add_argument_group('options')
+    options_group = arg_parser.add_argument_group("options")
 
     options_group.add_argument(
         "-n",
@@ -464,11 +481,19 @@ def main() -> None:
         default="both",
     )
 
-    options_group.add_argument("-l", "--lang", help="Language. Defaults to 'en'.", choices=["en", "nl"], default="en")
+    options_group.add_argument(
+        "-l",
+        "--lang",
+        help="Language. Defaults to 'en'.",
+        choices=["en", "nl"],
+        default="en",
+    )
 
-    multiprocessing_group = arg_parser.add_argument_group('multiprocessing')
+    multiprocessing_group = arg_parser.add_argument_group("multiprocessing")
 
-    multiprocessing_group.add_argument("-w", "--workers", help="Number of workers. Defaults to 4.", default=4)
+    multiprocessing_group.add_argument(
+        "-w", "--workers", help="Number of workers. Defaults to 4.", default=4
+    )
     multiprocessing_group.add_argument(
         "-c",
         "--chunks",
@@ -486,12 +511,17 @@ def main() -> None:
     else:
         del tqdm
 
-
     input_dir = Path(args.input_dir)
     while True:
         if input_dir.exists():
             break
-        input_dir = Path(input(_("Input directory {} does not exist. Please specify an existing input directory.\n").format(input_dir)))
+        input_dir = Path(
+            input(
+                _(
+                    "Input directory {} does not exist. Please specify an existing input directory.\n"
+                ).format(input_dir)
+            )
+        )
 
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
@@ -516,8 +546,9 @@ def main() -> None:
     else:
         expansion_name = input_dir.stem
         print(
-            _("Argument -n/--name not given. "
-              "Expansion name inferred to be {}.").format(expansion_name)
+            _(
+                "Argument -n/--name not given. " "Expansion name inferred to be {}."
+            ).format(expansion_name)
         )
 
     df = parse_excel(xlsx_path, 0, 1)

@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shithappens"
-version = "0.5.0"
+version = "0.0.0"
 authors = [
-  { name="Siem de Jong"},
+    {name="Siem de Jong"},
 ]
 description = "Create your own Shit Happens playing cards!"
 readme = "README.md"
@@ -32,6 +32,10 @@ classifiers = [
     "Typing :: Typed",
 ]
 
+[project.urls]
+"Homepage" = "https://github.com/siemdejong/shit-happens"
+"Bug Tracker" = "https://github.com/siemdejong/shit-happens/issues"
+
 [project.scripts]
 shithappens = "shithappens.create_cards:main_cli"
 
@@ -48,6 +52,13 @@ where = ["src"]
 "shithappens.images" = ["*.png"]
 "shithappens.locales" = ["*/LC_MESSAGES/*.po"]
 
-[project.urls]
-"Homepage" = "https://github.com/siemdejong/shit-happens"
-"Bug Tracker" = "https://github.com/siemdejong/shit-happens/issues"
+[tool.semantic_release]
+version_variable = "pyproject.toml:version" # version location
+branch = "main"                             # branch to make releases of
+changelog_file = "CHANGELOG.md"             # changelog file
+build_command = "python -m build"           # build dists
+dist_path = "dist/"                         # where to put dists
+upload_to_release = true                    # auto-create GitHub release
+upload_to_pypi = false                      # don't auto-upload to PyPI
+remove_dist = false                         # don't remove dists
+patch_without_tag = true                    # patch release by default

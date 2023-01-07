@@ -20,6 +20,7 @@ def merge_pdfs(input_dir: Path, output_dir: Optional[Path] = None):
     Source: https://stackoverflow.com/a/47356404/8797886.
     """
     from PyPDF2 import PdfMerger
+
     merger = PdfMerger()
     allpdfs = [
         a
