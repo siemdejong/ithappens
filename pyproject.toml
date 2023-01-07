@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shithappens"
-version = "0.5.0"
+version = "0.5.1"
 authors = [
     {name="Siem de Jong"},
 ]
@@ -53,8 +53,7 @@ where = ["src"]
 "shithappens.locales" = ["*/LC_MESSAGES/*.po"]
 
 [tool.semantic_release]
-version_source = "tag"
-version_variable = "pyproject.toml:version" # version location
+version_variable = "pyproject.toml:project.version" # version location
 branch = "main"                             # branch to make releases of
 changelog_file = "CHANGELOG.md"             # changelog file
 build_command = "pip install build && python -m build"           # build dists
