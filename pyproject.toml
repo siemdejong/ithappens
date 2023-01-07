@@ -54,7 +54,7 @@ where = ["src"]
 
 [tool.semantic_release]
 version_source = "tag"
-# version_variable = "git:tag"# "pyproject.toml:version" # version location
+version_variable = "pyproject.toml:version" # version location
 branch = "main"                             # branch to make releases of
 changelog_file = "CHANGELOG.md"             # changelog file
 build_command = "python -m build"           # build dists
