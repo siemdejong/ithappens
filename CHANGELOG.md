@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.1 (2023-01-07)
+### Fix
+* Compile language catalog on install ([`137ffc2`](https://github.com/siemdejong/shit-happens/commit/137ffc273ec8ef90670d722a8fde14cf67a7bd31))
+
 ## v1.1.0 (2023-01-07)
 ### Feature
 * List package on PyPI ([`73fa1b7`](https://github.com/siemdejong/shit-happens/commit/73fa1b7da62e1d4a50da9b375774ba687ebf8ce3))
