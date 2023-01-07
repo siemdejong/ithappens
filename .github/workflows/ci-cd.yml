@@ -86,6 +86,6 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
 
-     - name: Test install from PyPI
+    - name: Test install from PyPI
       run: |
           pip install shithappens --force-reinstall
