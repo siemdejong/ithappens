@@ -139,7 +139,7 @@ To install all dependencies, run `pip install shithappens[all]`.
 ### CLI
 The tool is available as a command line interface (CLI).
 ```
-usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-w WORKERS] [-c CHUNKS] [input_dir]
+usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 help:
   -h, --help            show this help message and exit
@@ -153,12 +153,14 @@ options:
                         Merge output. Defaults to --no-merge
   -s {front,back,both}, --side {front,back,both}
                         Side(s) to generate. Defaults to both.
+  -l {en,nl}, --lang {en,nl}
+                        Language. Defaults to 'en'.
 
 multiprocessing:
   -w WORKERS, --workers WORKERS
-                        Number of workers.
+                        Number of workers. Defaults to 4.
   -c CHUNKS, --chunks CHUNKS
-                        Number of chunks for the workers to process.
+                        Number of chunks for the workers to process. Defaults to 30.
 ```
 The input directory must be structured as follows:
 ```
