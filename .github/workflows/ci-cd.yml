@@ -60,15 +60,6 @@ jobs:
     - name: Install build
       run: pip install build
 
-    - name: Build package
-      run: python -m build
-
-    - name: Install built sdist
-      run: pip install dist/shithappens*.tar.gz
-
-    - name: Install built wheel
-      run: pip install dist/shithappens*.whl --force-reinstall
-
     - name: Use Python Semantic Release to prepare release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
