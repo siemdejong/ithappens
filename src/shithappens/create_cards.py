@@ -15,7 +15,8 @@ from matplotlib.axes import Axes
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox, Transform
-from tqdm.contrib.concurrent import process_map
+from multiprocessing import Pool
+import gettext
 
 try:
     from tqdm import tqdm
@@ -25,9 +26,18 @@ except ImportError:
         del args, kwargs
         return iterable
 
+import sys
+SCRIPT_DIR = Path(__file__).absolute().parent
+sys.path.append(str(SCRIPT_DIR.parent))
 
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
+
+def install_lang(locale: str):
+    localedir = resources.files('shithappens.locales').joinpath('')
+    lang = gettext.translation('shithappens', localedir=localedir, languages=[locale])
+    global _
+    _ = lang.gettext
 
 
 def text_with_wrap_autofit(
@@ -105,6 +115,7 @@ class ShitHappensArgs(argparse.Namespace):
     name: str
     merge: bool
     side: Literal["front", "back", "both"]
+    lang: str
     workers: int
     chunks: int
 
@@ -124,7 +135,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
     try:
         df = pd.read_excel(input_path, usecols=[desc_col, misery_index_col], engine="openpyxl")
     except Exception:
-        print(f"{input_path} does not contain any Excel files.")
+        print(_("{} does not contain any Excel files.").format(input_path))
         exit()
 
     return df
@@ -204,7 +215,7 @@ def plot_card_front(card: Card) -> Figure:
         color="yellow",
     )
 
-    mi_desc = "misery index"
+    mi_desc = _("misery index")
     ax.text(
         x_total / 2,
         1.3 * y_size / 8 + bleed,
@@ -272,7 +283,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     game_name = "Shit Happens"
-    expansion_text = "expansion"
+    expansion_text = _("expansion")
     expansion_text_full = card.expansion_name + " " + expansion_text
 
     ax.text(
@@ -391,6 +402,7 @@ def create_cards(
     side: Literal["front", "back", "both"],
     workers: int,
     chunks: int,
+    locale: str,
 ) -> None:
     nmax = df.shape[0]
     chunksize = nmax // chunks
@@ -401,14 +413,9 @@ def create_cards(
         output_dir=output_dir,
         side=side,
     )
-    process_map(
-        create_card_par,
-        df.iterrows(),
-        max_workers=workers,
-        chunksize=chunksize,
-        total=nmax,
-        desc="Plotting cards"
-    )
+    with Pool(workers, install_lang, (locale,)) as p:
+        desc = _("Plotting cards")
+        list(tqdm(p.imap_unordered(create_card_par, df.iterrows(), chunksize), total=nmax, desc=desc))
 
     if merge:
         if side == "front" or side == "both":
@@ -457,21 +464,25 @@ def main() -> None:
         default="both",
     )
 
+    options_group.add_argument("-l", "--lang", help="Language. Defaults to 'en'.", choices=["en", "nl"], default="en")
+
     multiprocessing_group = arg_parser.add_argument_group('multiprocessing')
 
-    multiprocessing_group.add_argument("-w", "--workers", help="Number of workers.", default=4)
+    multiprocessing_group.add_argument("-w", "--workers", help="Number of workers. Defaults to 4.", default=4)
     multiprocessing_group.add_argument(
         "-c",
         "--chunks",
-        help="Number of chunks for the workers to process.",
+        help="Number of chunks for the workers to process. Defaults to 30.",
         default=30,
     )
     args = arg_parser.parse_args(namespace=ShitHappensArgs())
 
+    install_lang(args.lang)
+
     try:
         import tqdm
     except ImportError:
-        print("Install tqdm to add a progress bar.")
+        print(_("'pip install shithappens[pbar]' to show a progress bar."))
     else:
         del tqdm
 
@@ -480,33 +491,33 @@ def main() -> None:
     while True:
         if input_dir.exists():
             break
-        input_dir = Path(input(f"Input directory {input_dir} does not exist. Please specify an existing input directory.\n"))
+        input_dir = Path(input(_("Input directory {} does not exist. Please specify an existing input directory.\n").format(input_dir)))
 
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
     if not xlsx_paths_num:
-        print(f"Please provide an Excel file in {input_dir}.")
+        print(_("Please provide an Excel file in {}.").format(input_dir))
         exit(1)
     elif xlsx_paths_num > 1:
-        print("More than one input file found.")
+        print(_("More than one input file found."))
         for i, xlsx_path in enumerate(xlsx_paths, 1):
             print(f"[{i}] {xlsx_path}")
-        xlsx_index = int(input(f"Select: "))
+        xlsx_index = int(input(_("Select: ")))
         xlsx_path = Path(xlsx_paths[xlsx_index - 1])
     else:
         xlsx_path = Path(xlsx_paths[0])
 
     output_dir = input_dir / "outputs"
-    print(f"Reading files from {input_dir}.")
-    print(f"Output files in {output_dir}.")
+    print(_("Reading files from {}.").format(input_dir))
+    print(_("Output files in {}.").format(output_dir))
 
     if args.name:
         expansion_name = args.name
     else:
         expansion_name = input_dir.stem
         print(
-            "Argument -n/--name not given. "
-            f"Expansion name inferred to be {expansion_name}."
+            _("Argument -n/--name not given. "
+              "Expansion name inferred to be {}.").format(expansion_name)
         )
 
     df = parse_excel(xlsx_path, 0, 1)
@@ -518,7 +529,7 @@ def main() -> None:
             args.merge = True
         except ImportError:
             args.merge = False
-            print("Install pypdf2 for pdf merging.")
+            print(_("'pip install shithappens[merge]' for pdf merging."))
         else:
             del PyPDF2
 
@@ -531,6 +542,7 @@ def main() -> None:
         args.side,
         args.workers,
         args.chunks,
+        args.lang,
     )
 
 
@@ -538,7 +550,7 @@ def main_cli():
     try:
         main()
     except KeyboardInterrupt:
-        print("Interrupted.")
+        print(_("Interrupted."))
 
 
 if __name__ == "__main__":

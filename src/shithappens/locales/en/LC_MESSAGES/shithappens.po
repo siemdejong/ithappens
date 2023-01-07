@@ -1,0 +1,91 @@
+# English translations for shithappens.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the shithappens
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: shithappens 0.4.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-01-07 16:15+0100\n"
+"PO-Revision-Date: 2023-01-07 15:33+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: src/shithappens/create_cards.py:138
+msgid "{} does not contain any Excel files."
+msgstr ""
+
+#: src/shithappens/create_cards.py:218
+msgid "misery index"
+msgstr ""
+
+#: src/shithappens/create_cards.py:286
+msgid "expansion"
+msgstr ""
+
+#: src/shithappens/create_cards.py:417
+msgid "Plotting cards"
+msgstr ""
+
+#: src/shithappens/create_cards.py:485
+msgid "'pip install shithappens[pbar]' to show a progress bar."
+msgstr ""
+
+#: src/shithappens/create_cards.py:494
+msgid ""
+"Input directory {} does not exist. Please specify an existing input "
+"directory.\n"
+msgstr ""
+
+#: src/shithappens/create_cards.py:499
+msgid "Please provide an Excel file in {}."
+msgstr ""
+
+#: src/shithappens/create_cards.py:502
+msgid "More than one input file found."
+msgstr ""
+
+#: src/shithappens/create_cards.py:505
+msgid "Select: "
+msgstr ""
+
+#: src/shithappens/create_cards.py:511
+msgid "Reading files from {}."
+msgstr ""
+
+#: src/shithappens/create_cards.py:512
+msgid "Output files in {}."
+msgstr ""
+
+#: src/shithappens/create_cards.py:519
+msgid "Argument -n/--name not given. Expansion name inferred to be {}."
+msgstr ""
+
+#: src/shithappens/create_cards.py:532
+msgid "'pip install shithappens[merge]' for pdf merging."
+msgstr ""
+
+#: src/shithappens/create_cards.py:553
+msgid "Interrupted."
+msgstr ""
+
+#~ msgid "Expansion name inferred to be {}."
+#~ msgstr ""
+
+#~ msgid "Expansion name inferred to be {expansion_name}."
+#~ msgstr ""
+
+#~ msgid "Argument -n/--name not given. "
+#~ msgstr ""
+
+#~ msgid "'pip install shithappens[pbar]' to add a progress bar."
+#~ msgstr ""
+
