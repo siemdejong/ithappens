@@ -57,9 +57,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install build
-      run: pip install build
-
     - name: Use Python Semantic Release to prepare release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
