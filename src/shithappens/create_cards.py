@@ -11,6 +11,7 @@ import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.figure import Figure
+from matplotlib.axes import Axes
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox, Transform
@@ -128,21 +129,49 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
 
     return df
 
+def plot_crop_marks(ax: Axes, bleed: float, factor: float = 0.6):
+    """Plots crop marks on the given axis.
+    The crop marks will mark the bleed. The crop mark size is adjustable with the factor.
+    """
+    crop_mark_len = factor * bleed
+    fig = ax.get_figure()
+    bbox: Bbox = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+    x_size, y_size = bbox.width, bbox.height
+
+    # h, v - horizontal, vertical
+    # u, d - up, down
+    # l, r - left, right
+    hul = (y_size - bleed, 0, crop_mark_len)
+    hdl = (bleed, 0, crop_mark_len)
+    hur = (y_size - bleed, x_size - crop_mark_len, x_size)
+    hdr = (bleed, x_size - crop_mark_len, x_size)
+    vul = (bleed, y_size - crop_mark_len, y_size)
+    vdl = (bleed, 0, crop_mark_len)
+    vur = (x_size - bleed, y_size - crop_mark_len, y_size)
+    vdr = (x_size - bleed, 0, crop_mark_len)
+
+    cropmarkstyle = {"color": 'white', "linewidth": 1}
+
+    for horizontal_mark in [hul, hdl, hur, hdr]:
+        ax.hlines(*horizontal_mark, **cropmarkstyle)
+    for vertical_mark in [vul, vdl, vur, vdr]:
+        ax.vlines(*vertical_mark, **cropmarkstyle)
+
 
 def plot_card_front(card: Card) -> Figure:
-    # 62x88 mm for typical playing cards.
-    x_total = 6.2  # cm front and back
-    y_total = 8.8  # cm top to bottom
-
     # To be able to convert between centimeters and inches.
     cm_per_inch = 2.54
 
-    # Add margin on all sides.
-    margin = 0.5  # cm
+    # 62x88 mm for typical playing cards.
+    x_size = 6.2 / cm_per_inch  # cm front and back
+    y_size = 8.8 / cm_per_inch # cm top to bottom
 
-    x_size = (x_total + margin) / cm_per_inch
-    y_size = (y_total + margin) / cm_per_inch
-    xy_size = (x_size, y_size)
+    # Add margin on all sides.
+    bleed = 0.5 / cm_per_inch  # cm
+
+    x_total = x_size + 2 * bleed
+    y_total = y_size + 2 * bleed
+    xy_size = (x_total, y_total)
 
     fig, ax = plt.subplots()
 
@@ -177,8 +206,8 @@ def plot_card_front(card: Card) -> Figure:
 
     mi_desc = "misery index"
     ax.text(
-        x_size / 2,
-        0.2 * (y_size - margin),
+        x_total / 2,
+        1.3 * y_size / 8 + bleed,
         mi_desc.upper(),
         **text_kwargs,
         color="yellow",
@@ -188,8 +217,8 @@ def plot_card_front(card: Card) -> Figure:
     )
 
     ax.text(
-        x_size / 2,
-        0.05 * y_size,
+        x_total / 2,
+        0.05 * y_size + bleed,
         str(card.misery_index).upper(),
         **text_kwargs,
         color="black",
@@ -198,11 +227,13 @@ def plot_card_front(card: Card) -> Figure:
         verticalalignment="center",
     )
 
-    mi_block = Rectangle((x_size / 4, 0), x_size / 2, y_size / 8, fc="yellow")
+    mi_block = Rectangle((bleed + x_size / 4, 0), x_size / 2, y_size / 8 + bleed, fc="yellow")
     ax.add_patch(mi_block)
 
-    ax.set_xlim(0, x_size)
-    ax.set_ylim(0, y_size)
+    plot_crop_marks(ax, bleed)
+
+    ax.set_xlim(0, x_total)
+    ax.set_ylim(0, y_total)
 
     plt.close(fig)
 
@@ -210,19 +241,19 @@ def plot_card_front(card: Card) -> Figure:
 
 
 def plot_card_back(card: Card, input_dir: Path) -> Figure:
-    # 62x88 mm for typical playing cards.
-    x_total = 6.2  # cm front and back
-    y_total = 8.8  # cm top to bottom
-
     # To be able to convert between centimeters and inches.
     cm_per_inch = 2.54
 
-    # Add margin on all sides.
-    margin = 0.5  # cm
+    # 62x88 mm for typical playing cards.
+    x_size = 6.2 / cm_per_inch  # cm front and back
+    y_size = 8.8 / cm_per_inch # cm top to bottom
 
-    x_size = (x_total + margin) / cm_per_inch
-    y_size = (y_total + margin) / cm_per_inch
-    xy_size = (x_size, y_size)
+    # Add margin on all sides.
+    bleed = 0.5 / cm_per_inch  # cm
+
+    x_total = x_size + 2 * bleed
+    y_total = y_size + 2 * bleed
+    xy_size = (x_total, y_total)
 
     fig, ax = plt.subplots()
 
@@ -245,8 +276,8 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     expansion_text_full = card.expansion_name + " " + expansion_text
 
     ax.text(
-        x_size / 2,
-        0.9 * y_size,
+        x_size / 2 + bleed,
+        0.9 * y_size + bleed,
         game_name.upper(),
         **text_kwargs,
         color="yellow",
@@ -264,8 +295,8 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     ax.text(
-        x_size / 2,
-        0.85 * y_size,
+        x_size / 2 + bleed,
+        0.85 * y_size + bleed,
         expansion_text_full.upper(),
         **text_kwargs,
         color="yellow",
@@ -285,7 +316,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
             game_logo_path = str(fpath)
     game_logo = mpimage.imread(game_logo_path)[:, :, 0]
 
-    game_logoax = fig.add_axes([0.1, 0.3, 0.8, 0.5])
+    game_logoax = fig.add_axes([0.1, 0.3, 0.8, 0.4])
     game_logoax.imshow(game_logo, cmap="binary")
     game_logoax.axis("off")
 
@@ -299,12 +330,14 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
             expansion_logo_path = str(fpath)
     expansion_logo = mpimage.imread(str(expansion_logo_path))
 
-    expansion_logoax = fig.add_axes([0.1, 0.05, 0.8, 0.1])
+    expansion_logoax = fig.add_axes([0.1, 0.12, 0.8, 0.1])
     expansion_logoax.imshow(expansion_logo)
     expansion_logoax.axis("off")
 
-    ax.set_xlim(0, x_size)
-    ax.set_ylim(0, y_size)
+    plot_crop_marks(ax, bleed)
+
+    ax.set_xlim(0, x_total)
+    ax.set_ylim(0, y_total)
 
     plt.close(fig)
 
