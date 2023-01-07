@@ -53,7 +53,7 @@ where = ["src"]
 "shithappens.locales" = ["*/LC_MESSAGES/*.po"]
 
 [tool.semantic_release]
-version_variable = "pyproject.toml:project.version" # version location
+version_variable = "pyproject.toml:version" # version location
 branch = "main"                             # branch to make releases of
 changelog_file = "CHANGELOG.md"             # changelog file
 build_command = "pip install build && python -m build"           # build dists
