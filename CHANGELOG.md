@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2023-01-07)
+### Feature
+* List package on PyPI ([`73fa1b7`](https://github.com/siemdejong/shit-happens/commit/73fa1b7da62e1d4a50da9b375774ba687ebf8ce3))
+
+### Fix
+* Typo ([`08a8b74`](https://github.com/siemdejong/shit-happens/commit/08a8b749205dd1126feecc9c025958ccc57f336e))
+
+### Documentation
+* Fix cli usage on readme ([`ea34aa9`](https://github.com/siemdejong/shit-happens/commit/ea34aa9f3f67536aa5eda3be1ca08bcedf24f85b))
+
 ## v1.0.0 (2023-01-07)
 ### Feature
 * Upload the wheel to pypi ([`508d353`](https://github.com/siemdejong/shit-happens/commit/508d35349fcbb564cbc9653f3da0a4a27f75ca53))
