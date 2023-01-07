@@ -1,0 +1,79 @@
+# Dutch translations for shithappens.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the shithappens
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: shithappens 0.4.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-01-07 16:15+0100\n"
+"PO-Revision-Date: 2023-01-07 15:32+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: nl\n"
+"Language-Team: nl <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: src/shithappens/create_cards.py:138
+msgid "{} does not contain any Excel files."
+msgstr "{} bevat geen excelbestanden."
+
+#: src/shithappens/create_cards.py:218
+msgid "misery index"
+msgstr "ellende-index"
+
+#: src/shithappens/create_cards.py:286
+msgid "expansion"
+msgstr "uitbreiding"
+
+#: src/shithappens/create_cards.py:417
+msgid "Plotting cards"
+msgstr "Plot kaarten"
+
+#: src/shithappens/create_cards.py:485
+msgid "'pip install shithappens[pbar]' to show a progress bar."
+msgstr "'pip install shithappens[pbar]' om een voortgangsbalk te tonen."
+
+#: src/shithappens/create_cards.py:494
+msgid ""
+"Input directory {} does not exist. Please specify an existing input "
+"directory.\n"
+msgstr "Inputmap {} bestaat niet. Specificeer een bestaande map."
+
+#: src/shithappens/create_cards.py:499
+msgid "Please provide an Excel file in {}."
+msgstr "Voorzie {} van een excelbestand."
+
+#: src/shithappens/create_cards.py:502
+msgid "More than one input file found."
+msgstr "Meer dan één inputbestand gevonden."
+
+#: src/shithappens/create_cards.py:505
+msgid "Select: "
+msgstr "Selecteer: "
+
+#: src/shithappens/create_cards.py:511
+msgid "Reading files from {}."
+msgstr "Lees bestanden uit {}."
+
+#: src/shithappens/create_cards.py:512
+msgid "Output files in {}."
+msgstr "Output bestanden in {}."
+
+#: src/shithappens/create_cards.py:519
+msgid "Argument -n/--name not given. Expansion name inferred to be {}."
+msgstr "Argument -n/--name is niet gegeven. Uitbreidingsnaam is afgeleid als {}."
+
+#: src/shithappens/create_cards.py:532
+msgid "'pip install shithappens[merge]' for pdf merging."
+msgstr "'pip' install shithappens[merge]' voor pdf-samenvoeging."
+
+#: src/shithappens/create_cards.py:553
+msgid "Interrupted."
+msgstr "Onderbroken."
+
