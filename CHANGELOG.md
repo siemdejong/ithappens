@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.5 (2023-01-08)
+### Fix
+* Compile locales catalog before building wheel ([`26ba3e0`](https://github.com/siemdejong/shit-happens/commit/26ba3e0835e735dda3ca23a34cf21f6a6d304938))
+* Exclude opensans.tools/sources from package ([`c6b8820`](https://github.com/siemdejong/shit-happens/commit/c6b882090be682fc7159b22dc00d56b73f5348f0))
+* Remove random print statement ([`69b9df8`](https://github.com/siemdejong/shit-happens/commit/69b9df81c72067e0c2caf04c602ec8e8b7457bad))
+
 ## v1.1.4 (2023-01-08)
 ### Fix
 * Fix locales source path ([`72079c7`](https://github.com/siemdejong/shit-happens/commit/72079c701c5397f3c1464c6dc848d2c4e894947a))
