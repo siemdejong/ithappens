@@ -44,13 +44,16 @@ pbar = ["tqdm"]
 merge = ["PyPDF2"]
 all = ["tqdm", "PyPDF2"]
 
+[tool.setuptools]
+include-package-data = false
+
 [tool.setuptools.packages.find]
 where = ["src"]
+exclude = ["shithappens.opensans"]
+namespaces = false
 
 [tool.setuptools.package-data]
-"shithappens.opensans.fonts.ttf" = ["*.ttf"]
-"shithappens.images" = ["*.png"]
-"shithappens.locales" = ["*/LC_MESSAGES/*.po"]
+shithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png", "locales/*/LC_MESSAGES/*.mo"]
 
 [tool.semantic_release]
 version_variable = "pyproject.toml:version" # version location
