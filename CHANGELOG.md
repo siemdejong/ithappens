@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.3 (2023-01-08)
+### Fix
+* Finding of localedir ([`f71a6b8`](https://github.com/siemdejong/shit-happens/commit/f71a6b8e4b367406e0231786f665d39b0a0648e2))
+
 ## v1.1.2 (2023-01-07)
 ### Fix
 * Import locales folder the right way ([`7470f99`](https://github.com/siemdejong/shit-happens/commit/7470f99b2602e336de829185b0265153d4730103))
