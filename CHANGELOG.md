@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.1 (2023-01-08)
+### Documentation
+* Fix link to pypi ([`9ca1d55`](https://github.com/siemdejong/shit-happens/commit/9ca1d55fade5c19c0f9c9390cb4b19a909bc6983))
+
 ## v1.2.0 (2023-01-08)
 ### Feature
 * Show off with pypi badge in readme ([`b66a70f`](https://github.com/siemdejong/shit-happens/commit/b66a70f4a9ddb81a7a1943d7fde1372c18c40ea6))
