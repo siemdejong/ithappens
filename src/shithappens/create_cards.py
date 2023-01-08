@@ -35,10 +35,10 @@ from shithappens.utils import merge_pdfs, slugify
 
 
 def install_lang(locale: str):
-    locale_res = resources.files("shithappens.locales").joinpath(locale + "LC_MESSAGES/shithappens.mo")
+    locale_res = resources.files("shithappens.locales").joinpath(locale + "/LC_MESSAGES/shithappens.mo")
     print(locale_res)
     with resources.as_file(locale_res) as locale_file:
-        localedir = locale_file.parent.parent
+        localedir = locale_file.parent.parent.parent
     lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
     global _
     _ = lang.gettext
