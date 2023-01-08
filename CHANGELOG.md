@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.0 (2023-01-08)
+### Feature
+* Show off with pypi badge in readme ([`b66a70f`](https://github.com/siemdejong/shit-happens/commit/b66a70f4a9ddb81a7a1943d7fde1372c18c40ea6))
+
 ## v1.1.6 (2023-01-08)
 ### Fix
 * Checkout font files submodule during CD ([`c96319e`](https://github.com/siemdejong/shit-happens/commit/c96319efa24e6f942bce3d727379749da407ed22))
