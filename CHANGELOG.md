@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.4 (2023-01-08)
+### Fix
+* Fix locales source path ([`72079c7`](https://github.com/siemdejong/shit-happens/commit/72079c701c5397f3c1464c6dc848d2c4e894947a))
+
 ## v1.1.3 (2023-01-08)
 ### Fix
 * Finding of localedir ([`f71a6b8`](https://github.com/siemdejong/shit-happens/commit/f71a6b8e4b367406e0231786f665d39b0a0648e2))
