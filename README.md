@@ -243,7 +243,7 @@ Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/si
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [pypi-shield]: https://img.shields.io/pypi/v/shithappens?color=blue&logoColor=yellow&style=for-the-badge
-[pypi-url]: https://test.pypi.org/project/shithappens/
+[pypi-url]: https://pypi.org/project/shithappens/
 [contributors-shield]: https://img.shields.io/github/contributors/siemdejong/shit-happens.svg?style=for-the-badge
 [contributors-url]: https://github.com/siemdejong/shit-happens/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/siemdejong/shit-happens.svg?style=for-the-badge
