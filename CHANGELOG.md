@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.6 (2023-01-08)
+### Fix
+* Checkout font files submodule during CD ([`c96319e`](https://github.com/siemdejong/shit-happens/commit/c96319efa24e6f942bce3d727379749da407ed22))
+
 ## v1.1.5 (2023-01-08)
 ### Fix
 * Compile locales catalog before building wheel ([`26ba3e0`](https://github.com/siemdejong/shit-happens/commit/26ba3e0835e735dda3ca23a34cf21f6a6d304938))
