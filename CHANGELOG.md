@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.0 (2023-01-13)
+### Feature
+* Force output to be opaque ([`3769ad4`](https://github.com/siemdejong/shit-happens/commit/3769ad4adecfb8e84ec1f74d58ad7b4361b236de))
+* Remove game logo and accept any image ([`cb4f384`](https://github.com/siemdejong/shit-happens/commit/cb4f384f9a1651586a5bd8e9aefc290b528206d0))
+
+### Fix
+* Include folder names in internationalization ([`9648d78`](https://github.com/siemdejong/shit-happens/commit/9648d78cf18f37b13097975211a7e574a69e000b))
+* Change font size on back ([`21ac3bb`](https://github.com/siemdejong/shit-happens/commit/21ac3bbb695da4038b04b8dadd908aea5e1e06ae))
+
+### Breaking
+* removes game logo.  ([`cb4f384`](https://github.com/siemdejong/shit-happens/commit/cb4f384f9a1651586a5bd8e9aefc290b528206d0))
+
 ## v1.2.1 (2023-01-08)
 ### Documentation
 * Fix link to pypi ([`9ca1d55`](https://github.com/siemdejong/shit-happens/commit/9ca1d55fade5c19c0f9c9390cb4b19a909bc6983))
