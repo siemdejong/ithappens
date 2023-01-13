@@ -366,7 +366,9 @@ def save_card(
     format: str = ".pdf",
 ) -> None:
 
-    output_dir = output_dir / side
+    side_fn = _("front") if side == "front" else _("back")
+
+    output_dir = output_dir / side_fn
 
     output_dir.mkdir(parents=True, exist_ok=True)
 

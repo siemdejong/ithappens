@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: shithappens 0.4.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-13 19:29+0100\n"
+"POT-Creation-Date: 2023-01-13 19:40+0100\n"
 "PO-Revision-Date: 2023-01-07 15:32+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -31,57 +31,57 @@ msgstr "ellende-index"
 msgid "expansion"
 msgstr "uitbreiding"
 
-#: src/shithappens/create_cards.py:428
-msgid "Plotting cards"
-msgstr "Plot kaarten"
-
-#: src/shithappens/create_cards.py:439
+#: src/shithappens/create_cards.py:369 src/shithappens/create_cards.py:441
 msgid "front"
 msgstr "voorkant"
 
-#: src/shithappens/create_cards.py:441
+#: src/shithappens/create_cards.py:369 src/shithappens/create_cards.py:443
 msgid "back"
 msgstr "achterkant"
 
-#: src/shithappens/create_cards.py:512
+#: src/shithappens/create_cards.py:430
+msgid "Plotting cards"
+msgstr "Plot kaarten"
+
+#: src/shithappens/create_cards.py:514
 msgid "'pip install shithappens[pbar]' to show a progress bar."
 msgstr "'pip install shithappens[pbar]' om een voortgangsbalk te tonen."
 
-#: src/shithappens/create_cards.py:522
+#: src/shithappens/create_cards.py:524
 msgid ""
 "Input directory {} does not exist. Please specify an existing input "
 "directory.\n"
 msgstr "Inputmap {} bestaat niet. Specificeer een bestaande map."
 
-#: src/shithappens/create_cards.py:531
+#: src/shithappens/create_cards.py:533
 msgid "Please provide an Excel file in {}."
 msgstr "Voorzie {} van een excelbestand."
 
-#: src/shithappens/create_cards.py:534
+#: src/shithappens/create_cards.py:536
 msgid "More than one input file found."
 msgstr "Meer dan één inputbestand gevonden."
 
-#: src/shithappens/create_cards.py:537
+#: src/shithappens/create_cards.py:539
 msgid "Select: "
 msgstr "Selecteer: "
 
-#: src/shithappens/create_cards.py:543
+#: src/shithappens/create_cards.py:545
 msgid "Reading files from {}."
 msgstr "Lees bestanden uit {}."
 
-#: src/shithappens/create_cards.py:544
+#: src/shithappens/create_cards.py:546
 msgid "Output files in {}."
 msgstr "Output bestanden in {}."
 
-#: src/shithappens/create_cards.py:551
+#: src/shithappens/create_cards.py:553
 msgid "Argument -n/--name not given. Expansion name inferred to be {}."
 msgstr "Argument -n/--name is niet gegeven. Uitbreidingsnaam is afgeleid als {}."
 
-#: src/shithappens/create_cards.py:565
+#: src/shithappens/create_cards.py:567
 msgid "'pip install shithappens[merge]' for pdf merging."
 msgstr "'pip' install shithappens[merge]' voor pdf-samenvoeging."
 
-#: src/shithappens/create_cards.py:586
+#: src/shithappens/create_cards.py:588
 msgid "Interrupted."
 msgstr "Onderbroken."
 
