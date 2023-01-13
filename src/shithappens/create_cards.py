@@ -332,7 +332,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     # Expansion logo
 
     try:
-        expansion_logo_path = glob(f"{input_dir}/images/expansion-logo.*")[0]
+        expansion_logo_path = glob(f"{input_dir}/**/expansion-logo.*")[0]
     except KeyError:
         expansion_logo = resources.files("shithappens.images").joinpath(
             "expansion-logo.png"
