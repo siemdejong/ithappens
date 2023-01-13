@@ -26,7 +26,9 @@ except ImportError:
         del args, kwargs
         return iterable
 
+
 import sys
+
 SCRIPT_DIR = Path(__file__).absolute().parent
 sys.path.append(str(SCRIPT_DIR.parent))
 
@@ -35,7 +37,9 @@ from shithappens.utils import merge_pdfs, slugify
 
 
 def install_lang(locale: str):
-    locale_res = resources.files("shithappens.locales").joinpath(locale + "/LC_MESSAGES/shithappens.mo")
+    locale_res = resources.files("shithappens.locales").joinpath(
+        locale + "/LC_MESSAGES/shithappens.mo"
+    )
     with resources.as_file(locale_res) as locale_file:
         localedir = locale_file.parent.parent.parent
     lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
@@ -300,7 +304,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         game_name.upper(),
         **text_kwargs,
         color="yellow",
-        fontsize=17,
+        fontsize=20,
         weight="regular",
         verticalalignment="center",
     )
@@ -315,11 +319,11 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.text(
         x_size / 2 + bleed,
-        0.85 * y_size + bleed,
+        0.83 * y_size + bleed,
         expansion_text_full.upper(),
         **text_kwargs,
         color="yellow",
-        fontsize=7,
+        fontsize=14,
         fontstyle="italic",
         weight="ultralight",
         verticalalignment="center",
