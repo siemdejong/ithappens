@@ -436,9 +436,9 @@ def create_cards(
 
     if merge:
         if side == "front" or side == "both":
-            merge_pdfs(output_dir / "front")
+            merge_pdfs(output_dir / _("front"))
         if side == "back" or side == "both":
-            merge_pdfs(output_dir / "back")
+            merge_pdfs(output_dir / _("back"))
 
 
 def main() -> None:
