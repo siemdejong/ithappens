@@ -325,30 +325,23 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    # Game logo.
-    game_logo_path = f"{input_dir}/images/game-logo.png"
-    if not Path(game_logo_path).exists():
-        game_logo = resources.files("shithappens.images").joinpath("game-logo.png")
-        with resources.as_file(game_logo) as fpath:
-            game_logo_path = str(fpath)
-    game_logo = mpimage.imread(game_logo_path)[:, :, 0]
+    # Expansion logo
 
-    game_logoax = fig.add_axes([0.1, 0.3, 0.8, 0.4])
-    game_logoax.imshow(game_logo, cmap="binary")
-    game_logoax.axis("off")
-
-    # Expansion logo.
-    expansion_logo_path = f"{input_dir}/images/expansion-logo.png"
-    if not Path(expansion_logo_path).exists():
+    try:
+        expansion_logo_path = glob(f"{input_dir}/images/expansion-logo.*")[0]
+    except KeyError:
         expansion_logo = resources.files("shithappens.images").joinpath(
             "expansion-logo.png"
         )
         with resources.as_file(expansion_logo) as fpath:
             expansion_logo_path = str(fpath)
-    expansion_logo = mpimage.imread(str(expansion_logo_path))
 
-    expansion_logoax = fig.add_axes([0.1, 0.12, 0.8, 0.1])
-    expansion_logoax.imshow(expansion_logo)
+    expansion_logo = mpimage.imread(expansion_logo_path)
+
+    expansion_logoax = fig.add_axes([0.2, 0.1, 0.6, 0.6])
+    expansion_logoax.imshow(
+        expansion_logo,
+    )
     expansion_logoax.axis("off")
 
     plot_crop_marks(ax, bleed)
