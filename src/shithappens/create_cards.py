@@ -372,11 +372,19 @@ def save_card(
 
     if side == "front":
         card.fig_front.savefig(
-            str(save_fn), format=save_fn.suffix[1:], pad_inches=0, dpi=dpi
+            str(save_fn),
+            format=save_fn.suffix[1:],
+            pad_inches=0,
+            dpi=dpi,
+            transparent=False,
         )
     elif side == "back":
         card.fig_back.savefig(
-            str(save_fn), format=save_fn.suffix[1:], pad_inches=0, dpi=dpi
+            str(save_fn),
+            format=save_fn.suffix[1:],
+            pad_inches=0,
+            dpi=dpi,
+            transparent=False,
         )
 
 
