@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.0 (2023-01-13)
+### Feature
+* Accept any image subdir name ([`66a980e`](https://github.com/siemdejong/shit-happens/commit/66a980eedb896a558c335f0073ab50a5d3504d11))
+
+### Fix
+* The translated dir is created by save_card ([`3114dcf`](https://github.com/siemdejong/shit-happens/commit/3114dcf7377db6143b31fc019e2a2985e4dec8a9))
+
 ## v2.0.0 (2023-01-13)
 ### Feature
 * Force output to be opaque ([`3769ad4`](https://github.com/siemdejong/shit-happens/commit/3769ad4adecfb8e84ec1f74d58ad7b4361b236de))
