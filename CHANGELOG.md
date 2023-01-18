@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.2.1 (2023-01-18)
+### Documentation
+* Update readme with help for format option ([`df5e3dc`](https://github.com/siemdejong/shit-happens/commit/df5e3dcf68e1c839a3ec70dc614fcf7a3d60a211))
+
 ## v2.2.0 (2023-01-18)
 ### Feature
 * Add png format output ([`14d67e9`](https://github.com/siemdejong/shit-happens/commit/14d67e9f4151b95874242879741a67033a451b96))
