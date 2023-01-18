@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.2.0 (2023-01-18)
+### Feature
+* Add png format output ([`14d67e9`](https://github.com/siemdejong/shit-happens/commit/14d67e9f4151b95874242879741a67033a451b96))
+
 ## v2.1.3 (2023-01-18)
 ### Documentation
 * Add user instructions ([`a29b380`](https://github.com/siemdejong/shit-happens/commit/a29b3805c653d580b38c4c02738bf0d653d40ee5))
