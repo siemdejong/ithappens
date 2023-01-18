@@ -147,7 +147,7 @@ The first column must contain the miserable situations.
 The second column must contain the corresponding misery indices.
 See the examples directory for an example.
 ```
-usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-w WORKERS] [-c CHUNKS] [input_dir]
+usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 help:
   -h, --help            show this help message and exit
@@ -162,7 +162,9 @@ options:
   -s {front,back,both}, --side {front,back,both}
                         Side(s) to generate. Defaults to both.
   -l {en,nl}, --lang {en,nl}
-                        Language. Defaults to 'en'.
+                        Language. 'en' and 'nl' supported. Defaults to 'en'.
+  -f {pdf,png}, --format {pdf,png}
+                        Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.
 
 multiprocessing:
   -w WORKERS, --workers WORKERS
