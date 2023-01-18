@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.3 (2023-01-18)
+### Documentation
+* Add user instructions ([`a29b380`](https://github.com/siemdejong/shit-happens/commit/a29b3805c653d580b38c4c02738bf0d653d40ee5))
+
 ## v2.1.2 (2023-01-18)
 ### Documentation
 * Add example ([`3ce5774`](https://github.com/siemdejong/shit-happens/commit/3ce57749dcec50ff1955f12506b293b218bfe6b8))
