@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.2 (2023-01-18)
+### Documentation
+* Add example ([`3ce5774`](https://github.com/siemdejong/shit-happens/commit/3ce57749dcec50ff1955f12506b293b218bfe6b8))
+
 ## v2.1.1 (2023-01-18)
 ### Fix
 * Align miserable text on the front ([`261da98`](https://github.com/siemdejong/shit-happens/commit/261da988c20dde05e261ad8f6b5c86cd507a6fff))
