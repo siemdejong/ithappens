@@ -87,8 +87,8 @@
 <!-- [![Product Name Screen Shot Front][<img src=product-screenshot-front width="250"/>]](https://example.com)
 [![Product Name Screen Shot Back][product-screenshot-back]](https://example.com) -->
 <div style="display:flex;align-items:center;">
-  <div style="padding:10px;"> <img src="images\80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
-  <div style="padding:10px;"> <img src="images\80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
+  <div style="padding:10px;float:left;"> <img src="images\80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
+  <div style="padding:10px;float:left;"> <img src="images\80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
 </div>
 
 
@@ -116,10 +116,6 @@ This project is not related to the original card game.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
 A virtual environment with python 3.11 or higher.
@@ -145,6 +141,11 @@ To install all dependencies, run `pip install shithappens[all]`.
 
 ### CLI
 The tool is available as a command line interface (CLI).
+It requires an Excel file in the input directory (default current working directory).
+The excel files must have two columns with any header.
+The first column must contain the miserable situations.
+The second column must contain the corresponding misery indices.
+See the examples directory for an example.
 ```
 usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-w WORKERS] [-c CHUNKS] [input_dir]
 
@@ -173,15 +174,14 @@ The input directory must be structured as follows:
 ```
 expansion
 ├───images
-│   └───expansion-logo.png
+│   └───expansion-logo.*
 ├───outputs
 │   ├───back
 │   └───front
 └───*.xlsx
 ```
 If the output folder does not exist, it will be created.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+The format of the expansion logo must be on [this list](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
