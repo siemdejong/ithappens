@@ -55,18 +55,44 @@ def text_with_wrap_autofit(
     height: float,
     *,
     min_font_size=None,
+    bleed: Optional[float] = None,
+    pad: Optional[float] = None,
     transform: Optional[Transform] = None,
     ha: Literal["left", "center", "right"] = "center",
     va: Literal["bottom", "center", "top"] = "center",
-    show_rect: bool = False,
     **kwargs,
 ):
-    """Automatically fits the text to some axes"""
+    """Automatically fits the text to some axes.
+
+    Args:
+        ax: axes to put the text on.
+        txt: text to display.
+        xy: location to place the text.
+        width: width of the text box.
+        height: height of the text box.
+        min_font_size: minimum acceptable font size.
+        bleed: bleed of the figure.
+        pad: padding of the box.
+        transform: matplotlib coordinate transformation.
+        ha: horizontal align.
+        va: vertical align.
+        **kwargs: keyword arguments passed to Axes.annotate.
+
+    Returns:
+        text artist.
+    """
     if transform is None:
         transform = ax.transData
 
     #  Different alignments give different bottom left and top right anchors.
     x, y = xy
+    if bleed:
+        x += bleed
+        y += bleed
+    if pad:
+        x += pad
+        y += pad
+
     xa0, xa1 = {
         "center": (x - width / 2, x + width / 2),
         "left": (x, x + width),
@@ -109,10 +135,6 @@ def text_with_wrap_autofit(
         text.remove()
         wrap_lines += 1
     text.set_fontsize(adjusted_size)
-
-    if show_rect:
-        rect = Rectangle(a0, width, height, fill=False, ls="--")
-        ax.add_patch(rect)
 
     return text
 
@@ -214,13 +236,14 @@ def plot_card_front(card: Card) -> Figure:
     text_with_wrap_autofit(
         ax,
         card.desc.upper(),
-        (0.5, 0.8),
-        0.8,
-        0.5,
+        (0.5, 0.9),
+        0.7,
+        0.4,
         **text_kwargs,
+        bleed=ax.transData.transform((bleed, bleed))[0],
         transform=ax.transAxes,
-        min_font_size=10,
-        verticalalignment="top",
+        min_font_size=11,
+        va="top",
         weight="extra bold",
         color="yellow",
     )
