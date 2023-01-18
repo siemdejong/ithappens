@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.2.2 (2023-01-18)
+### Documentation
+* Properly show example images on pypi ([`f84f813`](https://github.com/siemdejong/shit-happens/commit/f84f813e3ad0097460e40cd3b0b4d0df6a53f59c))
+
 ## v2.2.1 (2023-01-18)
 ### Documentation
 * Update readme with help for format option ([`df5e3dc`](https://github.com/siemdejong/shit-happens/commit/df5e3dcf68e1c839a3ec70dc614fcf7a3d60a211))
