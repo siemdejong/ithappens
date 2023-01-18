@@ -144,7 +144,8 @@ class ShitHappensArgs(argparse.Namespace):
     name: str
     merge: bool
     side: Literal["front", "back", "both"]
-    lang: str
+    lang: Literal["en", "nl"]
+    format: Literal["pdf", "png"]
     workers: int
     chunks: int
 
@@ -386,7 +387,7 @@ def save_card(
     output_dir: Path,
     side: Literal["front", "back"],
     dpi: int = 300,
-    format: str = ".pdf",
+    format: str = "pdf",
 ) -> None:
 
     side_fn = _("front") if side == "front" else _("back")
@@ -397,7 +398,7 @@ def save_card(
 
     fn = f"{card.misery_index}-{card.desc}"
     fn = slugify(fn)
-    save_fn = (output_dir / fn).with_suffix(format)
+    save_fn = (output_dir / fn).with_suffix("." + format)
 
     if side == "front":
         card.fig_front.savefig(
@@ -417,16 +418,18 @@ def save_card(
         )
 
 
-def create_card(row, expansion_name, input_dir, output_dir, side):
+def create_card(
+    row, expansion_name, input_dir, output_dir, side, ext: Literal["pdf", "png"]
+):
     card = Card(row[1]["desc"], row[1]["misery_index"], expansion_name)
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)
-        save_card(card, output_dir, "front")
+        save_card(card, output_dir, "front", format=ext)
 
     if side == "back" or side == "both":
         card.fig_back = plot_card_back(card, input_dir)
-        save_card(card, output_dir, "back")
+        save_card(card, output_dir, "back", format=ext)
 
 
 def create_cards(
@@ -436,6 +439,7 @@ def create_cards(
     output_dir: Path,
     merge: bool,
     side: Literal["front", "back", "both"],
+    ext: Literal["pdf", "png"],
     workers: int,
     chunks: int,
     locale: str,
@@ -448,6 +452,7 @@ def create_cards(
         input_dir=input_dir,
         output_dir=output_dir,
         side=side,
+        ext=ext,
     )
     desc = _("Plotting cards")
     if chunksize:
@@ -514,9 +519,16 @@ def main() -> None:
     options_group.add_argument(
         "-l",
         "--lang",
-        help="Language. Defaults to 'en'.",
+        help="Language. 'en' and 'nl' supported. Defaults to 'en'.",
         choices=["en", "nl"],
         default="en",
+    )
+    options_group.add_argument(
+        "-f",
+        "--format",
+        help="Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.",
+        choices=["pdf", "png"],
+        default="pdf",
     )
 
     multiprocessing_group = arg_parser.add_argument_group("multiprocessing")
@@ -601,6 +613,7 @@ def main() -> None:
         output_dir,
         args.merge,
         args.side,
+        args.format,
         args.workers,
         args.chunks,
         args.lang,
