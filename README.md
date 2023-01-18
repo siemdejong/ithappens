@@ -84,7 +84,13 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+<!-- [![Product Name Screen Shot Front][<img src=product-screenshot-front width="250"/>]](https://example.com)
+[![Product Name Screen Shot Back][product-screenshot-back]](https://example.com) -->
+<div style="display:flex;align-items:center;">
+  <div style="padding:10px;"> <img src="images\80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
+  <div style="padding:10px;"> <img src="images\80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
+</div>
+
 
 Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/shit-happens) playing cards?
 Now you can.
@@ -116,7 +122,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-A conda environment with python 3.11 or higher.
+A virtual environment with python 3.11 or higher.
 
 ### Installation
 
@@ -167,8 +173,7 @@ The input directory must be structured as follows:
 ```
 expansion
 ├───images
-│   ├───expansion-logo.png
-│   └───game-logo.png
+│   └───expansion-logo.png
 ├───outputs
 │   ├───back
 │   └───front
@@ -256,7 +261,8 @@ Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/si
 [license-url]: https://github.com/siemdejong/shit-happens/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[product-screenshot-front]: images\80-you-dont-know-how-to-use-this-tool-front.png
+[product-screenshot-back]: images\80-you-dont-know-how-to-use-this-tool-back.png
 [Python]: https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://python.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB

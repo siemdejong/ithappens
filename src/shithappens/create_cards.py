@@ -449,15 +449,18 @@ def create_cards(
         output_dir=output_dir,
         side=side,
     )
-    with Pool(workers, install_lang, (locale,)) as p:
-        desc = _("Plotting cards")
-        list(
-            tqdm(
-                p.imap_unordered(create_card_par, df.iterrows(), chunksize),
-                total=nmax,
-                desc=desc,
+    desc = _("Plotting cards")
+    if chunksize:
+        with Pool(workers, install_lang, (locale,)) as p:
+            list(
+                tqdm(
+                    p.imap_unordered(create_card_par, df.iterrows(), chunksize),
+                    total=nmax,
+                    desc=desc,
+                )
             )
-        )
+    else:
+        list(tqdm(map(create_card_par, df.iterrows()), total=nmax, desc=desc))
 
     if merge:
         if side == "front" or side == "both":
