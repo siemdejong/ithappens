@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.1 (2023-01-18)
+### Fix
+* Align miserable text on the front ([`261da98`](https://github.com/siemdejong/shit-happens/commit/261da988c20dde05e261ad8f6b5c86cd507a6fff))
+
 ## v2.1.0 (2023-01-13)
 ### Feature
 * Accept any image subdir name ([`66a980e`](https://github.com/siemdejong/shit-happens/commit/66a980eedb896a558c335f0073ab50a5d3504d11))
