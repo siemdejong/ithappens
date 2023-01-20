@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.2 (2023-01-20)
+### Fix
+* Relative sort_situations import ([`78dac48`](https://github.com/siemdejong/shit-happens/commit/78dac48e271ae4ed87236788051c4160245bd3f8))
+
 ## v2.3.1 (2023-01-20)
 ### Fix
 * Add runtime help, also in nl locale ([`9811663`](https://github.com/siemdejong/shit-happens/commit/98116639f220ecc3cf00230208ce8d4d8ca3654b))
