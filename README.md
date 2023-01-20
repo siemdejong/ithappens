@@ -147,7 +147,7 @@ The first column must contain the miserable situations.
 The second column must contain the corresponding misery indices.
 See the examples directory for an example.
 ```
-usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-w WORKERS] [-c CHUNKS] [input_dir]
+usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-r | --rank | --no-rank] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 help:
   -h, --help            show this help message and exit
