@@ -8,6 +8,7 @@ from multiprocessing import Pool
 from pathlib import Path
 from typing import Literal, Optional
 
+import click
 import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
@@ -143,6 +144,7 @@ class ShitHappensArgs(argparse.Namespace):
     input_dir: str
     name: str
     merge: bool
+    rank: bool
     side: Literal["front", "back", "both"]
     lang: Literal["en", "nl"]
     format: Literal["pdf", "png"]
@@ -530,6 +532,12 @@ def main() -> None:
         choices=["pdf", "png"],
         default="pdf",
     )
+    options_group.add_argument(
+        "-r",
+        "--rank",
+        help="Rank situations. Ignores all other options. Defaults to --no-rank.",
+        action=argparse.BooleanOptionalAction,
+    )
 
     multiprocessing_group = arg_parser.add_argument_group("multiprocessing")
 
@@ -571,11 +579,18 @@ def main() -> None:
         print(_("Please provide an Excel file in {}.").format(input_dir))
         exit(1)
     elif xlsx_paths_num > 1:
-        print(_("More than one input file found."))
-        for i, xlsx_path in enumerate(xlsx_paths, 1):
-            print(f"[{i}] {xlsx_path}")
-        xlsx_index = int(input(_("Select: ")))
-        xlsx_path = Path(xlsx_paths[xlsx_index - 1])
+        while True:
+            print(_("More than one input file found."))
+            for i, xlsx_path in enumerate(xlsx_paths, 1):
+                print(f"[{i}] {xlsx_path}")
+            try:
+                xlsx_index = int(click.getchar())
+                xlsx_path = Path(xlsx_paths[xlsx_index - 1])
+            except (ValueError, IndexError):
+                continue
+            else:
+                break
+
     else:
         xlsx_path = Path(xlsx_paths[0])
 
@@ -583,41 +598,47 @@ def main() -> None:
     print(_("Reading files from {}.").format(input_dir))
     print(_("Output files in {}.").format(output_dir))
 
-    if args.name:
-        expansion_name = args.name
+    if args.rank:
+        from sort_situations import sort
+
+        sort(xlsx_path)
     else:
-        expansion_name = input_dir.stem
-        print(
-            _(
-                "Argument -n/--name not given. " "Expansion name inferred to be {}."
-            ).format(expansion_name)
-        )
 
-    df = parse_excel(xlsx_path, 0, 1)
-
-    if args.merge:
-        try:
-            import PyPDF2
-
-            args.merge = True
-        except ImportError:
-            args.merge = False
-            print(_("'pip install shithappens[merge]' for pdf merging."))
+        if args.name:
+            expansion_name = args.name
         else:
-            del PyPDF2
+            expansion_name = input_dir.stem
+            print(
+                _(
+                    "Argument -n/--name not given. " "Expansion name inferred to be {}."
+                ).format(expansion_name)
+            )
 
-    create_cards(
-        df,
-        expansion_name,
-        input_dir,
-        output_dir,
-        args.merge,
-        args.side,
-        args.format,
-        args.workers,
-        args.chunks,
-        args.lang,
-    )
+        df = parse_excel(xlsx_path, 0, 1)
+
+        if args.merge:
+            try:
+                import PyPDF2
+
+                args.merge = True
+            except ImportError:
+                args.merge = False
+                print(_("'pip install shithappens[merge]' for pdf merging."))
+            else:
+                del PyPDF2
+
+        create_cards(
+            df,
+            expansion_name,
+            input_dir,
+            output_dir,
+            args.merge,
+            args.side,
+            args.format,
+            args.workers,
+            args.chunks,
+            args.lang,
+        )
 
 
 def main_cli():
