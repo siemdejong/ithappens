@@ -601,7 +601,7 @@ def main() -> None:
         xlsx_path = Path(xlsx_paths[0])
 
     if args.rank:
-        from sort_situations import sort
+        from shithappens.sort_situations import sort
 
         sort(xlsx_path, args.lang)
     else:
