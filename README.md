@@ -165,6 +165,8 @@ options:
                         Language. 'en' and 'nl' supported. Defaults to 'en'.
   -f {pdf,png}, --format {pdf,png}
                         Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.
+  -r, --rank, --no-rank
+                        Rank situations and output in new file. Does not guarantee a linear ranking, i.e. situations can have equal misery index. Ignores all other options. Defaults to --no-rank.
 
 multiprocessing:
   -w WORKERS, --workers WORKERS

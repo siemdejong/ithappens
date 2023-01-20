@@ -535,7 +535,9 @@ def main() -> None:
     options_group.add_argument(
         "-r",
         "--rank",
-        help="Rank situations. Ignores all other options. Defaults to --no-rank.",
+        help="Rank situations and output in new file. \
+            Does not guarantee a linear ranking, i.e. situations can have equal misery index. \
+            Ignores all other options. Defaults to --no-rank.",
         action=argparse.BooleanOptionalAction,
     )
 
