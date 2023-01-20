@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.1 (2023-01-20)
+### Fix
+* Add runtime help, also in nl locale ([`9811663`](https://github.com/siemdejong/shit-happens/commit/98116639f220ecc3cf00230208ce8d4d8ca3654b))
+
+### Documentation
+* Update readme usage line ([`e65ba5b`](https://github.com/siemdejong/shit-happens/commit/e65ba5b288746232f08b031ef424e77ff6afc116))
+
 ## v2.3.0 (2023-01-20)
 ### Feature
 * Add subjective comparison sort ([`22a12c9`](https://github.com/siemdejong/shit-happens/commit/22a12c9876c4906943f074e2754711d29cc75d07))
