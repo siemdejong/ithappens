@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.0 (2023-01-20)
+### Feature
+* Add subjective comparison sort ([`22a12c9`](https://github.com/siemdejong/shit-happens/commit/22a12c9876c4906943f074e2754711d29cc75d07))
+
+### Documentation
+* Update usage of -r/--rank ([`ab7a509`](https://github.com/siemdejong/shit-happens/commit/ab7a509a486b03b26cf184ed8db92fed15ddf0fc))
+
 ## v2.2.4 (2023-01-18)
 
 
