@@ -575,6 +575,10 @@ def main() -> None:
             )
         )
 
+    output_dir = input_dir / "outputs"
+    print(_("Reading files from {}.").format(input_dir))
+    print(_("Output files in {}.").format(output_dir))
+
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
     if not xlsx_paths_num:
@@ -582,7 +586,7 @@ def main() -> None:
         exit(1)
     elif xlsx_paths_num > 1:
         while True:
-            print(_("More than one input file found."))
+            print(_("\nMore than one input file found."))
             for i, xlsx_path in enumerate(xlsx_paths, 1):
                 print(f"[{i}] {xlsx_path}")
             try:
@@ -596,14 +600,10 @@ def main() -> None:
     else:
         xlsx_path = Path(xlsx_paths[0])
 
-    output_dir = input_dir / "outputs"
-    print(_("Reading files from {}.").format(input_dir))
-    print(_("Output files in {}.").format(output_dir))
-
     if args.rank:
         from sort_situations import sort
 
-        sort(xlsx_path)
+        sort(xlsx_path, args.lang)
     else:
 
         if args.name:

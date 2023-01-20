@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: shithappens 0.4.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-13 19:40+0100\n"
+"POT-Creation-Date: 2023-01-20 17:59+0100\n"
 "PO-Revision-Date: 2023-01-07 15:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,70 +19,83 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: src/shithappens/create_cards.py:147
+#: src/shithappens/create_cards.py:172 src/shithappens/sort_situations.py:39
 msgid "{} does not contain any Excel files."
 msgstr ""
 
-#: src/shithappens/create_cards.py:228
+#: src/shithappens/create_cards.py:254
 msgid "misery index"
 msgstr ""
 
-#: src/shithappens/create_cards.py:298
+#: src/shithappens/create_cards.py:324
 msgid "expansion"
 msgstr ""
 
-#: src/shithappens/create_cards.py:369 src/shithappens/create_cards.py:441
+#: src/shithappens/create_cards.py:395 src/shithappens/create_cards.py:474
 msgid "front"
 msgstr ""
 
-#: src/shithappens/create_cards.py:369 src/shithappens/create_cards.py:443
+#: src/shithappens/create_cards.py:395 src/shithappens/create_cards.py:476
 msgid "back"
 msgstr ""
 
-#: src/shithappens/create_cards.py:430
+#: src/shithappens/create_cards.py:459
 msgid "Plotting cards"
 msgstr ""
 
-#: src/shithappens/create_cards.py:514
+#: src/shithappens/create_cards.py:562
 msgid "'pip install shithappens[pbar]' to show a progress bar."
 msgstr ""
 
-#: src/shithappens/create_cards.py:524
+#: src/shithappens/create_cards.py:572
 msgid ""
 "Input directory {} does not exist. Please specify an existing input "
 "directory.\n"
 msgstr ""
 
-#: src/shithappens/create_cards.py:533
-msgid "Please provide an Excel file in {}."
-msgstr ""
-
-#: src/shithappens/create_cards.py:536
-msgid "More than one input file found."
-msgstr ""
-
-#: src/shithappens/create_cards.py:539
-msgid "Select: "
-msgstr ""
-
-#: src/shithappens/create_cards.py:545
+#: src/shithappens/create_cards.py:579
 msgid "Reading files from {}."
 msgstr ""
 
-#: src/shithappens/create_cards.py:546
+#: src/shithappens/create_cards.py:580
 msgid "Output files in {}."
 msgstr ""
 
-#: src/shithappens/create_cards.py:553
+#: src/shithappens/create_cards.py:585
+msgid "Please provide an Excel file in {}."
+msgstr ""
+
+#: src/shithappens/create_cards.py:589
+msgid ""
+"\n"
+"More than one input file found."
+msgstr ""
+
+#: src/shithappens/create_cards.py:614
 msgid "Argument -n/--name not given. Expansion name inferred to be {}."
 msgstr ""
 
-#: src/shithappens/create_cards.py:567
+#: src/shithappens/create_cards.py:628
 msgid "'pip install shithappens[merge]' for pdf merging."
 msgstr ""
 
-#: src/shithappens/create_cards.py:588
+#: src/shithappens/create_cards.py:650
 msgid "Interrupted."
+msgstr ""
+
+#: src/shithappens/sort_situations.py:65
+msgid ""
+"\n"
+"Which situation is most miserable?\n"
+"\n"
+msgstr ""
+
+#: src/shithappens/sort_situations.py:75
+msgid "Some items have equal ranking score. Please check the output file ({})."
+msgstr ""
+
+#: src/shithappens/sort_situations.py:79
+msgid "Manually assign a misery-index to situations."
 msgstr ""
 
 #~ msgid "Expansion name inferred to be {}."
@@ -95,5 +108,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "'pip install shithappens[pbar]' to add a progress bar."
+#~ msgstr ""
+
+#~ msgid "More than one input file found."
+#~ msgstr ""
+
+#~ msgid "Select: "
+#~ msgstr ""
+
+#~ msgid "Manually assign a misery score to situations."
 #~ msgstr ""
 
