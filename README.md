@@ -82,7 +82,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
 <!-- [![Product Name Screen Shot Front][<img src=product-screenshot-front width="250"/>]](https://example.com)
 [![Product Name Screen Shot Back][product-screenshot-back]](https://example.com) -->
@@ -106,7 +106,7 @@ This project is not related to the original card game.
 
 
 
-### Built With
+## Built With
 
 [![Python][Python]][Python-url]
 
@@ -115,12 +115,12 @@ This project is not related to the original card game.
 
 
 <!-- GETTING STARTED -->
-## Getting Started
-### Prerequisites
+# Getting Started
+## Prerequisites
 
 A virtual environment with python 3.11 or higher.
 
-### Installation
+## Installation
 
 Run
 ```
@@ -132,14 +132,53 @@ To allow for pdf merging, run `pip install shithappens[merge]`.
 To show a progressbar, run `pip install shithappens[pbar]`.
 To install all dependencies, run `pip install shithappens[all]`.
 
+## Installing for developers
+
+### Retrieve the latest version of the code
+Developers should fork this repository and run
+```
+git clone https://github.com/<your-username>/shit-happens.git
+```
+This will place the sources in a directory `shit-happens` below your current working directory, set up the `origin` remote to point to your own fork, and set up the `upstream` remote to point to the `shit-happens` main repository.
+Change into this directory before continuing:
+```
+cd shit-happens
+```
+
+### Create a dedicated environment
+You should set up a dedicated environment to decouple your shithappens development from other Python and shithappens installations on your system.
+
+The simplest way to do this is to use either Python's virtual environment venv or conda.
+Here, instructions for conda are shown.
+If mamba is installed, replace conda with mamba in the commands below.
+```
+conda env create -f environment.yml
+```
+Activate the environment using
+```
+conda activate mpl-dev
+```
+Remember to activate the environment whenever you start working on shithappens.
+
+### Installing shithappens in editable mode
+Install shithappens in editable mode from the shithappens directory using the command
+```
+python -m pip install -e .
+```
+The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import Matplotlib from your development source directory.
+This allows you to import your modified version of Matplotlib without re-installing after every change.
+Note that this is only true for `*.py` files.
+If you change the C-extension source (which might also happen if you change branches) you will have to re-run `python -m pip install -e .`
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+# Usage
 
-### CLI
+## CLI
 The tool is available as a command line interface (CLI).
 It requires an Excel file in the input directory (default current working directory).
 The excel files must have two columns with any header.
@@ -206,7 +245,7 @@ See the [open issues](https://github.com/siemdejong/shit-happens/issues) for a f
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+# Contributing
 
 Any contributions you make are greatly appreciated.
 
@@ -221,7 +260,7 @@ Any contributions you make are greatly appreciated.
 
 
 <!-- LICENSE -->
-## License
+# License
 
 Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 
@@ -230,7 +269,7 @@ Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 
 
 <!-- CONTACT -->
-## Contact
+# Contact
 
 Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/siemdejong/shit-happens)
 
