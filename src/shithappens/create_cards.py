@@ -27,12 +27,6 @@ except ImportError:
         del args, kwargs
         return iterable
 
-
-import sys
-
-SCRIPT_DIR = Path(__file__).absolute().parent
-sys.path.append(str(SCRIPT_DIR.parent))
-
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
 
