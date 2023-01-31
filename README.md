@@ -165,10 +165,8 @@ Install shithappens in editable mode from the shithappens directory using the co
 ```
 python -m pip install -e .
 ```
-The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import Matplotlib from your development source directory.
-This allows you to import your modified version of Matplotlib without re-installing after every change.
-Note that this is only true for `*.py` files.
-If you change the C-extension source (which might also happen if you change branches) you will have to re-run `python -m pip install -e .`
+The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import shithappens from your development source directory.
+This allows you to import your modified version of shithappens without re-installing after every change.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
