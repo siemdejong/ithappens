@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.4.0 (2023-01-31)
+### Feature
+* Delete standard adding to python path ([`113cdf2`](https://github.com/siemdejong/shit-happens/commit/113cdf298cc91fdb59c7f983736e085d3bc30bda))
+
+### Documentation
+* Add developer installation instructions ([`7677a85`](https://github.com/siemdejong/shit-happens/commit/7677a85a34f10cf1632e35559a539b6f24470151))
+
 ## v2.3.2 (2023-01-20)
 ### Fix
 * Relative sort_situations import ([`78dac48`](https://github.com/siemdejong/shit-happens/commit/78dac48e271ae4ed87236788051c4160245bd3f8))
