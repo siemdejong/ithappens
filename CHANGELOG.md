@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.4.1 (2023-01-31)
+### Documentation
+* Remove wrong text about matplotlib ([`95b7c2b`](https://github.com/siemdejong/shit-happens/commit/95b7c2bc3aba723e973bb60d3c08c6dfd84b8585))
+
 ## v2.4.0 (2023-01-31)
 ### Feature
 * Delete standard adding to python path ([`113cdf2`](https://github.com/siemdejong/shit-happens/commit/113cdf298cc91fdb59c7f983736e085d3bc30bda))
