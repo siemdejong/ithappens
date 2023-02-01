@@ -43,6 +43,12 @@ jobs:
     - name: Check README rendering for PyPI
       run: twine check dist/*
 
+    - name: Install pyinstaller
+      run: pip install pyinstaller
+
+    - name: Build executable
+      run: pyinstaller shithappens.spec -y
+
   cd:
     # Only run this job if the "ci" job passes
     needs: ci
@@ -74,6 +80,9 @@ jobs:
     
     - name: Install build
       run: pip install build
+    
+    - name: Install pyinstaller
+      run: pip install pyinstaller
 
     - name: Use Python Semantic Release to prepare release
       env:
