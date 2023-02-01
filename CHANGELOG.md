@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.2 (2023-02-01)
+### Fix
+* Include specific dists in cd release ([`9af70fd`](https://github.com/siemdejong/shit-happens/commit/9af70fdb647597ff83204793bfcf35fa101b5747))
+
 ## v2.5.1 (2023-02-01)
 ### Fix
 * Change to posix path ([`7ba91aa`](https://github.com/siemdejong/shit-happens/commit/7ba91aae438c5206640ed3f00beacdb3a025a8c4))
