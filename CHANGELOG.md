@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.5 (2023-02-01)
+### Fix
+* Windows zip as tar.exe ([`8bbd9a7`](https://github.com/siemdejong/shit-happens/commit/8bbd9a76c095dfc00afdf020130348a35529d9ed))
+* Typo ([`eada91c`](https://github.com/siemdejong/shit-happens/commit/eada91cb293709638d43ceb924a79d28d3ecdbc3))
+* Only create executable on windows-latest ([`e5849fe`](https://github.com/siemdejong/shit-happens/commit/e5849fe26a8c6c1fc7c45bbfb4e45371bf2e2946))
+* Build packages on windows ([`5bccce6`](https://github.com/siemdejong/shit-happens/commit/5bccce64e6518872a7b3feb3568c663277158629))
+
 ## v2.5.4 (2023-02-01)
 ### Fix
 * Remove input files after zipping ([`fb22672`](https://github.com/siemdejong/shit-happens/commit/fb22672f7fd9108c54a5387abb42b9de36d3bc5d))
