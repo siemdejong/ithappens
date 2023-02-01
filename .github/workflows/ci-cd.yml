@@ -86,7 +86,7 @@ jobs:
 
   pypi-cd:
     # Only run this job if the "ci" job passes
-    needs: [ci, windows_cd]
+    needs: [ci, windows-cd]
     
     # Only run this job if new work is pushed to "main"
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
