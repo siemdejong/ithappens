@@ -10,17 +10,6 @@ from tqdm import tqdm
 UP = "\x1B[3A"
 
 
-def install_lang(locale: str):
-    locale_res = resources.files("shithappens.locales").joinpath(
-        locale + "/LC_MESSAGES/shithappens.mo"
-    )
-    with resources.as_file(locale_res) as locale_file:
-        localedir = locale_file.parent.parent.parent
-    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
-    global _
-    _ = lang.gettext
-
-
 def parse_excel(input_path: Path, desc_col: int) -> pd.DataFrame:
     """Parse an Excel file.
     It must have two colums: descriptions along with their misery index.
@@ -53,8 +42,7 @@ def prompt_question(df: pd.DataFrame, situations):
         prompt_question(df, situations)
 
 
-def sort(xlsx_path, lang):
-    install_lang(lang)
+def sort(xlsx_path):
 
     df = parse_excel(xlsx_path, 0)
     df["misery_index"] = 0

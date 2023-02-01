@@ -3,7 +3,6 @@ import gettext
 import textwrap
 from functools import partial
 from glob import glob
-from importlib import resources
 from multiprocessing import Pool
 from pathlib import Path
 from typing import Literal, Optional
@@ -27,17 +26,15 @@ except ImportError:
         del args, kwargs
         return iterable
 
+
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
 
 
 def install_lang(locale: str):
-    locale_res = resources.files("shithappens.locales").joinpath(
-        locale + "/LC_MESSAGES/shithappens.mo"
-    )
-    with resources.as_file(locale_res) as locale_file:
-        localedir = locale_file.parent.parent.parent
+    localedir = Path(__file__).parent.resolve() / "locales"
     lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
+    lang.install()
     global _
     _ = lang.gettext
 
@@ -221,11 +218,10 @@ def plot_card_front(card: Card) -> Figure:
 
     ax.axis("off")
 
-    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
-        "OpenSans-ExtraBold.ttf"
+    opensans_path = Path(__file__).parent.resolve() / Path(
+        "opensans/fonts/ttf/OpenSans-ExtraBold.ttf"
     )
-    with resources.as_file(opensans_resource) as fpath:
-        prop = fm.FontProperties(fname=fpath)
+    prop = fm.FontProperties(fname=opensans_path)
 
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
@@ -306,13 +302,14 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     ax.axis("off")
 
-    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
-        "OpenSans-Regular.ttf"
-    )
-    with resources.as_file(opensans_resource) as fpath:
-        prop = fm.FontProperties(fname=fpath)
+    parent_dir = Path(__file__).parent.resolve()
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
+    opensans_regular_path = parent_dir / Path("opensans/fonts/ttf/OpenSans-Regular.ttf")
+    prop_regular = fm.FontProperties(fname=opensans_regular_path)
+
+    text_kwargs = dict(
+        wrap=True, horizontalalignment="center", fontproperties=prop_regular
+    )
 
     game_name = "Shit Happens"
     expansion_text = _("expansion")
@@ -329,13 +326,12 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    opensans_resource = resources.files("shithappens.opensans.fonts.ttf").joinpath(
-        "OpenSans-LightItalic.ttf"
-    )
-    with resources.as_file(opensans_resource) as fpath:
-        prop = fm.FontProperties(fname=fpath)
+    opensans_light_path = parent_dir / Path("opensans/fonts/ttf/OpenSans-Regular.ttf")
+    prop_light = fm.FontProperties(fname=opensans_light_path)
 
-    text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
+    text_kwargs = dict(
+        wrap=True, horizontalalignment="center", fontproperties=prop_light
+    )
 
     ax.text(
         x_size / 2 + bleed,
@@ -354,11 +350,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     try:
         expansion_logo_path = glob(f"{input_dir}/**/expansion-logo.*")[0]
     except KeyError:
-        expansion_logo = resources.files("shithappens.images").joinpath(
-            "expansion-logo.png"
-        )
-        with resources.as_file(expansion_logo) as fpath:
-            expansion_logo_path = str(fpath)
+        expansion_logo_path = str(parent_dir / Path("images/expansion-logo.png"))
 
     expansion_logo = mpimage.imread(expansion_logo_path)
 
@@ -452,7 +444,7 @@ def create_cards(
     )
     desc = _("Plotting cards")
     if chunksize:
-        with Pool(workers, install_lang, (locale,)) as p:
+        with Pool(workers) as p:
             list(
                 tqdm(
                     p.imap_unordered(create_card_par, df.iterrows(), chunksize),
@@ -597,7 +589,7 @@ def main() -> None:
     if args.rank:
         from shithappens.sort_situations import sort
 
-        sort(xlsx_path, args.lang)
+        sort(xlsx_path)
     else:
 
         if args.name:
