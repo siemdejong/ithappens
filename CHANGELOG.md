@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.3 (2023-02-01)
+### Fix
+* Point zip arguments to right files. ([`10fd7c8`](https://github.com/siemdejong/shit-happens/commit/10fd7c8ab77b687e38f6fe779121d0066a68bda1))
+
 ## v2.5.2 (2023-02-01)
 ### Fix
 * Include specific dists in cd release ([`9af70fd`](https://github.com/siemdejong/shit-happens/commit/9af70fdb647597ff83204793bfcf35fa101b5747))
