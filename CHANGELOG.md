@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.1 (2023-02-01)
+### Fix
+* Change to posix path ([`7ba91aa`](https://github.com/siemdejong/shit-happens/commit/7ba91aae438c5206640ed3f00beacdb3a025a8c4))
+* Install pyinstaller in cicd environment ([`f56fe3e`](https://github.com/siemdejong/shit-happens/commit/f56fe3e8124bb574e3728ae964e9caa518c6459e))
+
 ## v2.5.0 (2023-02-01)
 ### Feature
 * Compile executable with pyinstaller ([`5d83566`](https://github.com/siemdejong/shit-happens/commit/5d83566d1e878c91c5d87db9dd429e6287d05e09))
