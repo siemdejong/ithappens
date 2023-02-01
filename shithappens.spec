@@ -13,7 +13,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['src\\shithappens\\create_cards.py'],
+    ['src/shithappens/create_cards.py'],
     pathex=[],
     binaries=[],
     datas=get_locales_data() + [
