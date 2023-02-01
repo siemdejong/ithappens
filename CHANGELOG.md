@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.4 (2023-02-01)
+### Fix
+* Remove input files after zipping ([`fb22672`](https://github.com/siemdejong/shit-happens/commit/fb22672f7fd9108c54a5387abb42b9de36d3bc5d))
+
 ## v2.5.3 (2023-02-01)
 ### Fix
 * Point zip arguments to right files. ([`10fd7c8`](https://github.com/siemdejong/shit-happens/commit/10fd7c8ab77b687e38f6fe779121d0066a68bda1))
