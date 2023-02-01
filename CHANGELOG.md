@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.0 (2023-02-01)
+### Feature
+* Compile executable with pyinstaller ([`5d83566`](https://github.com/siemdejong/shit-happens/commit/5d83566d1e878c91c5d87db9dd429e6287d05e09))
+
 ## v2.4.1 (2023-01-31)
 ### Documentation
 * Remove wrong text about matplotlib ([`95b7c2b`](https://github.com/siemdejong/shit-happens/commit/95b7c2bc3aba723e973bb60d3c08c6dfd84b8585))
