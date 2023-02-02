@@ -79,7 +79,7 @@ jobs:
     - run: dir
     
     - name: Zip bundle
-      run: tar -acf shithappens.zip shithappens -C dist .
+      run: tar -acf -C dist shithappens.zip shithappens
 
     - uses: actions/upload-artifact@v3
       with:
