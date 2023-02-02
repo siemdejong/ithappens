@@ -116,6 +116,12 @@ jobs:
 
     - uses: actions/download-artifact@v3
       with:
+        name: shithappens-windows
+        path: dist
+
+    - uses: actions/download-artifact@v3
+      with:
+        name: shithappens-linux
         path: dist
     
     - name: Install babel
