@@ -110,7 +110,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: shithappens
-        path: dist/shithappens.zip
+        path: dist
     
     - name: Install babel
       run: pip install Babel
