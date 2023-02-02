@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.6 (2023-02-02)
+### Fix
+* Cd to bundle ([`dfe7873`](https://github.com/siemdejong/shit-happens/commit/dfe7873539cf9666053e108e590b5dbc55644058))
+* Typo ([`fcbd1a1`](https://github.com/siemdejong/shit-happens/commit/fcbd1a1ffbb52ccec3eadaf113f286fbc11fa226))
+* Remove typo . ([`92c9c93`](https://github.com/siemdejong/shit-happens/commit/92c9c93323a9de0f1dbf4f9a5ec9ed60be180107))
+* Run dir to see whats going on ([`ee3195f`](https://github.com/siemdejong/shit-happens/commit/ee3195f80bc8bfab4eba5102272b8e75ab719932))
+* Cd to dist when zipping ([`85d62a4`](https://github.com/siemdejong/shit-happens/commit/85d62a47c81cd78ae2710b84f15dc1b1a50988d4))
+
 ## v2.5.5 (2023-02-01)
 ### Fix
 * Windows zip as tar.exe ([`8bbd9a7`](https://github.com/siemdejong/shit-happens/commit/8bbd9a76c095dfc00afdf020130348a35529d9ed))
