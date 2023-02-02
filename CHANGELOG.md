@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.7 (2023-02-02)
+### Fix
+* Change download-artifact path ([`e8b006e`](https://github.com/siemdejong/shit-happens/commit/e8b006e16cc97fce6e67decb14053e7db15ec1fc))
+
 ## v2.5.6 (2023-02-02)
 ### Fix
 * Cd to bundle ([`dfe7873`](https://github.com/siemdejong/shit-happens/commit/dfe7873539cf9666053e108e590b5dbc55644058))
