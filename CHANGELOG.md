@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.8 (2023-02-02)
+### Fix
+* Download specific artifacts in cd ([`9eef4a9`](https://github.com/siemdejong/shit-happens/commit/9eef4a979fdb7f5015dd0358b996e1d212c0a457))
+* Remove pypa from windows-ci ([`8920f05`](https://github.com/siemdejong/shit-happens/commit/8920f05e988cff5bbe6362c8bc8f38e864fed149))
+* Typo ([`690cd2f`](https://github.com/siemdejong/shit-happens/commit/690cd2f788857c106cca730e236f492afb45f413))
+* Windows pip install find links ([`93b27f0`](https://github.com/siemdejong/shit-happens/commit/93b27f04572083901d6e59ac5fdaeb485e7e39b6))
+* Remove executable bundles for pypi upload ([`ee196cf`](https://github.com/siemdejong/shit-happens/commit/ee196cf24ccb065ba62a52c5e2877b917a520e54))
+
 ## v2.5.7 (2023-02-02)
 ### Fix
 * Change download-artifact path ([`e8b006e`](https://github.com/siemdejong/shit-happens/commit/e8b006e16cc97fce6e67decb14053e7db15ec1fc))
