@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.9 (2023-02-02)
+### Fix
+* Remove right files ([`e809f06`](https://github.com/siemdejong/shit-happens/commit/e809f06a4d7a6dddca410bdba46bed54244bad90))
+
 ## v2.5.8 (2023-02-02)
 ### Fix
 * Download specific artifacts in cd ([`9eef4a9`](https://github.com/siemdejong/shit-happens/commit/9eef4a979fdb7f5015dd0358b996e1d212c0a457))
