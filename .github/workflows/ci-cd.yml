@@ -76,6 +76,8 @@ jobs:
     - name: Build executable
       run: pyinstaller shithappens.spec -y
     
+    - run: dir
+    
     - name: Zip bundle
       run: tar -acf shithappens.zip shithappens -C dist .
 
