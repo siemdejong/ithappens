@@ -77,24 +77,6 @@ jobs:
     - name: Build MO files
       run: python setup.py compile_catalog
 
-    - name: Install build
-      run: pip install build
-
-    - name: Build package
-      run: python -m build
-
-    - name: Install built sdist
-      run: pip install --find-links=. dist/shithappens*.tar.gz
-
-    - name: Install built wheel
-      run: pip install --find-links=. dist/shithappens*.whl --force-reinstall
-
-    - name: Install twine
-      run: pip install twine
-
-    - name: Check README rendering for PyPI
-      run: twine check dist/*
-
     - name: Install pyinstaller
       run: pip install pyinstaller
     
