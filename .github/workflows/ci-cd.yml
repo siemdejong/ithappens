@@ -144,7 +144,7 @@ jobs:
     
     - name: Remove executable bundles
       run: 
-        rm -f dist/shithappens.zip dist/shithappens.tar.gz
+        rm -f dist/shithappens-windows.zip dist/shithappens-linux.tar.gz
 
     - name: Publish to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
