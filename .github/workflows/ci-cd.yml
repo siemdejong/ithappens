@@ -32,10 +32,10 @@ jobs:
       run: python -m build
 
     - name: Install built sdist
-      run: pip install dist/shithappens*.tar.gz
+      run: pip install --find-links=. dist/shithappens*.tar.gz
 
     - name: Install built wheel
-      run: pip install dist/shithappens*.whl --force-reinstall
+      run: pip install --find-links=. dist/shithappens*.whl --force-reinstall
 
     - name: Install twine
       run: pip install twine
@@ -97,9 +97,6 @@ jobs:
 
     - name: Install pyinstaller
       run: pip install pyinstaller
-    
-    - name: Build executable
-      run: pyinstaller shithappens.spec -y
     
     - name: Build executable
       run: pyinstaller shithappens.spec -y
