@@ -61,6 +61,7 @@ branch = "main"                             # branch to make releases of
 changelog_file = "CHANGELOG.md"             # changelog file
 build_command = "python -m build" # build dists
 dist_path = "dist/"                         # where to put dists
+dist_glob_patterns = ["*.whl", "*.tar.gz", "*.zip"]
 upload_to_release = true                    # auto-create GitHub release
 upload_to_pypi = false                      # don't auto-upload to PyPI
 remove_dist = false                         # don't remove dists

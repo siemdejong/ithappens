@@ -76,10 +76,8 @@ jobs:
     - name: Build executable
       run: pyinstaller shithappens.spec -y
     
-    - run: dir
-    
     - name: Zip bundle
-      run: tar -acf shithappens.zip shithappens -C dist
+      run: cd dist && tar -acf shithappens.zip shithappens
 
     - uses: actions/upload-artifact@v3
       with:
