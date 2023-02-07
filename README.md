@@ -156,7 +156,7 @@ conda env create -f environment.yml
 ```
 Activate the environment using
 ```
-conda activate mpl-dev
+conda activate shithappens-dev
 ```
 Remember to activate the environment whenever you start working on shithappens.
 
