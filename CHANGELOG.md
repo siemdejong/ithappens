@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.10 (2023-02-07)
+
+
 ## v2.5.9 (2023-02-02)
 ### Fix
 * Remove right files ([`e809f06`](https://github.com/siemdejong/shit-happens/commit/e809f06a4d7a6dddca410bdba46bed54244bad90))
