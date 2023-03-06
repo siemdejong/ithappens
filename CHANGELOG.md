@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.6.0 (2023-03-06)
+### Feature
+* Continue ranking from a previous session ([`434b2d2`](https://github.com/siemdejong/shit-happens/commit/434b2d2ec58e90212e39e8d68dc635e45474d7fe))
+
 ## v2.5.10 (2023-02-07)
 
 
