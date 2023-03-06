@@ -77,7 +77,7 @@ def sort(xlsx_path):
     print(_("\nWhich situation is most miserable?\n\n"))
 
     try:
-        with tqdm(combinations, total=len(combinations), initial=continue_from) as progress_iterator:
+        with tqdm(combinations, total=len(combinations), initial=continue_from, smoothing=0) as progress_iterator:
             for combination in progress_iterator:
                 prompt_question(df, combination)
     except KeyboardInterrupt:
