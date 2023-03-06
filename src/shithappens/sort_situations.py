@@ -10,7 +10,7 @@ from tqdm import tqdm
 UP = "\x1B[3A"
 
 
-def parse_excel(input_path: Path, desc_col: int) -> pd.DataFrame:
+def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataFrame:
     """Parse an Excel file.
     It must have two colums: descriptions along with their misery index.
 
@@ -23,7 +23,7 @@ def parse_excel(input_path: Path, desc_col: int) -> pd.DataFrame:
         Pandas DataFrame with index, description, and misery index.
     """
     try:
-        df = pd.read_excel(input_path, usecols=[desc_col], engine="openpyxl")
+        df = pd.read_excel(input_path, usecols=[desc_col, score_col], engine="openpyxl")
     except Exception:
         print(_("{} does not contain any Excel files.".format(input_path)))
         exit()
@@ -41,23 +41,18 @@ def prompt_question(df: pd.DataFrame, situations):
     except (ValueError, IndexError):
         prompt_question(df, situations)
 
+def save(xlsx_path, df):
+    if "sorted" in xlsx_path.stem:
+        in_place = True
+    else:
+        in_place = False
 
-def sort(xlsx_path):
+    if in_place:
+        output_file = xlsx_path
+    else:
+        output_file = xlsx_path.with_name(xlsx_path.stem + "-sorted.xlsx")
+    df.to_excel(output_file, index=False)
 
-    df = parse_excel(xlsx_path, 0)
-    df["misery_index"] = 0
-    df["score"] = 0
-
-    combinations = list(itertools.combinations(df.index, 2))
-
-    print(_("\nWhich situation is most miserable?\n\n"))
-
-    with tqdm(combinations, total=len(combinations)) as progress_iterator:
-        for combination in progress_iterator:
-            prompt_question(df, combination)
-
-    output_file = xlsx_path.with_name(xlsx_path.stem + "-sorted.xlsx")
-    df.sort_values(by=["score"]).to_excel(output_file, index=False)
     if len(df["score"].unique()) != len(df):
         print(
             _(
@@ -65,3 +60,35 @@ def sort(xlsx_path):
             ).format(output_file)
         )
     print(_("Manually assign a misery-index to situations."))
+
+def sort(xlsx_path):
+
+    df = parse_excel(xlsx_path, 0)
+    try:
+        continue_from = df["score"].sum()
+        print(_("Continuing from situation {}".format(continue_from)))
+    except KeyError:
+        df["misery_index"] = 0
+        df["score"] = 0
+        continue_from = 0
+
+    combinations = list(itertools.combinations(df.index, 2))[continue_from:]
+
+    print(_("\nWhich situation is most miserable?\n\n"))
+
+    try:
+        with tqdm(combinations, total=len(combinations), initial=continue_from) as progress_iterator:
+            for combination in progress_iterator:
+                prompt_question(df, combination)
+    except KeyboardInterrupt:
+        print(_("Do you want to save your progress? [y]/n"))
+        save_progress = click.getchar()
+        if not save_progress:
+            save_progress = True
+        elif save_progress == "n":
+            save_progress = False
+        
+        if save_progress:
+            save(xlsx_path, df)
+    else:
+        save(xlsx_path, df)
