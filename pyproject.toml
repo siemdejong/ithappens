@@ -37,7 +37,7 @@ classifiers = [
 "Bug Tracker" = "https://github.com/siemdejong/shit-happens/issues"
 
 [project.scripts]
-shithappens = "shithappens.create_cards:main_cli"
+shithappens = "shithappens.cli:cli"
 
 [project.optional-dependencies]
 pbar = ["tqdm"]

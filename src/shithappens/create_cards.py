@@ -28,15 +28,7 @@ except ImportError:
 
 
 from shithappens.card import Card
-from shithappens.utils import merge_pdfs, slugify
-
-
-def install_lang(locale: str):
-    localedir = Path(__file__).parent.resolve() / "locales"
-    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
-    lang.install()
-    global _
-    _ = lang.gettext
+from shithappens.utils import merge_pdfs, slugify, install_lang
 
 
 def text_with_wrap_autofit(
@@ -160,7 +152,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
             input_path, usecols=[desc_col, misery_index_col], engine="openpyxl"
         )
     except Exception:
-        print(_("{} does not contain any Excel files.").format(input_path))
+        print(_("{} is not an excel file.").format(input_path))
         exit()
 
     return df
@@ -419,7 +411,9 @@ def create_card(
         card.fig_back = plot_card_back(card, input_dir)
         save_card(card, output_dir, "back", format=ext)
 
-
+def _init(locale):
+    install_lang(locale)
+    
 def create_cards(
     df: pd.DataFrame,
     expansion_name: str,
@@ -444,7 +438,7 @@ def create_cards(
     )
     desc = _("Plotting cards")
     if chunksize:
-        with Pool(workers) as p:
+        with Pool(workers, _init, initargs=(locale,)) as p:
             list(
                 tqdm(
                     p.imap_unordered(create_card_par, df.iterrows(), chunksize),
@@ -462,85 +456,9 @@ def create_cards(
             merge_pdfs(output_dir / _("back"))
 
 
-def main() -> None:
-    arg_parser = argparse.ArgumentParser(
-        description="Create custom Shit Happens expansion playing cards.",
-        add_help=False,
-    )
+def main(**args) -> None:
 
-    help_group = arg_parser.add_argument_group("help")
-    help_group.add_argument(
-        "-h", "--help", action="help", help="show this help message and exit"
-    )
-
-    input_group = arg_parser.add_argument_group("input")
-
-    input_group.add_argument(
-        "input_dir",
-        metavar="input_dir",
-        nargs="?",
-        help="Input directory. Defaults to current working directory.",
-        default=Path.cwd(),
-    )
-
-    options_group = arg_parser.add_argument_group("options")
-
-    options_group.add_argument(
-        "-n",
-        "--name",
-        help="Expansion name. If no name is specified, infers name from input_dir.",
-    )
-    options_group.add_argument(
-        "-m",
-        "--merge",
-        help="Merge output. Defaults to --no-merge",
-        action=argparse.BooleanOptionalAction,
-    )
-    options_group.add_argument(
-        "-s",
-        "--side",
-        help="Side(s) to generate. Defaults to both.",
-        choices=["front", "back", "both"],
-        default="both",
-    )
-
-    options_group.add_argument(
-        "-l",
-        "--lang",
-        help="Language. 'en' and 'nl' supported. Defaults to 'en'.",
-        choices=["en", "nl"],
-        default="en",
-    )
-    options_group.add_argument(
-        "-f",
-        "--format",
-        help="Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.",
-        choices=["pdf", "png"],
-        default="pdf",
-    )
-    options_group.add_argument(
-        "-r",
-        "--rank",
-        help="Rank situations and output in new file. \
-            Does not guarantee a linear ranking, i.e. situations can have equal misery index. \
-            Ignores all other options. Defaults to --no-rank.",
-        action=argparse.BooleanOptionalAction,
-    )
-
-    multiprocessing_group = arg_parser.add_argument_group("multiprocessing")
-
-    multiprocessing_group.add_argument(
-        "-w", "--workers", help="Number of workers. Defaults to 4.", default=4
-    )
-    multiprocessing_group.add_argument(
-        "-c",
-        "--chunks",
-        help="Number of chunks for the workers to process. Defaults to 30.",
-        default=30,
-    )
-    args = arg_parser.parse_args(namespace=ShitHappensArgs())
-
-    install_lang(args.lang)
+    install_lang(args["lang"])
 
     try:
         import tqdm
@@ -549,51 +467,21 @@ def main() -> None:
     else:
         del tqdm
 
-    input_dir = Path(args.input_dir)
-    while True:
-        if input_dir.exists():
-            break
-        input_dir = Path(
-            input(
-                _(
-                    "Input directory {} does not exist. Please specify an existing input directory.\n"
-                ).format(input_dir)
-            )
-        )
+    from shithappens.cli.utils import verify_input_dir
 
-    output_dir = input_dir / "outputs"
-    print(_("Reading files from {}.").format(input_dir))
-    print(_("Output files in {}.").format(output_dir))
+    input_dir = Path(args["input_dir"])
+    xlsx_path, output_dir = verify_input_dir(input_dir)
 
-    xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
-    xlsx_paths_num = len(xlsx_paths)
-    if not xlsx_paths_num:
-        print(_("Please provide an Excel file in {}.").format(input_dir))
-        exit(1)
-    elif xlsx_paths_num > 1:
-        while True:
-            print(_("\nMore than one input file found."))
-            for i, xlsx_path in enumerate(xlsx_paths, 1):
-                print(f"[{i}] {xlsx_path}")
-            try:
-                xlsx_index = int(click.getchar())
-                xlsx_path = Path(xlsx_paths[xlsx_index - 1])
-            except (ValueError, IndexError):
-                continue
-            else:
-                break
+    if False:
+        pass
+    # if args["rank"]:
+    #     from shithappens.sort_situations import sort
 
-    else:
-        xlsx_path = Path(xlsx_paths[0])
-
-    if args.rank:
-        from shithappens.sort_situations import sort
-
-        sort(xlsx_path)
+    #     sort(xlsx_path)
     else:
 
-        if args.name:
-            expansion_name = args.name
+        if args["name"]:
+            expansion_name = args["name"]
         else:
             expansion_name = input_dir.stem
             print(
@@ -604,13 +492,13 @@ def main() -> None:
 
         df = parse_excel(xlsx_path, 0, 1)
 
-        if args.merge:
+        if args["merge"]:
             try:
                 import PyPDF2
 
-                args.merge = True
+                args["merge"] = True
             except ImportError:
-                args.merge = False
+                args["merge"] = False
                 print(_("'pip install shithappens[merge]' for pdf merging."))
             else:
                 del PyPDF2
@@ -620,18 +508,18 @@ def main() -> None:
             expansion_name,
             input_dir,
             output_dir,
-            args.merge,
-            args.side,
-            args.format,
-            args.workers,
-            args.chunks,
-            args.lang,
+            args["merge"],
+            args["side"],
+            args["format"],
+            args["workers"],
+            args["chunks"],
+            args["lang"],
         )
 
 
-def main_cli():
+def main_cli(**kwargs):
     try:
-        main()
+        main(**kwargs)
     except KeyboardInterrupt:
         print(_("Interrupted."))
 
