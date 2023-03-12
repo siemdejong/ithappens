@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.0 (2023-03-12)
+### Fix
+* Bump version ([`b457b04`](https://github.com/siemdejong/shit-happens/commit/b457b04e5273bbd439b1b18e64b38979647690c3))
+* No more random skipping of comparisons ([`e17d322`](https://github.com/siemdejong/shit-happens/commit/e17d322835c8be91a098856dcbce195498516d63))
+
+### Breaking
+* new CLI ([`b457b04`](https://github.com/siemdejong/shit-happens/commit/b457b04e5273bbd439b1b18e64b38979647690c3))
+
 ## v2.6.1 (2023-03-12)
 ### Fix
 * Better ranking time estimation ([`77047d0`](https://github.com/siemdejong/shit-happens/commit/77047d0225e9746a53e17384e99d3b069e6c35c9))
