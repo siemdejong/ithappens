@@ -36,7 +36,7 @@ def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataF
 def prompt_question(df: pd.DataFrame, situations, round=None):
     tqdm.write(f"{UP}")
     for i, situation in enumerate(situations, 1):
-        tqdm.write(f"[{i}] {df.loc[situation]['desc']}")
+        tqdm.write(f"[{i}] #{situation} {df.loc[situation]['desc']}")
     try:
         most_miserable_idx = int(click.getchar())
         if most_miserable_idx == 0:
@@ -68,7 +68,7 @@ def save(xlsx_path, df):
         )
     print(_("Manually assign a misery-index to situations."))
 
-def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss"):
+def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss", rounds=9):
 
     df = parse_excel(xlsx_path, 0)
     
@@ -76,7 +76,7 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
         print("\n")
         df["score"] = 0
         # First, give items scores 1-9 and 0, with 0=10.
-        with tqdm(df.iterrows(), desc="Prescore", total=len(df)) as prog_iter:
+        with tqdm(df.iterrows(), desc="Prescore", total=len(df), maxinterval=1, unit="situation") as prog_iter:
             for i, situation in prog_iter:
                 tqdm.write(ERASE)
                 tqdm.write(situation["desc"])
@@ -104,83 +104,71 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
         if splits[-1] != len(df) - 1:
             splits.append(len(df) - 1)
 
-        print("\n\n")
-        print(df.index[0])
+        print("\n\n\n")
 
-        rounds = 2
-        for round_num in tqdm(range(rounds), desc="Round", total=rounds, unit="round"):
+        for round_num in tqdm(range(rounds), desc="Round", total=rounds, unit="round", maxinterval=1):
             df[f"round_{round_num}"] = None 
-            for split_begin, split_end in tqdm(zip(splits, splits[1:]), total=len(splits), unit="split", leave=False):
+            for split_begin, split_end in tqdm(zip(splits, splits[1:]), total=len(splits), unit="split", leave=False, position=1, maxinterval=1, desc="Split"):
                 range_list = range(split_begin, split_end)
-                for idx1, idx2 in zip(range_list, range_list[::-1]):
+                index_list_temp = zip(range_list, range_list[::-1])
+                index_list = []
+                for item in index_list_temp:
+                    if item[0] < item[1]:
+                        index_list.append(item)
+                for idx1, idx2 in tqdm(index_list, total=len(index_list), maxinterval=1, leave=False, position=2, desc="Comparison", unit="comparison"):
                     
-                    idx1, idx2 = df.index[idx1], df.index[idx2]
+                    df_idx1, df_idx2 = df.index[idx1], df.index[idx2]
+                    df_temp_idx2 = df_idx2
                     # No rematches.
                     while True:
-                        if idx1 in [df.loc[idx2, f"round_{round_n}"] for round_n in range(round_num + 1)]:
-                            idx2 -= 1
+                        if idx1 in [df.loc[df_temp_idx2, f"round_{round_n}"] for round_n in range(round_num + 1)]:
+                            df_temp_idx2 -= 1
                         else:
                             break
                     if idx1 >= idx2:
                         with open("test.txt", "a") as f:
                             f.write(f"{idx1}, {idx2}\n")
                         break
-                    prompt_question(df, [idx1, idx2], round_num)
-            
-            x = 0
-            for i, item in df.iterrows():
-                if item[f"round_{round_num}"] == None:
-                    x += 1
-
+                    prompt_question(df, [df_idx1, df_temp_idx2], round_num)
             df = df.sort_values(by="score")
-        print(x)
-        print(df)
-
-
-        # # If the dataframe has an odd number of elements, not every element can be coupled.
-        # if len(df.index) % 2 == 0:
-        #     k = 0
-        # else:
-        #     k = 1
-        # round1_idx = [(df.index[i], df.index[i + 1]) for i in range(0, len(df.index) - k, 2)]
-        # print(round1_idx)
-        # print(len(df.index))
-    
-    exit()
-
-    try:
-        continue_from = df["score"].sum()
-        print(_("Continuing from situation {}".format(continue_from)))
-    except KeyError:
-        df["misery_index"] = 0
-        df["score"] = 0
-        continue_from = 0
-
-    combinations = list(itertools.combinations(df.index, 2))[continue_from:]
-
-    print(_("\nWhich situation is most miserable?\n\n"))
-
-    try:
-        with tqdm(combinations, total=len(combinations), initial=continue_from, smoothing=0) as progress_iterator:
-            for combination in progress_iterator:
-                prompt_question(df, combination)
-    except KeyboardInterrupt:
-        print(_("Do you want to save your progress? [y]/n"))
-        save_progress = click.getchar()
-        if not save_progress:
-            save_progress = True
-        elif save_progress == "n":
-            save_progress = False
         
-        if save_progress:
-            save(xlsx_path, df)
-    else:
         save(xlsx_path, df)
+    
+    elif strategy == "round-robin":
+
+        try:
+            continue_from = df["score"].sum()
+            print(_("Continuing from situation {}".format(continue_from)))
+        except KeyError:
+            df["misery_index"] = 0
+            df["score"] = 0
+            continue_from = 0
+
+        combinations = list(itertools.combinations(df.index, 2))[continue_from:]
+
+        print(_("\nWhich situation is most miserable?\n\n"))
+
+        try:
+            with tqdm(combinations, total=len(combinations), initial=continue_from, smoothing=0) as progress_iterator:
+                for combination in progress_iterator:
+                    prompt_question(df, combination)
+        except KeyboardInterrupt:
+            print(_("Do you want to save your progress? [y]/n"))
+            save_progress = click.getchar()
+            if not save_progress:
+                save_progress = True
+            elif save_progress == "n":
+                save_progress = False
+            
+            if save_progress:
+                save(xlsx_path, df)
+        else:
+            save(xlsx_path, df)
 
 def main_cli(**kwargs):
     try:
         from shithappens.cli.utils import verify_input_dir
         xlsx_path, output_dir = verify_input_dir(Path(kwargs["input_dir"]))
-        sort(xlsx_path, output_dir, kwargs["strategy"])
+        sort(xlsx_path, output_dir, kwargs["strategy"], kwargs["rounds"])
     except KeyboardInterrupt:
         print(_("Interrupted."))
