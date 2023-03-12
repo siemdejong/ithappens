@@ -2,12 +2,14 @@ import gettext
 import itertools
 from importlib import resources
 from pathlib import Path
+from typing import Literal
 
 import click
 import pandas as pd
 from tqdm import tqdm
 
 UP = "\x1B[3A"
+ERASE = "\x1B[2A"
 
 
 def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataFrame:
@@ -31,13 +33,18 @@ def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataF
     return df
 
 
-def prompt_question(df: pd.DataFrame, situations):
+def prompt_question(df: pd.DataFrame, situations, round=None):
     tqdm.write(f"{UP}")
     for i, situation in enumerate(situations, 1):
         tqdm.write(f"[{i}] {df.loc[situation]['desc']}")
     try:
         most_miserable_idx = int(click.getchar())
+        if most_miserable_idx == 0:
+            raise ValueError("0 is not a valid choice.")
         df.loc[situations[most_miserable_idx - 1], "score"] += 1
+        if round is not None:
+            df.loc[situations[0], f"round_{round}"] = situations[1]
+            df.loc[situations[1], f"round_{round}"] = situations[0]
     except (ValueError, IndexError):
         prompt_question(df, situations)
 
@@ -61,9 +68,86 @@ def save(xlsx_path, df):
         )
     print(_("Manually assign a misery-index to situations."))
 
-def sort(xlsx_path):
+def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss"):
 
     df = parse_excel(xlsx_path, 0)
+    
+    if strategy == "swiss":
+        print("\n")
+        df["score"] = 0
+        # First, give items scores 1-9 and 0, with 0=10.
+        with tqdm(df.iterrows(), desc="Prescore", total=len(df)) as prog_iter:
+            for i, situation in prog_iter:
+                tqdm.write(ERASE)
+                tqdm.write(situation["desc"])
+                while True:
+                    try:
+                        score_group = int(click.getchar())
+                    except ValueError:
+                        continue
+                    else:
+                        break
+                df.loc[i, "score"] += score_group if score_group > 0 else 10
+        df = df.sort_values(by="score")
+        
+        splits = []
+        num_groups = 10
+        step = int(len(df) / (num_groups - 1))
+
+        # Force step to be even.
+        if step % 2 != 0:
+            step -= 1
+        i = 0
+        while i < len(df):
+            splits.append(i)
+            i += step
+        if splits[-1] != len(df) - 1:
+            splits.append(len(df) - 1)
+
+        print("\n\n")
+        print(df.index[0])
+
+        rounds = 2
+        for round_num in tqdm(range(rounds), desc="Round", total=rounds, unit="round"):
+            df[f"round_{round_num}"] = None 
+            for split_begin, split_end in tqdm(zip(splits, splits[1:]), total=len(splits), unit="split", leave=False):
+                range_list = range(split_begin, split_end)
+                for idx1, idx2 in zip(range_list, range_list[::-1]):
+                    
+                    idx1, idx2 = df.index[idx1], df.index[idx2]
+                    # No rematches.
+                    while True:
+                        if idx1 in [df.loc[idx2, f"round_{round_n}"] for round_n in range(round_num + 1)]:
+                            idx2 -= 1
+                        else:
+                            break
+                    if idx1 >= idx2:
+                        with open("test.txt", "a") as f:
+                            f.write(f"{idx1}, {idx2}\n")
+                        break
+                    prompt_question(df, [idx1, idx2], round_num)
+            
+            x = 0
+            for i, item in df.iterrows():
+                if item[f"round_{round_num}"] == None:
+                    x += 1
+
+            df = df.sort_values(by="score")
+        print(x)
+        print(df)
+
+
+        # # If the dataframe has an odd number of elements, not every element can be coupled.
+        # if len(df.index) % 2 == 0:
+        #     k = 0
+        # else:
+        #     k = 1
+        # round1_idx = [(df.index[i], df.index[i + 1]) for i in range(0, len(df.index) - k, 2)]
+        # print(round1_idx)
+        # print(len(df.index))
+    
+    exit()
+
     try:
         continue_from = df["score"].sum()
         print(_("Continuing from situation {}".format(continue_from)))
@@ -92,3 +176,11 @@ def sort(xlsx_path):
             save(xlsx_path, df)
     else:
         save(xlsx_path, df)
+
+def main_cli(**kwargs):
+    try:
+        from shithappens.cli.utils import verify_input_dir
+        xlsx_path, output_dir = verify_input_dir(Path(kwargs["input_dir"]))
+        sort(xlsx_path, output_dir, kwargs["strategy"])
+    except KeyboardInterrupt:
+        print(_("Interrupted."))

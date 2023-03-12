@@ -3,6 +3,7 @@ import unicodedata
 from glob import glob
 from pathlib import Path
 from typing import Optional
+import gettext
 
 
 def sort_pdfs_by_mi(fn: str):
@@ -59,3 +60,11 @@ def slugify(value, allow_unicode=False):
         )
     value = re.sub(r"[^\w\s-]", "", value.lower())
     return re.sub(r"[-\s]+", "-", value).strip("-_")
+
+
+def install_lang(locale: str):
+    localedir = Path(__file__).parent.resolve() / "locales"
+    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
+    lang.install()
+    global _
+    _ = lang.gettext
