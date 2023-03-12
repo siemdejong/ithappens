@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.6.1 (2023-03-12)
+### Fix
+* Better ranking time estimation ([`77047d0`](https://github.com/siemdejong/shit-happens/commit/77047d0225e9746a53e17384e99d3b069e6c35c9))
+
 ## v2.6.0 (2023-03-06)
 ### Feature
 * Continue ranking from a previous session ([`434b2d2`](https://github.com/siemdejong/shit-happens/commit/434b2d2ec58e90212e39e8d68dc635e45474d7fe))
