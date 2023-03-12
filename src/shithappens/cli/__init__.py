@@ -22,6 +22,6 @@ def create(**kwargs):
 @cli.command(help="Rank situation.")
 @click.argument("input_dir")
 @click.option("-s", "--strategy", "strategy", type=click.Choice(["swiss", "round-robin"], case_sensitive=False), default="swiss", help="Ranking strategy.")
-@click.option("-r", "--rounds", "rounds", type=int, help="The number of rounds to use with the swiss strategy.")
+@click.option("-r", "--rounds", "rounds", type=int, default=9, help="The number of rounds to use with the swiss strategy.")
 def rank(**kwargs):
     sort_cli(**kwargs)
