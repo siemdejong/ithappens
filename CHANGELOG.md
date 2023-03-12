@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.1 (2023-03-12)
+### Fix
+* Set rounds default to 9 ([`d5e2f75`](https://github.com/siemdejong/shit-happens/commit/d5e2f75bdebedd5f0a802be479d28fcb1023813b))
+
 ## v3.0.0 (2023-03-12)
 ### Fix
 * Bump version ([`b457b04`](https://github.com/siemdejong/shit-happens/commit/b457b04e5273bbd439b1b18e64b38979647690c3))
