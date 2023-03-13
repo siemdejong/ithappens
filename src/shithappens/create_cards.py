@@ -98,7 +98,11 @@ def text_with_wrap_autofit(
     wrap_lines = 1
     xy = (bleed + 0.5 * x, bleed + 0.95 * y)
     while True:
-        wrapped_txt = "\n".join(textwrap.wrap(txt, width=len(txt) // wrap_lines))
+        wrapped_txt = "\n".join(textwrap.wrap(txt, width=len(txt) // wrap_lines, break_long_words=False))
+
+        # For dramatic effect, place text after ellipsis on newline.
+        wrapped_txt = wrapped_txt.replace("... ", "...\n")
+        wrapped_txt = wrapped_txt.replace("… ", "...\n")
         text: Annotation = ax.annotate(wrapped_txt, xy, **kwargs)
         text.set_fontsize(fontsize)
 
