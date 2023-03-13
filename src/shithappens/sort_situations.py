@@ -68,13 +68,20 @@ def save(xlsx_path, df):
         )
     print(_("Manually assign a misery-index to situations."))
 
-def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss", rounds=9):
+def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss", rounds=9, prescore=10):
 
     df = parse_excel(xlsx_path, 0)
     
     if strategy == "swiss":
         print("\n")
-        df["score"] = 0
+        if prescore == 10:
+            print("Rate the situation 1-10. (Press 0 for rate 10.)")
+        else:
+            print("Rate this situation 1-{}".format(prescore))
+        try:
+            df["score"]
+        except KeyError:
+            df["score"] = 0
         # First, give items scores 1-9 and 0, with 0=10.
         with tqdm(df.iterrows(), desc="Prescore", total=len(df), maxinterval=1, unit="situation") as prog_iter:
             for i, situation in prog_iter:
@@ -105,6 +112,7 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
             splits.append(len(df) - 1)
 
         print("\n\n\n")
+        print("Which situation is worse?")
 
         for round_num in tqdm(range(rounds), desc="Round", total=rounds, unit="round", maxinterval=1):
             df[f"round_{round_num}"] = None 
@@ -132,7 +140,7 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
                     prompt_question(df, [df_idx1, df_temp_idx2], round_num)
             df = df.sort_values(by="score")
         
-        save(xlsx_path, df)
+            save(xlsx_path, df)
     
     elif strategy == "round-robin":
 
@@ -169,6 +177,6 @@ def main_cli(**kwargs):
     try:
         from shithappens.cli.utils import verify_input_dir
         xlsx_path, output_dir = verify_input_dir(Path(kwargs["input_dir"]))
-        sort(xlsx_path, output_dir, kwargs["strategy"], kwargs["rounds"])
+        sort(xlsx_path, output_dir, kwargs["strategy"], kwargs["rounds"], kwargs["prescore"])
     except KeyboardInterrupt:
         print(_("Interrupted."))
