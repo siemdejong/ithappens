@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.2 (2023-03-13)
+### Fix
+* Wrap after ellipsis ([`b5b3cdb`](https://github.com/siemdejong/shit-happens/commit/b5b3cdb409c1575e2f1d589a0d7946f5c258d685))
+* Update nl locales catalog ([`2345142`](https://github.com/siemdejong/shit-happens/commit/2345142d7d32e48475864d2e587372fe4e2448a8))
+* Remove decimals from integer ([`f1fa44c`](https://github.com/siemdejong/shit-happens/commit/f1fa44ce7a904e970e46e2495ad83e0eaf6e402c))
+* Va bug ([`bf4a772`](https://github.com/siemdejong/shit-happens/commit/bf4a772e6db8d9ef05024382432819d7cb331e59))
+* Update locales ([`9abdc4f`](https://github.com/siemdejong/shit-happens/commit/9abdc4f2702007277b154f147ec87c016b36b3a2))
+* Resume swiss ranking from checkpoint ([`5838a84`](https://github.com/siemdejong/shit-happens/commit/5838a84de4328f7582dc36bd8e31a5254a865b3e))
+* Padding of description ([`31fca08`](https://github.com/siemdejong/shit-happens/commit/31fca088bd37d1b86f5060be3dbd0ac34f07c396))
+
 ## v3.0.1 (2023-03-12)
 ### Fix
 * Set rounds default to 9 ([`d5e2f75`](https://github.com/siemdejong/shit-happens/commit/d5e2f75bdebedd5f0a802be479d28fcb1023813b))
