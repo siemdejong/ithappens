@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: shithappens 0.4.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-20 17:59+0100\n"
+"POT-Creation-Date: 2023-03-12 20:07+0100\n"
 "PO-Revision-Date: 2023-01-07 15:32+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: nl\n"
@@ -19,73 +19,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: src/shithappens/create_cards.py:172 src/shithappens/sort_situations.py:39
-msgid "{} does not contain any Excel files."
+#: src/shithappens/create_cards.py:155
+#, fuzzy
+msgid "{} is not an excel file."
 msgstr "{} bevat geen excelbestanden."
 
-#: src/shithappens/create_cards.py:254
+#: src/shithappens/create_cards.py:236
 msgid "misery index"
 msgstr "ellende-index"
 
-#: src/shithappens/create_cards.py:324
+#: src/shithappens/create_cards.py:307
 msgid "expansion"
 msgstr "uitbreiding"
 
-#: src/shithappens/create_cards.py:395 src/shithappens/create_cards.py:474
+#: src/shithappens/create_cards.py:373 src/shithappens/create_cards.py:454
 msgid "front"
 msgstr "voorkant"
 
-#: src/shithappens/create_cards.py:395 src/shithappens/create_cards.py:476
+#: src/shithappens/create_cards.py:373 src/shithappens/create_cards.py:456
 msgid "back"
 msgstr "achterkant"
 
-#: src/shithappens/create_cards.py:459
+#: src/shithappens/create_cards.py:439
 msgid "Plotting cards"
 msgstr "Plot kaarten"
 
-#: src/shithappens/create_cards.py:562
+#: src/shithappens/create_cards.py:466
 msgid "'pip install shithappens[pbar]' to show a progress bar."
 msgstr "'pip install shithappens[pbar]' om een voortgangsbalk te tonen."
 
-#: src/shithappens/create_cards.py:572
-msgid ""
-"Input directory {} does not exist. Please specify an existing input "
-"directory.\n"
-msgstr "Inputmap {} bestaat niet. Specificeer een bestaande map."
-
-#: src/shithappens/create_cards.py:579
-msgid "Reading files from {}."
-msgstr "Lees bestanden uit {}."
-
-#: src/shithappens/create_cards.py:580
-msgid "Output files in {}."
-msgstr "Output bestanden in {}."
-
-#: src/shithappens/create_cards.py:585
-msgid "Please provide an Excel file in {}."
-msgstr "Voorzie {} van een excelbestand."
-
-#: src/shithappens/create_cards.py:589
-msgid ""
-"\n"
-"More than one input file found."
-msgstr ""
-"\n"
-"Meer dan één inputbestand gevonden."
-
-#: src/shithappens/create_cards.py:614
+#: src/shithappens/create_cards.py:488
 msgid "Argument -n/--name not given. Expansion name inferred to be {}."
 msgstr "Argument -n/--name is niet gegeven. Uitbreidingsnaam is afgeleid als {}."
 
-#: src/shithappens/create_cards.py:628
+#: src/shithappens/create_cards.py:502
 msgid "'pip install shithappens[merge]' for pdf merging."
 msgstr "'pip' install shithappens[merge]' voor pdf-samenvoeging."
 
-#: src/shithappens/create_cards.py:650
+#: src/shithappens/create_cards.py:524 src/shithappens/sort_situations.py:182
 msgid "Interrupted."
 msgstr "Onderbroken."
 
+#: src/shithappens/sort_situations.py:30
+msgid "{} does not contain any Excel files."
+msgstr "{} bevat geen excelbestanden."
+
 #: src/shithappens/sort_situations.py:65
+msgid "Some items have equal ranking score. Please check the output file ({})."
+msgstr "Sommige items hebben dezelfde ranking. Check het outputbestand ({})."
+
+#: src/shithappens/sort_situations.py:69
+msgid "Manually assign a misery-index to situations."
+msgstr "Wijs handmatig een ellende-index toe aan de situaties."
+
+#: src/shithappens/sort_situations.py:149
+msgid "Continuing from situation {}"
+msgstr ""
+
+#: src/shithappens/sort_situations.py:157
 msgid ""
 "\n"
 "Which situation is most miserable?\n"
@@ -95,13 +86,35 @@ msgstr ""
 "Welke situatie is het vervelendst?\n"
 "\n"
 
-#: src/shithappens/sort_situations.py:75
-msgid "Some items have equal ranking score. Please check the output file ({})."
-msgstr "Sommige items hebben dezelfde ranking. Check het outputbestand ({})."
+#: src/shithappens/sort_situations.py:164
+msgid "Do you want to save your progress? [y]/n"
+msgstr ""
 
-#: src/shithappens/sort_situations.py:79
-msgid "Manually assign a misery-index to situations."
-msgstr "Wijs handmatig een ellende-index toe aan de situaties."
+#: src/shithappens/cli/utils.py:15
+msgid ""
+"Input directory {} does not exist. Please specify an existing input "
+"directory.\n"
+msgstr "Inputmap {} bestaat niet. Specificeer een bestaande map."
+
+#: src/shithappens/cli/utils.py:22
+msgid "Reading files from {}."
+msgstr "Lees bestanden uit {}."
+
+#: src/shithappens/cli/utils.py:23
+msgid "Output files in {}."
+msgstr "Output bestanden in {}."
+
+#: src/shithappens/cli/utils.py:28
+msgid "Please provide an Excel file in {}."
+msgstr "Voorzie {} van een excelbestand."
+
+#: src/shithappens/cli/utils.py:32
+msgid ""
+"\n"
+"More than one input file found."
+msgstr ""
+"\n"
+"Meer dan één inputbestand gevonden."
 
 #~ msgid "Select: "
 #~ msgstr "Selecteer: "
