@@ -99,7 +99,7 @@ def text_with_wrap_autofit(
     xy = (bleed + 0.5 * x, bleed + 0.95 * y)
     while True:
         wrapped_txt = "\n".join(textwrap.wrap(txt, width=len(txt) // wrap_lines))
-        text: Annotation = ax.annotate(wrapped_txt, xy, va="top", **kwargs)
+        text: Annotation = ax.annotate(wrapped_txt, xy, **kwargs)
         text.set_fontsize(fontsize)
 
         # Adjust the fontsize according to the box size.
