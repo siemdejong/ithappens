@@ -28,22 +28,27 @@ except ImportError:
 
 
 from shithappens.card import Card
-from shithappens.utils import merge_pdfs, slugify, install_lang
+from shithappens.utils import merge_pdfs, slugify
+
+def install_lang(locale: str):
+    localedir = Path(__file__).parent.resolve() / "locales"
+    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
+    lang.install()
+    global _
+    _ = lang.gettext
 
 
 def text_with_wrap_autofit(
     ax: plt.Axes,
     txt: str,
-    xy: tuple[float, float],
+    xy_size: tuple[float, float],
     width: float,
     height: float,
     *,
     min_font_size=None,
     bleed: Optional[float] = None,
     pad: Optional[float] = None,
-    transform: Optional[Transform] = None,
-    ha: Literal["left", "center", "right"] = "center",
-    va: Literal["bottom", "center", "top"] = "center",
+    show_rect: bool = False,
     **kwargs,
 ):
     """Automatically fits the text to some axes.
@@ -52,68 +57,56 @@ def text_with_wrap_autofit(
         ax: axes to put the text on.
         txt: text to display.
         xy: location to place the text.
-        width: width of the text box.
-        height: height of the text box.
+        width: width of the text box in fractions.
+        height: height of the text box in fractions.
         min_font_size: minimum acceptable font size.
         bleed: bleed of the figure.
         pad: padding of the box.
-        transform: matplotlib coordinate transformation.
-        ha: horizontal align.
-        va: vertical align.
         **kwargs: keyword arguments passed to Axes.annotate.
 
     Returns:
         text artist.
     """
-    if transform is None:
-        transform = ax.transData
 
     #  Different alignments give different bottom left and top right anchors.
-    x, y = xy
-    if bleed:
-        x += bleed
-        y += bleed
+    x, y = xy_size
+    if bleed is None:
+        bleed = 0
     if pad:
-        x += pad
-        y += pad
+        bleed += pad
+        x -= 2 * pad
+        y -= 2 * pad
 
-    xa0, xa1 = {
-        "center": (x - width / 2, x + width / 2),
-        "left": (x, x + width),
-        "right": (x - width, x),
-    }[ha]
-    ya0, ya1 = {
-        "center": (y - height / 2, y + height / 2),
-        "bottom": (y, y + height),
-        "top": (y - height, y),
-    }[va]
-    a0 = xa0, ya0
-    a1 = xa1, ya1
+    if show_rect:
+        alpha = 0.3
+    else:
+        alpha = 0
 
-    x0, y0 = transform.transform(a0)
-    x1, y1 = transform.transform(a1)
-    # rectangle region size to constrain the text in pixel
-    rect_width = x1 - x0
-    rect_height = y1 - y0
+    rect = Rectangle((bleed + (1 - width) * x, bleed + (1 - height) * y), width * x, height * y, alpha=alpha)
+    ax.add_patch(rect)
+
+    # Get transformation to go from display to data-coordinates.
+    inv_data = ax.transData.inverted()
 
     fig: Figure = ax.get_figure()
     dpi = fig.dpi
-    rect_height_inch = rect_height / dpi
+    rect_height_inch = rect.get_height() / dpi
 
     # Initial fontsize according to the height of boxes
     fontsize = rect_height_inch * 72
 
     wrap_lines = 1
+    xy = (bleed + 0.5 * x, bleed + 0.95 * y)
     while True:
         wrapped_txt = "\n".join(textwrap.wrap(txt, width=len(txt) // wrap_lines))
-        text: Annotation = ax.annotate(
-            wrapped_txt, xy, ha=ha, va=va, xycoords=transform, **kwargs
-        )
+        text: Annotation = ax.annotate(wrapped_txt, xy, va="top", **kwargs)
         text.set_fontsize(fontsize)
 
         # Adjust the fontsize according to the box size.
         bbox: Bbox = text.get_window_extent()
-        adjusted_size = fontsize * rect_width / bbox.width
+        inv_text_bbox = inv_data.transform(bbox)
+        width_text = inv_text_bbox[1][0] - inv_text_bbox[0][0]
+        adjusted_size = fontsize * rect.get_width() / width_text
         if min_font_size is None or adjusted_size >= min_font_size:
             break
         text.remove()
@@ -197,6 +190,7 @@ def plot_card_front(card: Card) -> Figure:
 
     # Add margin on all sides.
     bleed = 0.5 / cm_per_inch  # cm
+    pad = 0.3 / cm_per_inch
 
     x_total = x_size + 2 * bleed
     y_total = y_size + 2 * bleed
@@ -210,6 +204,9 @@ def plot_card_front(card: Card) -> Figure:
 
     ax.axis("off")
 
+    ax.set_xlim(0, x_total)
+    ax.set_ylim(0, y_total)
+
     opensans_path = Path(__file__).parent.resolve() / Path(
         "opensans/fonts/ttf/OpenSans-ExtraBold.ttf"
     )
@@ -221,12 +218,12 @@ def plot_card_front(card: Card) -> Figure:
     text_with_wrap_autofit(
         ax,
         card.desc.upper(),
-        (0.5, 0.9),
-        0.7,
+        (x_size, y_size),
+        1,
         0.4,
         **text_kwargs,
-        bleed=ax.transData.transform((bleed, bleed))[0],
-        transform=ax.transAxes,
+        bleed=bleed,
+        pad=pad,
         min_font_size=11,
         va="top",
         weight="extra bold",
@@ -262,9 +259,6 @@ def plot_card_front(card: Card) -> Figure:
     ax.add_patch(mi_block)
 
     plot_crop_marks(ax, bleed)
-
-    ax.set_xlim(0, x_total)
-    ax.set_ylim(0, y_total)
 
     plt.close(fig)
 
