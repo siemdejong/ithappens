@@ -245,7 +245,7 @@ def plot_card_front(card: Card) -> Figure:
     ax.text(
         x_total / 2,
         0.05 * y_size + bleed,
-        str(card.misery_index).upper(),
+        card.misery_index if ".5" in str(card.misery_index) else int(card.misery_index),
         **text_kwargs,
         color="black",
         fontsize=23,
