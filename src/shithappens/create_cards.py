@@ -298,7 +298,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     )
 
     game_name = "Shit Happens"
-    expansion_text = _("expansion")
+    expansion_text = _("edition")
     expansion_text_full = card.expansion_name + " " + expansion_text
 
     ax.text(

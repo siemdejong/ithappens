@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: shithappens 0.4.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-12 20:07+0100\n"
+"POT-Creation-Date: 2023-03-13 22:16+0100\n"
 "PO-Revision-Date: 2023-01-07 15:33+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,43 +19,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: src/shithappens/create_cards.py:155
+#: src/shithappens/create_cards.py:148
 msgid "{} is not an excel file."
 msgstr ""
 
-#: src/shithappens/create_cards.py:236
+#: src/shithappens/create_cards.py:233
 msgid "misery index"
 msgstr ""
 
-#: src/shithappens/create_cards.py:307
-msgid "expansion"
+#: src/shithappens/create_cards.py:301
+msgid "edition"
 msgstr ""
 
-#: src/shithappens/create_cards.py:373 src/shithappens/create_cards.py:454
+#: src/shithappens/create_cards.py:367 src/shithappens/create_cards.py:448
 msgid "front"
 msgstr ""
 
-#: src/shithappens/create_cards.py:373 src/shithappens/create_cards.py:456
+#: src/shithappens/create_cards.py:367 src/shithappens/create_cards.py:450
 msgid "back"
 msgstr ""
 
-#: src/shithappens/create_cards.py:439
+#: src/shithappens/create_cards.py:433
 msgid "Plotting cards"
 msgstr ""
 
-#: src/shithappens/create_cards.py:466
+#: src/shithappens/create_cards.py:460
 msgid "'pip install shithappens[pbar]' to show a progress bar."
 msgstr ""
 
-#: src/shithappens/create_cards.py:488
+#: src/shithappens/create_cards.py:482
 msgid "Argument -n/--name not given. Expansion name inferred to be {}."
 msgstr ""
 
-#: src/shithappens/create_cards.py:502
+#: src/shithappens/create_cards.py:496
 msgid "'pip install shithappens[merge]' for pdf merging."
 msgstr ""
 
-#: src/shithappens/create_cards.py:524 src/shithappens/sort_situations.py:182
+#: src/shithappens/create_cards.py:518 src/shithappens/sort_situations.py:182
 msgid "Interrupted."
 msgstr ""
 
@@ -129,5 +129,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Manually assign a misery score to situations."
+#~ msgstr ""
+
+#~ msgid "expansion"
 #~ msgstr ""
 
