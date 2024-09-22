@@ -15,6 +15,8 @@ dependencies = [
     "matplotlib",
     "pandas",
     "openpyxl", # For pandas to open excel files.
+    "PyPDF2",
+    "tqdm",
 ]
 license = {file = "LICENSE"}
 keywords = ["shit happens", "card-game"]
@@ -38,11 +40,6 @@ classifiers = [
 
 [project.scripts]
 shithappens = "shithappens.cli:cli"
-
-[project.optional-dependencies]
-pbar = ["tqdm"]
-merge = ["PyPDF2"]
-all = ["tqdm", "PyPDF2"]
 
 [tool.setuptools]
 include-package-data = false
