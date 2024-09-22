@@ -17,6 +17,7 @@ dependencies = [
     "openpyxl", # For pandas to open excel files.
     "PyPDF2",
     "tqdm",
+    "babel",
 ]
 license = {file = "LICENSE"}
 keywords = ["shit happens", "card-game"]
@@ -33,6 +34,9 @@ classifiers = [
     "Topic :: Games/Entertainment :: Board Games",
     "Typing :: Typed",
 ]
+
+[project.optional-dependencies]
+ui = ["streamlit"]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/shit-happens"
