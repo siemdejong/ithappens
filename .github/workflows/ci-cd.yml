@@ -3,98 +3,13 @@ name: ci-cd
 on: [push, pull_request]
 
 jobs:
-  linux-ci:
-    # Set up operating system
-    runs-on: ubuntu-latest
+  release:
+    concurrency: release
 
-    # Define job steps
-    steps:
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.11
+    permissions:
+      id-token: write
+      contents: write
 
-    - name: Check-out repository
-      uses: actions/checkout@v4
-      with:
-        submodules: true
-    
-    - name: Install babel
-      run: pip install Babel
-    
-    - name: Build MO files
-      run: python setup.py compile_catalog
-
-    - name: Install build
-      run: pip install build
-
-    - name: Build package
-      run: python -m build
-
-    - name: Install built sdist
-      run: pip install --find-links=. dist/shithappens*.tar.gz
-
-    - name: Install built wheel
-      run: pip install --find-links=. dist/shithappens*.whl --force-reinstall
-
-    - name: Install twine
-      run: pip install twine
-
-    - name: Check README rendering for PyPI
-      run: twine check dist/*
-
-    - name: Install pyinstaller
-      run: pip install pyinstaller
-    
-    - name: Build executable
-      run: pyinstaller shithappens.spec -y
-    
-    - name: Zip bundle
-      run: cd dist && tar -acf shithappens-linux.tar.gz shithappens
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: shithappens-linux
-        path: dist/shithappens-linux.tar.gz
-  
-  windows-ci:
-    runs-on: windows-latest
-
-    steps:
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.11
-
-    - name: Check-out repository
-      uses: actions/checkout@v4
-      with:
-        submodules: true
-    
-    - name: Install babel
-      run: pip install Babel
-    
-    - name: Build MO files
-      run: python setup.py compile_catalog
-
-    - name: Install pyinstaller
-      run: pip install pyinstaller
-    
-    - name: Build executable
-      run: pyinstaller shithappens.spec -y
-    
-    - name: Zip bundle
-      run: cd dist && tar -acf shithappens-windows.zip shithappens
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: shithappens-windows
-        path: dist/shithappens-windows.zip
-
-  cd:
-    # Only run this job if the "ci" job passes
-    needs: [linux-ci, windows-ci]
-    
     # Only run this job if new work is pushed to "main"
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
@@ -108,7 +23,7 @@ jobs:
       with:
         python-version: 3.11
 
-    - name: Check-out repository
+    - name: Setup | Checkout Repository at workflow sha
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -118,24 +33,11 @@ jobs:
     - name: Setup | Force correct release branch on workflow sha
       run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
-    - uses: actions/download-artifact@v4
-      with:
-        name: shithappens-windows
-        path: dist
-
-    - uses: actions/download-artifact@v4
-      with:
-        name: shithappens-linux
-        path: dist
-    
     - name: Install babel
       run: pip install Babel
     
     - name: Build MO files
       run: python setup.py compile_catalog
-    
-    - name: Install build
-      run: pip install build
 
     - name: Action | Semantic Version Release
       id: release
@@ -150,8 +52,6 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       if: steps.release.outputs.released == 'true'
       with:
-        user: __token__
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository-url: https://test.pypi.org/legacy/
 
     - name: Test install from TestPyPI
@@ -165,9 +65,6 @@ jobs:
     - name: Publish to PyPI
       if: steps.release.outputs.released == 'true'
       uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
 
     - name: Test install from PyPI
       if: steps.release.outputs.released == 'true'
