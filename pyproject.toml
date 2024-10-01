@@ -57,7 +57,7 @@ namespaces = false
 shithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png", "locales/*/LC_MESSAGES/*.mo"]
 
 [tool.semantic_release]
-version_variable = "pyproject.toml:version" # version location
+version_variables = ["pyproject.toml:version"] # version location
 build_command = "pip install build && python -m build"
 assets = []
 build_command_env = []
