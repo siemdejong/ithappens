@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v3.1.3 (2024-10-01)
+
+### Fix
+
+* fix: add src to path ([`c384863`](https://github.com/siemdejong/shit-happens/commit/c3848638e73be20ec238825d907f9b4e5f9029f7))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/shit-happens ([`79706e3`](https://github.com/siemdejong/shit-happens/commit/79706e350e5396f0f7882a145b28e4512da10493))
+
 ## v3.1.2 (2024-10-01)
 
 ### Build
@@ -13,6 +23,8 @@
 * chore: remove environment.yaml ([`02258d8`](https://github.com/siemdejong/shit-happens/commit/02258d85a87a4df5e0b79a50664527d8510c0ae0))
 
 ### Fix
+
+* fix: cast path to str ([`3c66f6a`](https://github.com/siemdejong/shit-happens/commit/3c66f6a22c53ff27d270b18077e6ad5ea7dbe66b))
 
 * fix: add app to path ([`023f628`](https://github.com/siemdejong/shit-happens/commit/023f628a7328b72b767a401f739eb2654dcf9d0e))
 
