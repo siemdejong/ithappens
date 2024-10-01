@@ -15,6 +15,7 @@ jobs:
 
     # Set up operating system
     runs-on: ubuntu-latest
+    environment: release
 
     # Define job steps
     steps:
