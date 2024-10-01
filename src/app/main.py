@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import filedialog
 from pathlib import Path
 
-sys.path.append(Path(__file__).absolute().parent.parent / "shithappens")
+sys.path.append(str(Path(__file__).absolute().parent.parent / "shithappens"))
 
 from shithappens.create_cards import main
 
