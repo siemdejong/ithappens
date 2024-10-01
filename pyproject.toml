@@ -11,14 +11,7 @@ authors = [
 description = "Create your own Shit Happens playing cards!"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
-    "matplotlib",
-    "pandas",
-    "openpyxl", # For pandas to open excel files.
-    "PyPDF2",
-    "tqdm",
-    "babel",
-]
+dynamic = ["dependencies", "optional-dependencies"]
 license = {file = "LICENSE"}
 keywords = ["shit happens", "card-game"]
 classifiers = [
@@ -34,9 +27,6 @@ classifiers = [
     "Topic :: Games/Entertainment :: Board Games",
     "Typing :: Typed",
 ]
-
-[project.optional-dependencies]
-ui = ["streamlit"]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/shit-happens"
@@ -55,6 +45,10 @@ namespaces = false
 
 [tool.setuptools.package-data]
 shithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png", "locales/*/LC_MESSAGES/*.mo"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
 
 [tool.ruff]
 extend-exclude = ["opensans"]
