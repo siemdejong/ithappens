@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v3.1.1 (2024-10-01)
+
+### Fix
+
+* fix: ci environment ([`949ecf5`](https://github.com/siemdejong/shit-happens/commit/949ecf5755640f81b82d224d277253caf07dace7))
+
 ## v3.1.0 (2024-10-01)
 
 ### Chore
