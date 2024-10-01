@@ -113,6 +113,10 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
+        ref: ${{ github.sha }}
+
+    - name: Setup | Force correct release branch on workflow sha
+      run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
     - uses: actions/download-artifact@v4
       with:
@@ -133,14 +137,14 @@ jobs:
     - name: Install build
       run: pip install build
 
-    - name: Use Python Semantic Release to prepare release
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-          pip install python-semantic-release
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          semantic-release publish
+    - name: Action | Semantic Version Release
+      id: release
+      # Adjust tag with desired version if applicable.
+      uses: python-semantic-release/python-semantic-release@v9.9.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        git_committer_name: "github-actions"
+        git_committer_email: "actions@users.noreply.github.com"
     
     - name: Remove executable bundles
       run: 
@@ -169,3 +173,10 @@ jobs:
     - name: Test install from PyPI
       run: |
           pip install shithappens --force-reinstall
+
+    - name: Publish | Upload to GitHub Release Assets
+      uses: python-semantic-release/publish-action@v9.9.0
+      if: steps.release.outputs.released == 'true'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ steps.release.outputs.tag }}
