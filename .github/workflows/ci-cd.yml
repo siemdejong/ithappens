@@ -145,19 +145,17 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         git_committer_name: "github-actions"
         git_committer_email: "actions@users.noreply.github.com"
-    
-    - name: Remove executable bundles
-      run: 
-        rm -f dist/shithappens-windows.zip dist/shithappens-linux.tar.gz
 
     - name: Publish to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+      if: steps.release.outputs.released == 'true'
       with:
         user: __token__
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository-url: https://test.pypi.org/legacy/
 
     - name: Test install from TestPyPI
+      if: steps.release.outputs.released == 'true'
       run: |
           pip install \
           --index-url https://test.pypi.org/simple/ \
@@ -165,12 +163,14 @@ jobs:
           shithappens
 
     - name: Publish to PyPI
+      if: steps.release.outputs.released == 'true'
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
 
     - name: Test install from PyPI
+      if: steps.release.outputs.released == 'true'
       run: |
           pip install shithappens --force-reinstall
 
