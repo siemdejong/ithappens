@@ -8,6 +8,8 @@
 
 ### Ci
 
+* ci: don&#39;t remote dist ([`9e6979f`](https://github.com/siemdejong/shit-happens/commit/9e6979fe42a0b565acedc35e63dbf095fba469f0))
+
 * ci: add build install to build_command
 
 Otherwise the github action runner doesn&#39;t have access to build. ([`d3a7aaf`](https://github.com/siemdejong/shit-happens/commit/d3a7aafe84dd135627f87006427d8da7d1437509))
