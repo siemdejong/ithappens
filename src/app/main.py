@@ -1,8 +1,13 @@
+import sys
+from pathlib import Path
+
 import streamlit as st
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 from pathlib import Path
+
+sys.path.append(Path(__file__).absolute().parent.parent / "shithappens")
 
 from shithappens.create_cards import main
 
