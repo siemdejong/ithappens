@@ -1,5 +1,31 @@
 # CHANGELOG
 
+## v3.1.2 (2024-10-01)
+
+### Build
+
+* build: add tk for streamlit ([`08b6dd8`](https://github.com/siemdejong/shit-happens/commit/08b6dd8a1e056bb9cea2ee53810095a04eb36944))
+
+* build: move requirements to .txt ([`af89150`](https://github.com/siemdejong/shit-happens/commit/af8915000b432f417ae52d34e801c9e0098208d6))
+
+### Chore
+
+* chore: remove environment.yaml ([`02258d8`](https://github.com/siemdejong/shit-happens/commit/02258d85a87a4df5e0b79a50664527d8510c0ae0))
+
+### Fix
+
+* fix: add app to path ([`023f628`](https://github.com/siemdejong/shit-happens/commit/023f628a7328b72b767a401f739eb2654dcf9d0e))
+
+### Style
+
+* style: apply ruff ([`f772500`](https://github.com/siemdejong/shit-happens/commit/f772500bbbd7078586440071fd5529d7d018a601))
+
+### Unknown
+
+* Merge pull request #49 from siemdejong/ruff
+
+style: apply ruff ([`66596a6`](https://github.com/siemdejong/shit-happens/commit/66596a608b3a4c2f05a1287fe471d5099a17483b))
+
 ## v3.1.1 (2024-10-01)
 
 ### Fix
