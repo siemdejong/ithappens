@@ -56,6 +56,9 @@ namespaces = false
 [tool.setuptools.package-data]
 shithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png", "locales/*/LC_MESSAGES/*.mo"]
 
+[tool.ruff]
+extend-exclude = ["opensans"]
+
 [tool.semantic_release]
 version_variables = ["pyproject.toml:version"] # version location
 build_command = "pip install build && python -m build"

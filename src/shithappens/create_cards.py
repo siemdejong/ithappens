@@ -7,7 +7,6 @@ from multiprocessing import Pool
 from pathlib import Path
 from typing import Literal, Optional
 
-import click
 import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
@@ -16,7 +15,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
-from matplotlib.transforms import Bbox, Transform
+from matplotlib.transforms import Bbox
 
 try:
     from tqdm import tqdm
@@ -29,6 +28,7 @@ except ImportError:
 
 from shithappens.card import Card
 from shithappens.utils import merge_pdfs, slugify
+
 
 def install_lang(locale: str):
     localedir = Path(__file__).parent.resolve() / "locales"
@@ -82,7 +82,12 @@ def text_with_wrap_autofit(
     else:
         alpha = 0
 
-    rect = Rectangle((bleed + (1 - width) * x, bleed + (1 - height) * y), width * x, height * y, alpha=alpha)
+    rect = Rectangle(
+        (bleed + (1 - width) * x, bleed + (1 - height) * y),
+        width * x,
+        height * y,
+        alpha=alpha,
+    )
     ax.add_patch(rect)
 
     # Get transformation to go from display to data-coordinates.
@@ -98,7 +103,9 @@ def text_with_wrap_autofit(
     wrap_lines = 1
     xy = (bleed + 0.5 * x, bleed + 0.95 * y)
     while True:
-        wrapped_txt = "\n".join(textwrap.wrap(txt, width=len(txt) // wrap_lines, break_long_words=False))
+        wrapped_txt = "\n".join(
+            textwrap.wrap(txt, width=len(txt) // wrap_lines, break_long_words=False)
+        )
 
         # For dramatic effect, place text after ellipsis on newline.
         wrapped_txt = wrapped_txt.replace("... ", "...\n")
@@ -367,7 +374,6 @@ def save_card(
     dpi: int = 300,
     format: str = "pdf",
 ) -> None:
-
     side_fn = _("front") if side == "front" else _("back")
 
     output_dir = output_dir / side_fn
@@ -409,9 +415,11 @@ def create_card(
         card.fig_back = plot_card_back(card, input_dir)
         save_card(card, output_dir, "back", format=ext)
 
+
 def _init(locale):
     install_lang(locale)
-    
+
+
 def create_cards(
     df: pd.DataFrame,
     expansion_name: str,
@@ -455,7 +463,6 @@ def create_cards(
 
 
 def main(**args) -> None:
-
     install_lang(args["lang"])
 
     try:
@@ -477,7 +484,6 @@ def main(**args) -> None:
 
     #     sort(xlsx_path)
     else:
-
         if args["name"]:
             expansion_name = args["name"]
         else:

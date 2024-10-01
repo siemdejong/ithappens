@@ -4,21 +4,20 @@ import tkinter as tk
 from tkinter import filedialog
 from pathlib import Path
 
-from shithappens.utils import install_lang
 from shithappens.create_cards import main
 
+
 def select_folder():
-   root = tk.Tk()
-   root.withdraw()
-   folder_path = filedialog.askdirectory(parent=root)
-   root.destroy()
-   return Path(folder_path)
+    root = tk.Tk()
+    root.withdraw()
+    folder_path = filedialog.askdirectory(parent=root)
+    root.destroy()
+    return Path(folder_path)
 
 
 uploaded_file = st.file_uploader("Please provide your excel input")
 
 if uploaded_file is not None:
-
     df = pd.read_excel(uploaded_file)
     expansion_name = st.text_input("Expansion name")
     input_dir = st.session_state.get("input_dir", None)
@@ -36,7 +35,6 @@ if uploaded_file is not None:
     format = st.selectbox("Output format", ["pdf", "png"])
     workers = st.number_input("Number of workers", value=4)
     chunks = st.number_input("Number of chunks for the workers to process", value=30)
-    
 
     if st.button("Create cards"):
         main(

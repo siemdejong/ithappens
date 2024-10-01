@@ -1,6 +1,4 @@
-import gettext
 import itertools
-from importlib import resources
 from pathlib import Path
 from typing import Literal
 
@@ -8,8 +6,11 @@ import click
 import pandas as pd
 from tqdm import tqdm
 
-UP = "\x1B[3A"
-ERASE = "\x1B[2A"
+UP = "\x1b[3A"
+ERASE = "\x1b[2A"
+
+def _(message):
+    return message
 
 
 def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataFrame:
@@ -48,6 +49,7 @@ def prompt_question(df: pd.DataFrame, situations, round=None):
     except (ValueError, IndexError):
         prompt_question(df, situations)
 
+
 def save(xlsx_path, df):
     if "sorted" in xlsx_path.stem:
         in_place = True
@@ -68,10 +70,16 @@ def save(xlsx_path, df):
         )
     print(_("Manually assign a misery-index to situations."))
 
-def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swiss", rounds=9, prescore=10):
 
+def sort(
+    xlsx_path,
+    output_dir,
+    strategy: Literal["swiss", "round-robin"] = "swiss",
+    rounds=9,
+    prescore=10,
+):
     df = parse_excel(xlsx_path, 0)
-    
+
     if strategy == "swiss":
         print("\n")
         if prescore == 10:
@@ -83,7 +91,13 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
         except KeyError:
             df["score"] = 0
         # First, give items scores 1-9 and 0, with 0=10.
-        with tqdm(df.iterrows(), desc="Prescore", total=len(df), maxinterval=1, unit="situation") as prog_iter:
+        with tqdm(
+            df.iterrows(),
+            desc="Prescore",
+            total=len(df),
+            maxinterval=1,
+            unit="situation",
+        ) as prog_iter:
             for i, situation in prog_iter:
                 tqdm.write(ERASE)
                 tqdm.write(situation["desc"])
@@ -96,7 +110,7 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
                         break
                 df.loc[i, "score"] += score_group if score_group > 0 else 10
         df = df.sort_values(by="score")
-        
+
         splits = []
         num_groups = 10
         step = int(len(df) / (num_groups - 1))
@@ -114,22 +128,42 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
         print("\n\n\n")
         print("Which situation is worse?")
 
-        for round_num in tqdm(range(rounds), desc="Round", total=rounds, unit="round", maxinterval=1):
-            df[f"round_{round_num}"] = None 
-            for split_begin, split_end in tqdm(zip(splits, splits[1:]), total=len(splits), unit="split", leave=False, position=1, maxinterval=1, desc="Split"):
+        for round_num in tqdm(
+            range(rounds), desc="Round", total=rounds, unit="round", maxinterval=1
+        ):
+            df[f"round_{round_num}"] = None
+            for split_begin, split_end in tqdm(
+                zip(splits, splits[1:]),
+                total=len(splits),
+                unit="split",
+                leave=False,
+                position=1,
+                maxinterval=1,
+                desc="Split",
+            ):
                 range_list = range(split_begin, split_end)
                 index_list_temp = zip(range_list, range_list[::-1])
                 index_list = []
                 for item in index_list_temp:
                     if item[0] < item[1]:
                         index_list.append(item)
-                for idx1, idx2 in tqdm(index_list, total=len(index_list), maxinterval=1, leave=False, position=2, desc="Comparison", unit="comparison"):
-                    
+                for idx1, idx2 in tqdm(
+                    index_list,
+                    total=len(index_list),
+                    maxinterval=1,
+                    leave=False,
+                    position=2,
+                    desc="Comparison",
+                    unit="comparison",
+                ):
                     df_idx1, df_idx2 = df.index[idx1], df.index[idx2]
                     df_temp_idx2 = df_idx2
                     # No rematches.
                     while True:
-                        if idx1 in [df.loc[df_temp_idx2, f"round_{round_n}"] for round_n in range(round_num + 1)]:
+                        if idx1 in [
+                            df.loc[df_temp_idx2, f"round_{round_n}"]
+                            for round_n in range(round_num + 1)
+                        ]:
                             df_temp_idx2 -= 1
                         else:
                             break
@@ -139,11 +173,10 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
                         break
                     prompt_question(df, [df_idx1, df_temp_idx2], round_num)
             df = df.sort_values(by="score")
-        
-            save(xlsx_path, df)
-    
-    elif strategy == "round-robin":
 
+            save(xlsx_path, df)
+
+    elif strategy == "round-robin":
         try:
             continue_from = df["score"].sum()
             print(_("Continuing from situation {}".format(continue_from)))
@@ -157,7 +190,12 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
         print(_("\nWhich situation is most miserable?\n\n"))
 
         try:
-            with tqdm(combinations, total=len(combinations), initial=continue_from, smoothing=0) as progress_iterator:
+            with tqdm(
+                combinations,
+                total=len(combinations),
+                initial=continue_from,
+                smoothing=0,
+            ) as progress_iterator:
                 for combination in progress_iterator:
                     prompt_question(df, combination)
         except KeyboardInterrupt:
@@ -167,16 +205,24 @@ def sort(xlsx_path, output_dir, strategy: Literal["swiss", "round-robin"] = "swi
                 save_progress = True
             elif save_progress == "n":
                 save_progress = False
-            
+
             if save_progress:
                 save(xlsx_path, df)
         else:
             save(xlsx_path, df)
 
+
 def main_cli(**kwargs):
     try:
         from shithappens.cli.utils import verify_input_dir
+
         xlsx_path, output_dir = verify_input_dir(Path(kwargs["input_dir"]))
-        sort(xlsx_path, output_dir, kwargs["strategy"], kwargs["rounds"], kwargs["prescore"])
+        sort(
+            xlsx_path,
+            output_dir,
+            kwargs["strategy"],
+            kwargs["rounds"],
+            kwargs["prescore"],
+        )
     except KeyboardInterrupt:
         print(_("Interrupted."))

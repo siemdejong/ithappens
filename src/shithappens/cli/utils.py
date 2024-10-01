@@ -4,7 +4,8 @@ import click
 
 from shithappens.utils import install_lang
 
-install_lang("en")
+_ = install_lang("en")
+
 
 def verify_input_dir(input_dir: Path):
     while True:
@@ -42,5 +43,5 @@ def verify_input_dir(input_dir: Path):
 
     else:
         xlsx_path = Path(xlsx_paths[0])
-    
+
     return xlsx_path, output_dir

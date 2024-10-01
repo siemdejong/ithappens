@@ -68,3 +68,4 @@ def install_lang(locale: str):
     lang.install()
     global _
     _ = lang.gettext
+    return _
