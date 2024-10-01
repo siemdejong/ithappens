@@ -2,7 +2,15 @@
 
 ## v3.1.0 (2024-10-01)
 
+### Chore
+
+* chore: empty commit to see if it bumps version ([`521d44d`](https://github.com/siemdejong/shit-happens/commit/521d44dc1ef9206c2c1aa557dad59effb0b6a4ba))
+
 ### Ci
+
+* ci: add build install to build_command
+
+Otherwise the github action runner doesn&#39;t have access to build. ([`d3a7aaf`](https://github.com/siemdejong/shit-happens/commit/d3a7aafe84dd135627f87006427d8da7d1437509))
 
 * ci: update job step versions of ci ([`68de80c`](https://github.com/siemdejong/shit-happens/commit/68de80c44defc17d1ab64761dae23799c6ea91a1))
 
@@ -31,6 +39,10 @@ The notebooks are not necessary anymore. ([`04b504c`](https://github.com/siemdej
 fixes #31 ([`91cf7cd`](https://github.com/siemdejong/shit-happens/commit/91cf7cd300d1c2165c26a9c1283bd1bb61135982))
 
 ### Unknown
+
+* Merge pull request #48 from siemdejong/siemdejong/issue43
+
+ci: add build install to build_command ([`d167172`](https://github.com/siemdejong/shit-happens/commit/d1671728d36e273bf6bba1e61b46d19878bdcaee))
 
 * Merge pull request #47 from siemdejong/siemdejong/issue37
 
