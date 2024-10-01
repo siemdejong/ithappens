@@ -53,6 +53,7 @@ jobs:
       if: steps.release.outputs.released == 'true'
       with:
         repository-url: https://test.pypi.org/legacy/
+        verbose: true
 
     - name: Test install from TestPyPI
       if: steps.release.outputs.released == 'true'
