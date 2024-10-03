@@ -118,7 +118,7 @@ This project is not related to the original card game.
 # Getting Started
 ## Prerequisites
 
-A virtual environment with python 3.11 or higher.
+A virtual environment with python 3.9 or higher.
 
 ## Installation
 
@@ -128,9 +128,6 @@ pip install ithappens
 ```
 from within the target environment.
 
-To allow for pdf merging, run `pip install ithappens[merge]`.
-To show a progressbar, run `pip install ithappens[pbar]`.
-To install all dependencies, run `pip install ithappens[all]`.
 
 ## Installing for developers
 
@@ -150,7 +147,6 @@ You should set up a dedicated environment to decouple your ithappens development
 
 The simplest way to do this is to use either Python's virtual environment venv or conda.
 Here, instructions for conda are shown.
-If mamba is installed, replace conda with mamba in the commands below.
 ```
 conda env create -f environment.yml
 ```
@@ -163,7 +159,7 @@ Remember to activate the environment whenever you start working on ithappens.
 ### Installing ithappens in editable mode
 Install ithappens in editable mode from the ithappens directory using the command
 ```
-python -m pip install -e .
+python -m pip install -e .[dev]
 ```
 The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import ithappens from your development source directory.
 This allows you to import your modified version of ithappens without re-installing after every change.
