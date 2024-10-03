@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v5.0.1 (2024-10-03)
+
+### Build
+
+* build: lower required python dependency to 3.9 ([`f43332d`](https://github.com/siemdejong/ithappens/commit/f43332d24589fafe43e6d8287c1f73a2f046ab23))
+
+### Documentation
+
+* docs: display front and back side by side in readme ([`58cd469`](https://github.com/siemdejong/ithappens/commit/58cd46936aee0ecf025f0c5ffccfacf71e15e38b))
+
+### Fix
+
+* fix: rename package ([`9c71211`](https://github.com/siemdejong/ithappens/commit/9c71211cf6c3c72b3d61f3ada49bf2a8a6d84573))
+
+### Unknown
+
+* Merge pull request #55 from siemdejong/new-name
+
+fix: rename package ([`8011a5c`](https://github.com/siemdejong/ithappens/commit/8011a5c8aa5123e9a93b067a6975cbc47e577946))
+
+* Merge pull request #54 from siemdejong/cards-side-by-side-readme
+
+docs: display front and back side by side in readme ([`0a8f48c`](https://github.com/siemdejong/ithappens/commit/0a8f48c22d9aa3c63cd64d139fe561cf50e3080f))
+
+* Merge pull request #53 from siemdejong/docs-install
+
+build: lower required python dependency to 3.9 ([`ecd5e40`](https://github.com/siemdejong/ithappens/commit/ecd5e40c14ffce308aba7fa6224c92dcf9ff59f7))
+
 ## v5.0.0 (2024-10-03)
 
 ### Breaking
