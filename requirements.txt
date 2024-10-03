@@ -1,6 +1,5 @@
 matplotlib
 pandas
 openpyxl
-PyPDF2
 tqdm
 streamlit
