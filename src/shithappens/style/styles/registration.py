@@ -1,12 +1,12 @@
 import os
 import matplotlib.pyplot as plt
-import shithappens
+import ithappens
 
 
 def _register():
     # register the bundled stylesheets in the matplotlib style library
-    shithappens_path = shithappens.__path__[0]
-    styles_path = os.path.join(shithappens_path, "style", "styles")
+    ithappens_path = ithappens.__path__[0]
+    styles_path = os.path.join(ithappens_path, "style", "styles")
 
     # Reads styles in /styles folder and all subfolders
     stylesheets = {}  # plt.style.library is a dictionary

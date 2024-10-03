@@ -1,7 +1,7 @@
 import click
 
-from shithappens.create_cards import main_cli as create_cli
-from shithappens.sort_situations import main_cli as sort_cli
+from ithappens.create_cards import main_cli as create_cli
+from ithappens.sort_situations import main_cli as sort_cli
 
 
 @click.group(help="Create custom Shit Happens expansion playing cards.")

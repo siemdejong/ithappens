@@ -210,7 +210,7 @@ def sort(
 
 def main_cli(**kwargs):
     try:
-        from shithappens.cli.utils import verify_input_dir
+        from ithappens.cli.utils import verify_input_dir
 
         xlsx_path, output_dir = verify_input_dir(Path(kwargs["input_dir"]))
         sort(
