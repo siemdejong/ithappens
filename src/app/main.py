@@ -5,7 +5,6 @@ import streamlit as st
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
-from pathlib import Path
 
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
@@ -36,7 +35,6 @@ if uploaded_file is not None:
 
     merge = st.checkbox("Merge output", value=True)
     side = st.selectbox("Side(s) to generate", ["both", "front", "back"])
-    lang = st.selectbox("Language", ["en", "nl"])
     format = st.selectbox("Output format", ["pdf", "png"])
     workers = st.number_input("Number of workers", value=4)
     chunks = st.number_input("Number of chunks for the workers to process", value=30)
@@ -50,6 +48,5 @@ if uploaded_file is not None:
             format=format,
             workers=workers,
             chunks=chunks,
-            lang=lang,
         )
         st.write("Cards written to ", output_dir)

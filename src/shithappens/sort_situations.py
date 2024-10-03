@@ -9,9 +9,6 @@ from tqdm import tqdm
 UP = "\x1b[3A"
 ERASE = "\x1b[2A"
 
-def _(message):
-    return message
-
 
 def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataFrame:
     """Parse an Excel file.
@@ -28,7 +25,7 @@ def parse_excel(input_path: Path, desc_col: int, score_col: int = 2) -> pd.DataF
     try:
         df = pd.read_excel(input_path, usecols=[desc_col, score_col], engine="openpyxl")
     except Exception:
-        print(_("{} does not contain any Excel files.".format(input_path)))
+        print(f"{input_path} does not contain any Excel files.")
         exit()
 
     return df
@@ -64,11 +61,10 @@ def save(xlsx_path, df):
 
     if len(df["score"].unique()) != len(df):
         print(
-            _(
-                "Some items have equal ranking score. Please check the output file ({})."
-            ).format(output_file)
+            "Some items have equal ranking score. "
+            f"Please check the output file ({output_file})."
         )
-    print(_("Manually assign a misery-index to situations."))
+    print("Manually assign a misery-index to situations.")
 
 
 def sort(
@@ -179,7 +175,7 @@ def sort(
     elif strategy == "round-robin":
         try:
             continue_from = df["score"].sum()
-            print(_("Continuing from situation {}".format(continue_from)))
+            print(f"Continuing from situation {continue_from}")
         except KeyError:
             df["misery_index"] = 0
             df["score"] = 0
@@ -187,7 +183,7 @@ def sort(
 
         combinations = list(itertools.combinations(df.index, 2))[continue_from:]
 
-        print(_("\nWhich situation is most miserable?\n\n"))
+        print("\nWhich situation is most miserable?\n\n")
 
         try:
             with tqdm(
@@ -199,7 +195,7 @@ def sort(
                 for combination in progress_iterator:
                     prompt_question(df, combination)
         except KeyboardInterrupt:
-            print(_("Do you want to save your progress? [y]/n"))
+            print("Do you want to save your progress? [y]/n")
             save_progress = click.getchar()
             if not save_progress:
                 save_progress = True
@@ -225,4 +221,4 @@ def main_cli(**kwargs):
             kwargs["prescore"],
         )
     except KeyboardInterrupt:
-        print(_("Interrupted."))
+        print("Interrupted.")

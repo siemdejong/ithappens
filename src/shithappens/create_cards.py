@@ -1,5 +1,4 @@
 import argparse
-import gettext
 import textwrap
 from functools import partial
 from glob import glob
@@ -16,26 +15,12 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox
-
-try:
-    from tqdm import tqdm
-except ImportError:
-
-    def tqdm(iterable, *args, **kwargs):
-        del args, kwargs
-        return iterable
+from tqdm import tqdm
 
 
 from shithappens.card import Card
+from shithappens.cli.utils import verify_input_dir
 from shithappens.utils import merge_pdfs, slugify
-
-
-def install_lang(locale: str):
-    localedir = Path(__file__).parent.resolve() / "locales"
-    lang = gettext.translation("shithappens", localedir=localedir, languages=[locale])
-    lang.install()
-    global _
-    _ = lang.gettext
 
 
 def text_with_wrap_autofit(
@@ -133,7 +118,6 @@ class ShitHappensArgs(argparse.Namespace):
     merge: bool
     rank: bool
     side: Literal["front", "back", "both"]
-    lang: Literal["en", "nl"]
     format: Literal["pdf", "png"]
     workers: int
     chunks: int
@@ -156,7 +140,7 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
             input_path, usecols=[desc_col, misery_index_col], engine="openpyxl"
         )
     except Exception:
-        print(_("{} is not an excel file.").format(input_path))
+        print(f"{input_path} is not an excel file.")
         exit()
 
     return df
@@ -241,7 +225,7 @@ def plot_card_front(card: Card) -> Figure:
         color="yellow",
     )
 
-    mi_desc = _("misery index")
+    mi_desc = "misery index"
     ax.text(
         x_total / 2,
         1.3 * y_size / 8 + bleed,
@@ -309,7 +293,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     )
 
     game_name = "Shit Happens"
-    expansion_text = _("edition")
+    expansion_text = "edition"
     expansion_text_full = card.expansion_name + " " + expansion_text
 
     ax.text(
@@ -374,7 +358,7 @@ def save_card(
     dpi: int = 300,
     format: str = "pdf",
 ) -> None:
-    side_fn = _("front") if side == "front" else _("back")
+    side_fn = "front" if side == "front" else "back"
 
     output_dir = output_dir / side_fn
 
@@ -416,10 +400,6 @@ def create_card(
         save_card(card, output_dir, "back", format=ext)
 
 
-def _init(locale):
-    install_lang(locale)
-
-
 def create_cards(
     df: pd.DataFrame,
     expansion_name: str,
@@ -430,7 +410,6 @@ def create_cards(
     ext: Literal["pdf", "png"],
     workers: int,
     chunks: int,
-    locale: str,
 ) -> None:
     nmax = df.shape[0]
     chunksize = nmax // chunks
@@ -442,9 +421,9 @@ def create_cards(
         side=side,
         ext=ext,
     )
-    desc = _("Plotting cards")
+    desc = "Plotting cards"
     if chunksize:
-        with Pool(workers, _init, initargs=(locale,)) as p:
+        with Pool(workers) as p:
             list(
                 tqdm(
                     p.imap_unordered(create_card_par, df.iterrows(), chunksize),
@@ -457,23 +436,12 @@ def create_cards(
 
     if merge:
         if side == "front" or side == "both":
-            merge_pdfs(output_dir / _("front"))
+            merge_pdfs(output_dir / "front")
         if side == "back" or side == "both":
-            merge_pdfs(output_dir / _("back"))
+            merge_pdfs(output_dir / "back")
 
 
 def main(**args) -> None:
-    install_lang(args["lang"])
-
-    try:
-        import tqdm
-    except ImportError:
-        print(_("'pip install shithappens[pbar]' to show a progress bar."))
-    else:
-        del tqdm
-
-    from shithappens.cli.utils import verify_input_dir
-
     input_dir = Path(args["input_dir"])
     xlsx_path, output_dir = verify_input_dir(input_dir)
 
@@ -489,23 +457,11 @@ def main(**args) -> None:
         else:
             expansion_name = input_dir.stem
             print(
-                _(
-                    "Argument -n/--name not given. " "Expansion name inferred to be {}."
-                ).format(expansion_name)
+                "Argument -n/--name not given. "
+                f"Expansion name inferred to be {expansion_name}."
             )
 
         df = parse_excel(xlsx_path, 0, 1)
-
-        if args["merge"]:
-            try:
-                import PyPDF2
-
-                args["merge"] = True
-            except ImportError:
-                args["merge"] = False
-                print(_("'pip install shithappens[merge]' for pdf merging."))
-            else:
-                del PyPDF2
 
         create_cards(
             df,
@@ -517,7 +473,6 @@ def main(**args) -> None:
             args["format"],
             args["workers"],
             args["chunks"],
-            args["lang"],
         )
 
 
@@ -525,7 +480,7 @@ def main_cli(**kwargs):
     try:
         main(**kwargs)
     except KeyboardInterrupt:
-        print(_("Interrupted."))
+        print("Interrupted.")
 
 
 if __name__ == "__main__":
