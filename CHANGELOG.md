@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v5.2.2 (2024-10-03)
+
+### Documentation
+
+* docs: add images to pypi ([`07b3b54`](https://github.com/siemdejong/ithappens/commit/07b3b540ed0822583e03fbe410c40374c57340da))
+
+### Fix
+
+* fix: resolve circular import ([`6971cd0`](https://github.com/siemdejong/ithappens/commit/6971cd0fba0497dd98e26953b0ba9106a6a18ef6))
+
 ## v5.2.1 (2024-10-03)
 
 ### Fix
