@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## v4.0.0 (2024-10-03)
+
+### Breaking
+
+* fix: remove gettext from project
+
+Internationalization made it hard to maintain this package.
+Therefore, we remove gettext from the project.
+
+BREAKING CHANGE: no internationalization anymore ([`e05747c`](https://github.com/siemdejong/shit-happens/commit/e05747cc07ce63640f8b91386cf80e3e11113447))
+
+* fix: remove gettext from project
+
+Internationalization made it hard to maintain this package.
+Therefore, we remove gettext from the project.
+
+BREAKING CHANGE: no internationalization anymore ([`6d74173`](https://github.com/siemdejong/shit-happens/commit/6d74173023a0d52964474bc97453be501725f3bc))
+
+### Unknown
+
+* Merge pull request #51 from siemdejong/no-gettext
+
+fix: remove gettext from project ([`311ec27`](https://github.com/siemdejong/shit-happens/commit/311ec271f056ed246cb6d8d5daa33adc69640c36))
+
+* Merge pull request #50 from siemdejong/no-gettext
+
+fix: remove gettext from project ([`1878088`](https://github.com/siemdejong/shit-happens/commit/18780884a4b3b93fbc71dd945e7f02f9e052498b))
+
 ## v3.1.3 (2024-10-01)
 
 ### Fix
