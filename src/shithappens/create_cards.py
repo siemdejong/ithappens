@@ -191,6 +191,7 @@ def plot_card_front(card: Card) -> Figure:
     y_total = y_size + 2 * bleed
     xy_size = (x_total, y_total)
 
+    plt.style.use("shithappens")
     fig, ax = plt.subplots()
 
     fig.set_size_inches(*xy_size)
@@ -275,6 +276,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     y_total = y_size + 2 * bleed
     xy_size = (x_total, y_total)
 
+    plt.style.use("shithappens")
     fig, ax = plt.subplots()
 
     fig.set_size_inches(*xy_size)
