@@ -18,25 +18,27 @@ def verify_input_dir(input_dir: Path):
     print(f"Reading files from {input_dir}.")
     print(f"Output files in {output_dir}.")
 
-    xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
-    xlsx_paths_num = len(xlsx_paths)
-    if not xlsx_paths_num:
-        print("Please provide an Excel file in {input_dir}.")
+    input_paths = list(glob(f"{input_dir / '*.xlsx'}")) + list(
+        glob(f"{input_dir / '*.csv'}")
+    )
+    input_paths_num = len(input_paths)
+    if not input_paths_num:
+        print(f"Please provide an input file (.csv or .xlsx) in {input_dir}.")
         exit(1)
-    elif xlsx_paths_num > 1:
+    elif input_paths_num > 1:
         while True:
             print("\nMore than one input file found.")
-            for i, xlsx_path in enumerate(xlsx_paths, 1):
-                print(f"[{i}] {xlsx_path}")
+            for i, input_path in enumerate(input_paths, 1):
+                print(f"[{i}] {input_path}")
             try:
-                xlsx_index = int(click.getchar())
-                xlsx_path = Path(xlsx_paths[xlsx_index - 1])
+                input_index = int(click.getchar())
+                input_path = Path(input_paths[input_index - 1])
             except (ValueError, IndexError):
                 continue
             else:
                 break
 
     else:
-        xlsx_path = Path(xlsx_paths[0])
+        input_path = Path(input_paths[0])
 
-    return xlsx_path, output_dir
+    return input_path, output_dir

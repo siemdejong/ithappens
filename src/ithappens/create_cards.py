@@ -1,5 +1,6 @@
 import argparse
 import textwrap
+import zipfile
 from functools import partial
 from glob import glob
 from multiprocessing import Pool
@@ -124,12 +125,15 @@ class ithappensArgs(argparse.Namespace):
     chunks: int
 
 
-def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.DataFrame:
-    """Parse an Excel file.
+def parse_input_file(
+    input_path: Path, desc_col: int, misery_index_col: int
+) -> pd.DataFrame:
+    """Parse an input file.
+
     It must have two colums: descriptions along with their misery index.
 
     Args:
-        intput_path: path of the Excel file
+        intput_path: path of the input file (.csv or .xlsx)
         desc_col: description column index
         misery_index_col: misery index column index
 
@@ -140,11 +144,21 @@ def parse_excel(input_path: Path, desc_col: int, misery_index_col: int) -> pd.Da
         df = pd.read_excel(
             input_path, usecols=[desc_col, misery_index_col], engine="openpyxl"
         )
-    except Exception:
-        print(f"{input_path} is not an excel file.")
-        exit()
+    except zipfile.BadZipFile:
+        pass
+    else:
+        return df
 
-    return df
+    try:
+        df = pd.read_csv(
+            input_path,
+            usecols=[desc_col, misery_index_col],
+        )
+    except UnicodeDecodeError:
+        print(f"{input_path} is not a valid .csv or .xlsx file.")
+        exit()
+    else:
+        return df
 
 
 def plot_crop_marks(ax: Axes, bleed: float, factor: float = 0.6):
@@ -442,7 +456,7 @@ def create_cards(
 
 def main(**args) -> None:
     input_dir = Path(args["input_dir"])
-    xlsx_path, output_dir = verify_input_dir(input_dir)
+    input_path, output_dir = verify_input_dir(input_dir)
 
     if False:
         pass
@@ -460,7 +474,7 @@ def main(**args) -> None:
                 f"Expansion name inferred to be {expansion_name}."
             )
 
-        df = parse_excel(xlsx_path, 0, 1)
+        df = parse_input_file(input_path, 0, 1)
 
         create_cards(
             df,
