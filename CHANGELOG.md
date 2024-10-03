@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v5.2.0 (2024-10-03)
+
+### Unknown
+
+* Merge pull request #59 from siemdejong/csv
+
+feat: allow for csv input for card creation ([`24a2cee`](https://github.com/siemdejong/ithappens/commit/24a2cee0d932b59df813a00326c691299ff056f8))
+
+* Merge remote-tracking branch &#39;origin/main&#39; into csv ([`49724da`](https://github.com/siemdejong/ithappens/commit/49724dabed0ae7f37882604c910eaae52a240d05))
+
 ## v5.1.0 (2024-10-03)
 
 ### Feature
@@ -8,6 +18,11 @@
 
 To make it easier to use for everyone,
 also those without Excel. ([`58a1c2a`](https://github.com/siemdejong/ithappens/commit/58a1c2ac5d0433b752ca7b5a0f82d6b00f53153c))
+
+* feat: allow for csv input for card creation
+
+To make it easier to use for everyone,
+also those without Excel. ([`097605f`](https://github.com/siemdejong/ithappens/commit/097605f30dc06e28577174c800f44a9cdf9e5298))
 
 ### Unknown
 
