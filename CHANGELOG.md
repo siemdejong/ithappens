@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v5.2.1 (2024-10-03)
+
+### Fix
+
+* fix: make streamlit use requirements.txt
+
+Streamlit needs a requirements.txt or complete conda environment.yml.
+We&#39;ll choose the requirements.txt as Streamlit cloud uses uv with this,
+which is fast.
+The readme removes text on using environment.yml. ([`3b36ea3`](https://github.com/siemdejong/ithappens/commit/3b36ea38196b8b4d013cee162ec612acbe2cce1b))
+
 ## v5.2.0 (2024-10-03)
 
 ### Unknown
