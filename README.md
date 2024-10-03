@@ -84,12 +84,9 @@
 <!-- ABOUT THE PROJECT -->
 # About The Project
 
-<!-- [![Product Name Screen Shot Front][<img src=product-screenshot-front width="250"/>]](https://example.com)
-[![Product Name Screen Shot Back][product-screenshot-back]](https://example.com) -->
-<div style="display:flex;align-items:center;">
-  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/ithappens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
-  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/ithappens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
-</div>
+![Front: "You don't know how to use this tool. Misery index 80"](examples/example/outputs/front/80-you-dont-know-how-to-use-this-tool.png)  |  ![Back: It Happens, Example expansion](examples/example/outputs/back/80-you-dont-know-how-to-use-this-tool.png)
+:-------------------------:|:-------------------------:
+Front             |  Back
 
 
 Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/ithappens) playing cards?
