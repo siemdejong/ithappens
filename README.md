@@ -84,7 +84,7 @@
 <!-- ABOUT THE PROJECT -->
 # About The Project
 
-![Front: "You don't know how to use this tool. Misery index 80"](examples/example/outputs/front/80-you-dont-know-how-to-use-this-tool.png)  |  ![Back: It Happens, Example expansion](examples/example/outputs/back/80-you-dont-know-how-to-use-this-tool.png)
+![Front: "You don't know how to use this tool. Misery index 80"](https://raw.githubusercontent.com/siemdejong/ithappens/main/examples/example/outputs/front/80-you-dont-know-how-to-use-this-tool.png)  |  ![Back: It Happens, Example expansion](https://raw.githubusercontent.com/siemdejong/ithappens/main/examples/example/outputs/back/80-you-dont-know-how-to-use-this-tool.png)
 :-------------------------:|:-------------------------:
 Front             |  Back
 
