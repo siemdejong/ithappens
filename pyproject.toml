@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Create your own Shit Happens playing cards!"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 dynamic = ["dependencies", "optional-dependencies"]
 license = {file = "LICENSE"}
 keywords = ["shit happens", "card game", "it happens"]
@@ -23,7 +23,10 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     'Programming Language :: Python :: 3 :: Only',
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Games/Entertainment :: Board Games",
     "Typing :: Typed",
 ]
