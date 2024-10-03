@@ -34,12 +34,6 @@ jobs:
     - name: Setup | Force correct release branch on workflow sha
       run: git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
-    - name: Install babel
-      run: pip install Babel
-    
-    - name: Build MO files
-      run: python setup.py compile_catalog
-
     - name: Action | Semantic Version Release
       id: release
       # Adjust tag with desired version if applicable.
