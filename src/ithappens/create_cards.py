@@ -458,35 +458,28 @@ def main(**args) -> None:
     input_dir = Path(args["input_dir"])
     input_path, output_dir = verify_input_dir(input_dir)
 
-    if False:
-        pass
-    # if args["rank"]:
-    #     from ithappens.sort_situations import sort
-
-    #     sort(xlsx_path)
+    if args["name"]:
+        expansion_name = args["name"]
     else:
-        if args["name"]:
-            expansion_name = args["name"]
-        else:
-            expansion_name = input_dir.stem
-            print(
-                "Argument -n/--name not given. "
-                f"Expansion name inferred to be {expansion_name}."
-            )
-
-        df = parse_input_file(input_path, 0, 1)
-
-        create_cards(
-            df,
-            expansion_name,
-            input_dir,
-            output_dir,
-            args["merge"],
-            args["side"],
-            args["format"],
-            args["workers"],
-            args["chunks"],
+        expansion_name = input_dir.stem
+        print(
+            "Argument -n/--name not given. "
+            f"Expansion name inferred to be {expansion_name}."
         )
+
+    df = parse_input_file(input_path, 0, 1)
+
+    create_cards(
+        df,
+        expansion_name,
+        input_dir,
+        output_dir,
+        args["merge"],
+        args["side"],
+        args["format"],
+        args["workers"],
+        args["chunks"],
+    )
 
 
 def main_cli(**kwargs):

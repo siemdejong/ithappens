@@ -210,7 +210,7 @@ expansion
 ├───outputs
 │   ├───back
 │   └───front
-└───*.xlsx
+└───*.xlsx/*.csv
 ```
 If the output folder does not exist, it will be created.
 The format of the expansion logo must be on [this list](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html).
