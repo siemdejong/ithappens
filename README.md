@@ -198,8 +198,6 @@ options:
                         Merge output. Defaults to --no-merge
   -s {front,back,both}, --side {front,back,both}
                         Side(s) to generate. Defaults to both.
-  -l {en,nl}, --lang {en,nl}
-                        Language. 'en' and 'nl' supported. Defaults to 'en'.
   -f {pdf,png}, --format {pdf,png}
                         Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.
   -r, --rank, --no-rank

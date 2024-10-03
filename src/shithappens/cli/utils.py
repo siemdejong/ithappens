@@ -2,10 +2,6 @@ from pathlib import Path
 from glob import glob
 import click
 
-from shithappens.utils import install_lang
-
-_ = install_lang("en")
-
 
 def verify_input_dir(input_dir: Path):
     while True:
@@ -13,24 +9,23 @@ def verify_input_dir(input_dir: Path):
             break
         input_dir = Path(
             input(
-                _(
-                    "Input directory {} does not exist. Please specify an existing input directory.\n"
-                ).format(input_dir)
+                f"Input directory {input_dir} does not exist. "
+                "Please specify an existing input directory.\n"
             )
         )
 
     output_dir = input_dir / "outputs"
-    print(_("Reading files from {}.").format(input_dir))
-    print(_("Output files in {}.").format(output_dir))
+    print(f"Reading files from {input_dir}.")
+    print(f"Output files in {output_dir}.")
 
     xlsx_paths = glob(f"{input_dir / '*.xlsx'}")
     xlsx_paths_num = len(xlsx_paths)
     if not xlsx_paths_num:
-        print(_("Please provide an Excel file in {}.").format(input_dir))
+        print("Please provide an Excel file in {input_dir}.")
         exit(1)
     elif xlsx_paths_num > 1:
         while True:
-            print(_("\nMore than one input file found."))
+            print("\nMore than one input file found.")
             for i, xlsx_path in enumerate(xlsx_paths, 1):
                 print(f"[{i}] {xlsx_path}")
             try:

@@ -27,14 +27,6 @@ def cli():
     help="Side(s) to generate.",
 )
 @click.option(
-    "-l",
-    "--language",
-    "lang",
-    type=click.Choice(["en", "nl"], case_sensitive=False),
-    default="en",
-    help="Language.",
-)
-@click.option(
     "-f",
     "--format",
     "format",
