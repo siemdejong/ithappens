@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v5.0.2 (2024-10-03)
+
+### Unknown
+
+* Merge pull request #56 from siemdejong/use-pgf-backend-for-merging
+
+fix: drop pypdf2 dependency ([`1c74dbd`](https://github.com/siemdejong/ithappens/commit/1c74dbd5d78debbaad762df203aa7928fbacd58d))
+
+* Merge remote-tracking branch &#39;origin/main&#39; into use-pgf-backend-for-merging ([`7bd5634`](https://github.com/siemdejong/ithappens/commit/7bd56347d709d790091b7317d092a8d233264d10))
+
 ## v5.0.1 (2024-10-03)
 
 ### Build
@@ -11,6 +21,13 @@
 * docs: display front and back side by side in readme ([`58cd469`](https://github.com/siemdejong/ithappens/commit/58cd46936aee0ecf025f0c5ffccfacf71e15e38b))
 
 ### Fix
+
+* fix: drop pypdf2 dependency
+
+Dropping pypdf2 dependency as merging can be achieved with matplotlib
+with the pdf backend.
+
+Also fixed an issue where fonts were not loaded correctly. ([`56ee045`](https://github.com/siemdejong/ithappens/commit/56ee0458377feaabb754491bf11148768fd76b8a))
 
 * fix: rename package ([`9c71211`](https://github.com/siemdejong/ithappens/commit/9c71211cf6c3c72b3d61f3ada49bf2a8a6d84573))
 
