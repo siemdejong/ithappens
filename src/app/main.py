@@ -2,13 +2,12 @@ import sys
 from pathlib import Path
 
 import streamlit as st
-import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
-from ithappens.create_cards import main
+from ithappens.create_cards import main, parse_input_file
 
 
 def select_folder():
@@ -19,10 +18,10 @@ def select_folder():
     return Path(folder_path)
 
 
-uploaded_file = st.file_uploader("Please provide your excel input")
+uploaded_file = st.file_uploader("Please provide your excel or csv input file")
 
 if uploaded_file is not None:
-    df = pd.read_excel(uploaded_file)
+    df = parse_input_file(uploaded_file)
     expansion_name = st.text_input("Expansion name")
     input_dir = st.session_state.get("input_dir", None)
     folder_select_button = st.button("Select input directory")

@@ -171,8 +171,8 @@ This allows you to import your modified version of ithappens without re-installi
 
 ## CLI
 The tool is available as a command line interface (CLI).
-It requires an Excel file in the input directory (default current working directory).
-The excel files must have two columns with any header.
+It requires an Excel or csv input file in the input directory (default current working directory).
+The input files must have two columns with any header.
 The first column must contain the miserable situations.
 The second column must contain the corresponding misery indices.
 See the examples directory for an example.
