@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v4.0.1 (2024-10-03)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/shit-happens ([`4032d51`](https://github.com/siemdejong/shit-happens/commit/4032d518b7eb965ca511da953f2a4eb9cc63cadb))
+
 ## v4.0.0 (2024-10-03)
 
 ### Breaking
@@ -17,6 +23,13 @@ Internationalization made it hard to maintain this package.
 Therefore, we remove gettext from the project.
 
 BREAKING CHANGE: no internationalization anymore ([`6d74173`](https://github.com/siemdejong/shit-happens/commit/6d74173023a0d52964474bc97453be501725f3bc))
+
+### Fix
+
+* fix: package opensans and expose to api
+
+We include Open Sans as a fixed dependency (no submodule).
+We use matplotlib style file for selecting Open Sans as font. ([`e9ddd92`](https://github.com/siemdejong/shit-happens/commit/e9ddd929d8026ec4422307afc431c26cc18867dd))
 
 ### Unknown
 
