@@ -142,17 +142,6 @@ cd ithappens
 ### Create a dedicated environment
 You should set up a dedicated environment to decouple your ithappens development from other Python and ithappens installations on your system.
 
-The simplest way to do this is to use either Python's virtual environment venv or conda.
-Here, instructions for conda are shown.
-```
-conda env create -f environment.yml
-```
-Activate the environment using
-```
-conda activate ithappens-dev
-```
-Remember to activate the environment whenever you start working on ithappens.
-
 ### Installing ithappens in editable mode
 Install ithappens in editable mode from the ithappens directory using the command
 ```
