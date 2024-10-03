@@ -45,14 +45,11 @@ include-package-data = false
 where = ["src"]
 
 [tool.setuptools.package-data]
-ithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png"]
+ithappens = ["images/*.png"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
-
-[tool.ruff]
-extend-exclude = ["opensans"]
 
 [tool.semantic_release]
 version_variables = ["pyproject.toml:version"] # version location

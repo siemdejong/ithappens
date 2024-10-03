@@ -11,6 +11,7 @@ import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.axes import Axes
+from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
@@ -20,7 +21,7 @@ from tqdm import tqdm
 
 from ithappens.card import Card
 from ithappens.cli.utils import verify_input_dir
-from ithappens.utils import merge_pdfs, slugify
+from ithappens.utils import slugify
 
 
 def text_with_wrap_autofit(
@@ -203,10 +204,7 @@ def plot_card_front(card: Card) -> Figure:
     ax.set_xlim(0, x_total)
     ax.set_ylim(0, y_total)
 
-    opensans_path = Path(__file__).parent.resolve() / Path(
-        "opensans/fonts/ttf/OpenSans-ExtraBold.ttf"
-    )
-    prop = fm.FontProperties(fname=opensans_path)
+    prop = fm.FontProperties(weight="extra bold")
 
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
@@ -287,8 +285,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
 
     parent_dir = Path(__file__).parent.resolve()
 
-    opensans_regular_path = parent_dir / Path("opensans/fonts/ttf/OpenSans-Regular.ttf")
-    prop_regular = fm.FontProperties(fname=opensans_regular_path)
+    prop_regular = fm.FontProperties(weight="regular")
 
     text_kwargs = dict(
         wrap=True, horizontalalignment="center", fontproperties=prop_regular
@@ -309,8 +306,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         verticalalignment="center",
     )
 
-    opensans_light_path = parent_dir / Path("opensans/fonts/ttf/OpenSans-Regular.ttf")
-    prop_light = fm.FontProperties(fname=opensans_light_path)
+    prop_light = fm.FontProperties(weight="regular")
 
     text_kwargs = dict(
         wrap=True, horizontalalignment="center", fontproperties=prop_light
@@ -390,7 +386,7 @@ def save_card(
 
 def create_card(
     row, expansion_name, input_dir, output_dir, side, ext: Literal["pdf", "png"]
-):
+) -> Card:
     card = Card(row[1]["desc"], row[1]["misery_index"], expansion_name)
 
     if side == "front" or side == "both":
@@ -400,6 +396,8 @@ def create_card(
     if side == "back" or side == "both":
         card.fig_back = plot_card_back(card, input_dir)
         save_card(card, output_dir, "back", format=ext)
+
+    return card
 
 
 def create_cards(
@@ -414,7 +412,7 @@ def create_cards(
     chunks: int,
 ) -> None:
     nmax = df.shape[0]
-    chunksize = nmax // chunks
+    chunksize = max(nmax // chunks, 1)
     create_card_par = partial(
         create_card,
         expansion_name=expansion_name,
@@ -424,23 +422,22 @@ def create_cards(
         ext=ext,
     )
     desc = "Plotting cards"
-    if chunksize:
-        with Pool(workers) as p:
-            list(
-                tqdm(
-                    p.imap_unordered(create_card_par, df.iterrows(), chunksize),
-                    total=nmax,
-                    desc=desc,
-                )
+    with Pool(workers) as p:
+        cards = list(
+            tqdm(
+                p.imap_unordered(create_card_par, df.iterrows(), chunksize),
+                total=nmax,
+                desc=desc,
             )
-    else:
-        list(tqdm(map(create_card_par, df.iterrows()), total=nmax, desc=desc))
+        )
 
     if merge:
-        if side == "front" or side == "both":
-            merge_pdfs(output_dir / "front")
-        if side == "back" or side == "both":
-            merge_pdfs(output_dir / "back")
+        with PdfPages(output_dir / "front" / "merged.pdf") as pdf:
+            for card in cards:
+                pdf.savefig(card.fig_front)
+        with PdfPages(output_dir / "back" / "merged.pdf") as pdf:
+            for card in cards:
+                pdf.savefig(card.fig_back)
 
 
 def main(**args) -> None:
