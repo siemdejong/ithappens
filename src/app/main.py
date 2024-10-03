@@ -17,6 +17,17 @@ def select_folder():
     root.destroy()
     return Path(folder_path)
 
+with st.sidebar:
+    st.title("It Happens")
+    st.write(
+        "Create your own Shit Happens playing cards!"
+    )
+    st.write("Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/shit-happens) playing cards? Now you can. Write down the most miserable situations you can think of and rank them. This project automatically outputs playing cards in pdf format.")
+    st.write("This project is not related to the original card game. [Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections.")
+    st.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">This project is open source.<br>See <a href=https://github.com/siemdejong/ithappens><i class="fa-brands fa-github">&nbsp;</i>siemdejong/ithappens</a>.', unsafe_allow_html=True)
+    st.components.v1.html(
+        '<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Lato" data-text="Buy me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
+    )
 
 uploaded_file = st.file_uploader("Please provide your excel or csv input file")
 
