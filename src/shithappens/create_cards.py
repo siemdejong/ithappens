@@ -18,9 +18,9 @@ from matplotlib.transforms import Bbox
 from tqdm import tqdm
 
 
-from shithappens.card import Card
-from shithappens.cli.utils import verify_input_dir
-from shithappens.utils import merge_pdfs, slugify
+from ithappens.card import Card
+from ithappens.cli.utils import verify_input_dir
+from ithappens.utils import merge_pdfs, slugify
 
 
 def text_with_wrap_autofit(
@@ -112,7 +112,7 @@ def text_with_wrap_autofit(
     return text
 
 
-class ShitHappensArgs(argparse.Namespace):
+class ithappensArgs(argparse.Namespace):
     input_dir: str
     name: str
     merge: bool
@@ -191,7 +191,7 @@ def plot_card_front(card: Card) -> Figure:
     y_total = y_size + 2 * bleed
     xy_size = (x_total, y_total)
 
-    plt.style.use("shithappens")
+    plt.style.use("ithappens")
     fig, ax = plt.subplots()
 
     fig.set_size_inches(*xy_size)
@@ -276,7 +276,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     y_total = y_size + 2 * bleed
     xy_size = (x_total, y_total)
 
-    plt.style.use("shithappens")
+    plt.style.use("ithappens")
     fig, ax = plt.subplots()
 
     fig.set_size_inches(*xy_size)
@@ -294,7 +294,7 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
         wrap=True, horizontalalignment="center", fontproperties=prop_regular
     )
 
-    game_name = "Shit Happens"
+    game_name = "It Happens"
     expansion_text = "edition"
     expansion_text_full = card.expansion_name + " " + expansion_text
 
@@ -450,7 +450,7 @@ def main(**args) -> None:
     if False:
         pass
     # if args["rank"]:
-    #     from shithappens.sort_situations import sort
+    #     from ithappens.sort_situations import sort
 
     #     sort(xlsx_path)
     else:

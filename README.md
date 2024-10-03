@@ -31,23 +31,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/siemdejong/shit-happens">
+  <!-- <a href="https://github.com/siemdejong/ithappens">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-<h3 align="center">Customized Shit Happens</h3>
+<h3 align="center">It Happens</h3>
 
   <p align="center">
-    Create your own <a href="https://boardgamegeek.com/boardgame/196379/shit-happens">Shit Happens</a> playing cards!
+    Create your own <a href="https://boardgamegeek.com/boardgame/196379/ithappens">Shit Happens</a> playing cards!
     <br />
-    <a href="https://github.com/siemdejong/shit-happens"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/siemdejong/ithappens"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <!-- <a href="https://github.com/siemdejong/shit-happens">View Demo</a>
+    <!-- <a href="https://github.com/siemdejong/ithappens">View Demo</a>
     · -->
-    <a href="https://github.com/siemdejong/shit-happens/issues">Report Bug</a>
+    <a href="https://github.com/siemdejong/ithappens/issues">Report Bug</a>
     ·
-    <a href="https://github.com/siemdejong/shit-happens/issues">Request Feature</a>
+    <a href="https://github.com/siemdejong/ithappens/issues">Request Feature</a>
   </p>
 </div>
 
@@ -87,20 +87,20 @@
 <!-- [![Product Name Screen Shot Front][<img src=product-screenshot-front width="250"/>]](https://example.com)
 [![Product Name Screen Shot Back][product-screenshot-back]](https://example.com) -->
 <div style="display:flex;align-items:center;">
-  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/shit-happens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
-  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/shit-happens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
+  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/ithappens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-front.png" alt="Front." height="250"/> </div> 
+  <div style="padding:10px;float:left;"> <img src="https://raw.githubusercontent.com/siemdejong/ithappens/8e0a5a46b70d6a5780df125a553d25ec161fc82e/images/80-you-dont-know-how-to-use-this-tool-back.png" alt="Back." height="250"/> </div>  
 </div>
 
 
-Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/shit-happens) playing cards?
+Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/ithappens) playing cards?
 Now you can.
 Write down the most miserable situations you can think of and rank them.
 This project automatically outputs playing cards in pdf format.
 
 This project is not related to the original card game.
-[Open an issue](https://github.com/siemdejong/shit-happens/issues/new/choose) in case of any objections.
+[Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections.
 
-<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `siemdejong`, `shit-happens`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
+<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `siemdejong`, `ithappens`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -124,29 +124,29 @@ A virtual environment with python 3.11 or higher.
 
 Run
 ```
-pip install shithappens
+pip install ithappens
 ```
 from within the target environment.
 
-To allow for pdf merging, run `pip install shithappens[merge]`.
-To show a progressbar, run `pip install shithappens[pbar]`.
-To install all dependencies, run `pip install shithappens[all]`.
+To allow for pdf merging, run `pip install ithappens[merge]`.
+To show a progressbar, run `pip install ithappens[pbar]`.
+To install all dependencies, run `pip install ithappens[all]`.
 
 ## Installing for developers
 
 ### Retrieve the latest version of the code
 Developers should fork this repository and run
 ```
-git clone https://github.com/<your-username>/shit-happens.git
+git clone https://github.com/<your-username>/ithappens.git
 ```
-This will place the sources in a directory `shit-happens` below your current working directory, set up the `origin` remote to point to your own fork, and set up the `upstream` remote to point to the `shit-happens` main repository.
+This will place the sources in a directory `ithappens` below your current working directory, set up the `origin` remote to point to your own fork, and set up the `upstream` remote to point to the `ithappens` main repository.
 Change into this directory before continuing:
 ```
-cd shit-happens
+cd ithappens
 ```
 
 ### Create a dedicated environment
-You should set up a dedicated environment to decouple your shithappens development from other Python and shithappens installations on your system.
+You should set up a dedicated environment to decouple your ithappens development from other Python and ithappens installations on your system.
 
 The simplest way to do this is to use either Python's virtual environment venv or conda.
 Here, instructions for conda are shown.
@@ -156,17 +156,17 @@ conda env create -f environment.yml
 ```
 Activate the environment using
 ```
-conda activate shithappens-dev
+conda activate ithappens-dev
 ```
-Remember to activate the environment whenever you start working on shithappens.
+Remember to activate the environment whenever you start working on ithappens.
 
-### Installing shithappens in editable mode
-Install shithappens in editable mode from the shithappens directory using the command
+### Installing ithappens in editable mode
+Install ithappens in editable mode from the ithappens directory using the command
 ```
 python -m pip install -e .
 ```
-The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import shithappens from your development source directory.
-This allows you to import your modified version of shithappens without re-installing after every change.
+The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import ithappens from your development source directory.
+This allows you to import your modified version of ithappens without re-installing after every change.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -184,7 +184,7 @@ The first column must contain the miserable situations.
 The second column must contain the corresponding misery indices.
 See the examples directory for an example.
 ```
-usage: shithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-r | --rank | --no-rank] [-w WORKERS] [-c CHUNKS] [input_dir]
+usage: ithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-r | --rank | --no-rank] [-w WORKERS] [-c CHUNKS] [input_dir]
 
 help:
   -h, --help            show this help message and exit
@@ -234,7 +234,7 @@ The format of the expansion logo must be on [this list](https://pillow.readthedo
 - [ ] Feature 3
     - [ ] Nested Feature
 
-See the [open issues](https://github.com/siemdejong/shit-happens/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/siemdejong/ithappens/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
@@ -267,7 +267,7 @@ Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 <!-- CONTACT -->
 # Contact
 
-Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/siemdejong/shit-happens)
+Project Link: [https://github.com/siemdejong/ithappens](https://github.com/siemdejong/ithappens)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -286,18 +286,18 @@ Project Link: [https://github.com/siemdejong/shit-happens](https://github.com/si
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[pypi-shield]: https://img.shields.io/pypi/v/shithappens?color=blue&logoColor=yellow&style=for-the-badge
-[pypi-url]: https://pypi.org/project/shithappens/
-[contributors-shield]: https://img.shields.io/github/contributors/siemdejong/shit-happens.svg?style=for-the-badge
-[contributors-url]: https://github.com/siemdejong/shit-happens/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/siemdejong/shit-happens.svg?style=for-the-badge
-[forks-url]: https://github.com/siemdejong/shit-happens/network/members
-[stars-shield]: https://img.shields.io/github/stars/siemdejong/shit-happens.svg?style=for-the-badge
-[stars-url]: https://github.com/siemdejong/shit-happens/stargazers
-[issues-shield]: https://img.shields.io/github/issues/siemdejong/shit-happens.svg?style=for-the-badge
-[issues-url]: https://github.com/siemdejong/shit-happens/issues
-[license-shield]: https://img.shields.io/github/license/siemdejong/shit-happens.svg?style=for-the-badge
-[license-url]: https://github.com/siemdejong/shit-happens/blob/master/LICENSE
+[pypi-shield]: https://img.shields.io/pypi/v/ithappens?color=blue&logoColor=yellow&style=for-the-badge
+[pypi-url]: https://pypi.org/project/ithappens/
+[contributors-shield]: https://img.shields.io/github/contributors/siemdejong/ithappens.svg?style=for-the-badge
+[contributors-url]: https://github.com/siemdejong/ithappens/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/siemdejong/ithappens.svg?style=for-the-badge
+[forks-url]: https://github.com/siemdejong/ithappens/network/members
+[stars-shield]: https://img.shields.io/github/stars/siemdejong/ithappens.svg?style=for-the-badge
+[stars-url]: https://github.com/siemdejong/ithappens/stargazers
+[issues-shield]: https://img.shields.io/github/issues/siemdejong/ithappens.svg?style=for-the-badge
+[issues-url]: https://github.com/siemdejong/ithappens/issues
+[license-shield]: https://img.shields.io/github/license/siemdejong/ithappens.svg?style=for-the-badge
+[license-url]: https://github.com/siemdejong/ithappens/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot-front]: images\80-you-dont-know-how-to-use-this-tool-front.png

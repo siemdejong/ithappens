@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "shithappens"
+name = "ithappens"
 version = "4.0.1"
 authors = [
     {name="Siem de Jong"},
@@ -13,7 +13,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dynamic = ["dependencies", "optional-dependencies"]
 license = {file = "LICENSE"}
-keywords = ["shit happens", "card-game"]
+keywords = ["shit happens", "card game", "it happens"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Framework :: Matplotlib",
@@ -29,11 +29,11 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/siemdejong/shit-happens"
-"Bug Tracker" = "https://github.com/siemdejong/shit-happens/issues"
+"Homepage" = "https://github.com/siemdejong/ithappens"
+"Bug Tracker" = "https://github.com/siemdejong/ithappens/issues"
 
 [project.scripts]
-shithappens = "shithappens.cli:cli"
+ithappens = "ithappens.cli:cli"
 
 [tool.setuptools]
 include-package-data = false
@@ -42,7 +42,7 @@ include-package-data = false
 where = ["src"]
 
 [tool.setuptools.package-data]
-shithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png"]
+ithappens = ["opensans/fonts/ttf/*.ttf", "images/*.png"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

@@ -8,7 +8,7 @@ from tkinter import filedialog
 
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
-from shithappens.create_cards import main
+from ithappens.create_cards import main
 
 
 def select_folder():
