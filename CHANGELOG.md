@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v5.1.0 (2024-10-03)
+
+### Feature
+
+* feat: allow for csv input for card creation
+
+To make it easier to use for everyone,
+also those without Excel. ([`58a1c2a`](https://github.com/siemdejong/ithappens/commit/58a1c2ac5d0433b752ca7b5a0f82d6b00f53153c))
+
+### Unknown
+
+* Merge pull request #58 from siemdejong/csv
+
+feat: allow for csv input for card creation ([`546d934`](https://github.com/siemdejong/ithappens/commit/546d934ff15f5cabf295147a017846665eaea827))
+
 ## v5.0.2 (2024-10-03)
 
 ### Unknown
