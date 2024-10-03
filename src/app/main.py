@@ -21,7 +21,7 @@ def select_folder():
 uploaded_file = st.file_uploader("Please provide your excel or csv input file")
 
 if uploaded_file is not None:
-    df = parse_input_file(uploaded_file)
+    df = parse_input_file(uploaded_file, 0, 1)
     expansion_name = st.text_input("Expansion name")
     input_dir = st.session_state.get("input_dir", None)
     folder_select_button = st.button("Select input directory")

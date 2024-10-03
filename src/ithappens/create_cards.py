@@ -21,8 +21,7 @@ from tqdm import tqdm
 
 
 from ithappens.card import Card
-from ithappens.cli.utils import verify_input_dir
-from ithappens.utils import slugify
+from ithappens.utils import slugify, verify_input_dir
 
 
 def text_with_wrap_autofit(
