@@ -1,8 +1,41 @@
 # CHANGELOG
 
+## v6.0.0 (2024-10-04)
+
+### Breaking
+
+* feat: force the use of input column headers
+
+To make it as obvious as possible.
+
+BREAKING CHANGE: any previous input formats with random header names
+won&#39;t work anymore. ([`61b7789`](https://github.com/siemdejong/ithappens/commit/61b7789ed9bd343af12790d3c71648634bdbcd9c))
+
+### Chore
+
+* chore: remove exe dep files ([`ca997a3`](https://github.com/siemdejong/ithappens/commit/ca997a3bbf108b757762214fd304908707cda98b))
+
+* chore: remove exe dep files ([`7f8d829`](https://github.com/siemdejong/ithappens/commit/7f8d829d0f07eafddda210a72194d158ca9bfcfa))
+
+### Unknown
+
+* Merge pull request #65 from siemdejong/fix-input-columns
+
+feat: force the use of input column headers ([`5be1c43`](https://github.com/siemdejong/ithappens/commit/5be1c437485c0f562a10117cfee452e70aab9afa))
+
+* Merge pull request #63 from siemdejong/remove-exe-files
+
+Remove exe files ([`5701a17`](https://github.com/siemdejong/ithappens/commit/5701a1767fbd7faf1dafe01f0c2788ed9e747730))
+
+* Merge branch &#39;remove-exe-files&#39; of https://github.com/siemdejong/ithappens into remove-exe-files ([`6872d83`](https://github.com/siemdejong/ithappens/commit/6872d83b9cb37b21c1bece441493f6847164c34e))
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`457faf4`](https://github.com/siemdejong/ithappens/commit/457faf48581bf6f46294b3d4f8eabc7a7d84cecb))
+
 ## v5.2.2 (2024-10-03)
 
 ### Documentation
+
+* docs: add some info on the streamlit page ([`b352ad9`](https://github.com/siemdejong/ithappens/commit/b352ad97498efd9e756caf79792ccf98ca3e0c71))
 
 * docs: add images to pypi ([`07b3b54`](https://github.com/siemdejong/ithappens/commit/07b3b540ed0822583e03fbe410c40374c57340da))
 
