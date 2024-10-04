@@ -125,7 +125,7 @@ class ithappensArgs(argparse.Namespace):
 
 
 def parse_input_file(
-    input_path: Path, desc_col: int, misery_index_col: int
+    input_path: Path,
 ) -> pd.DataFrame:
     """Parse an input file.
 
@@ -133,28 +133,28 @@ def parse_input_file(
 
     Args:
         intput_path: path of the input file (.csv or .xlsx)
-        desc_col: description column index
-        misery_index_col: misery index column index
 
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
+    usecols = ["misery index", "situation"]
     try:
-        df = pd.read_excel(
-            input_path, usecols=[desc_col, misery_index_col], engine="openpyxl"
-        )
+        df = pd.read_excel(input_path, usecols=usecols)
     except zipfile.BadZipFile:
         pass
+    except ValueError:
+        print(f"Make sure {input_path} has two columns named {usecols}.")
+        exit()
     else:
         return df
 
     try:
-        df = pd.read_csv(
-            input_path,
-            usecols=[desc_col, misery_index_col],
-        )
+        df = pd.read_csv(input_path, names=usecols)
     except UnicodeDecodeError:
         print(f"{input_path} is not a valid .csv or .xlsx file.")
+        exit()
+    except ValueError:
+        print(f"Make sure {input_path} has two columns named {usecols}.")
         exit()
     else:
         return df
@@ -466,7 +466,7 @@ def main(**args) -> None:
             f"Expansion name inferred to be {expansion_name}."
         )
 
-    df = parse_input_file(input_path, 0, 1)
+    df = parse_input_file(input_path)
 
     create_cards(
         df,
