@@ -40,14 +40,7 @@
   <p align="center">
     Create your own <a href="https://boardgamegeek.com/boardgame/196379/ithappens">Shit Happens</a> playing cards!
     <br />
-    <a href="https://github.com/siemdejong/ithappens"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <!-- <a href="https://github.com/siemdejong/ithappens">View Demo</a>
-    · -->
-    <a href="https://github.com/siemdejong/ithappens/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/siemdejong/ithappens/issues">Request Feature</a>
+    <a href="https://ithappens.streamlit.app/"><strong>Go to the app »</strong></a>
   </p>
 </div>
 
@@ -106,6 +99,7 @@ This project is not related to the original card game.
 ## Built With
 
 [![Python][Python]][Python-url]
+[![Streamlit][Streamlit]][Streamlit-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -286,6 +280,8 @@ Project Link: [https://github.com/siemdejong/ithappens](https://github.com/siemd
 [product-screenshot-back]: images\80-you-dont-know-how-to-use-this-tool-back.png
 [Python]: https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://python.org/
+[Streamlit]: https://img.shields.io/badge/Streamlit-1E0A31?style=for-the-badge&logo=streamlit&logoColor=E81A1A
+[Streamlit-url]: https://streamlit.io/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
