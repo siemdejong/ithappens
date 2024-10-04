@@ -1,11 +1,10 @@
 import argparse
 import textwrap
-import zipfile
+import io
 from functools import partial
-from glob import glob
 from multiprocessing import Pool
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal, Optional, cast
 
 import matplotlib.font_manager as fm
 import matplotlib.image as mpimage
@@ -21,7 +20,7 @@ from tqdm import tqdm
 
 
 from ithappens.card import Card
-from ithappens.utils import slugify, verify_input_dir
+from ithappens.utils import slugify
 
 
 def text_with_wrap_autofit(
@@ -139,21 +138,23 @@ def parse_input_file(
     """
     usecols = ["misery index", "situation"]
     try:
-        df = pd.read_excel(input_path, usecols=usecols)
-    except zipfile.BadZipFile:
-        pass
+        df = pd.read_excel(input_path)
+        df = df[usecols]
     except ValueError:
+        pass
+    except KeyError:
         print(f"Make sure {input_path} has two columns named {usecols}.")
         exit()
     else:
         return df
 
     try:
-        df = pd.read_csv(input_path, names=usecols)
+        df = pd.read_csv(input_path)
+        df = df[usecols]
     except UnicodeDecodeError:
         print(f"{input_path} is not a valid .csv or .xlsx file.")
         exit()
-    except ValueError:
+    except KeyError:
         print(f"Make sure {input_path} has two columns named {usecols}.")
         exit()
     else:
@@ -272,7 +273,7 @@ def plot_card_front(card: Card) -> Figure:
     return fig
 
 
-def plot_card_back(card: Card, input_dir: Path) -> Figure:
+def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figure:
     # To be able to convert between centimeters and inches.
     cm_per_inch = 2.54
 
@@ -295,8 +296,6 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     fig.subplots_adjust(left=0, bottom=0, right=1, top=1)
 
     ax.axis("off")
-
-    parent_dir = Path(__file__).parent.resolve()
 
     prop_regular = fm.FontProperties(weight="regular")
 
@@ -338,13 +337,11 @@ def plot_card_back(card: Card, input_dir: Path) -> Figure:
     )
 
     # Expansion logo
+    if expansion_logo_path is None:
+        parent_dir = Path(__file__).parent.resolve()
+        expansion_logo_path = parent_dir / Path("images/expansion-logo.png")
 
-    try:
-        expansion_logo_path = glob(f"{input_dir}/**/expansion-logo.*")[0]
-    except KeyError:
-        expansion_logo_path = str(parent_dir / Path("images/expansion-logo.png"))
-
-    expansion_logo = mpimage.imread(expansion_logo_path)
+    expansion_logo = mpimage.imread(str(expansion_logo_path))
 
     expansion_logoax = fig.add_axes([0.2, 0.1, 0.6, 0.6])
     expansion_logoax.imshow(
@@ -398,16 +395,21 @@ def save_card(
 
 
 def create_card(
-    row, expansion_name, input_dir, output_dir, side, ext: Literal["pdf", "png"]
+    row,
+    expansion_name,
+    expansion_logo_path,
+    output_dir,
+    side,
+    ext: Literal["pdf", "png"],
 ) -> Card:
-    card = Card(row[1]["desc"], row[1]["misery_index"], expansion_name)
+    card = Card(row[1]["situation"], row[1]["misery index"], expansion_name)
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)
         save_card(card, output_dir, "front", format=ext)
 
     if side == "back" or side == "both":
-        card.fig_back = plot_card_back(card, input_dir)
+        card.fig_back = plot_card_back(card, expansion_logo_path)
         save_card(card, output_dir, "back", format=ext)
 
     return card
@@ -416,7 +418,7 @@ def create_card(
 def create_cards(
     df: pd.DataFrame,
     expansion_name: str,
-    input_dir: Path,
+    expansion_logo_path: Path,
     output_dir: Path,
     merge: bool,
     side: Literal["front", "back", "both"],
@@ -429,14 +431,14 @@ def create_cards(
     create_card_par = partial(
         create_card,
         expansion_name=expansion_name,
-        input_dir=input_dir,
+        expansion_logo_path=expansion_logo_path,
         output_dir=output_dir,
         side=side,
         ext=ext,
     )
     desc = "Plotting cards"
     with Pool(workers) as p:
-        cards = list(
+        cards: list[Card] = list(
             tqdm(
                 p.imap_unordered(create_card_par, df.iterrows(), chunksize),
                 total=nmax,
@@ -454,24 +456,31 @@ def create_cards(
 
 
 def main(**args) -> None:
-    input_dir = Path(args["input_dir"])
-    input_path, output_dir = verify_input_dir(input_dir)
+    input_file = args["input_file"]
+    output_dir = Path(args["output_dir"])
+    expansion_logo_path = (
+        Path(args["expansion_logo_path"]) if args["expansion_logo_path"] else None
+    )
 
     if args["name"]:
         expansion_name = args["name"]
     else:
-        expansion_name = input_dir.stem
+        try:
+            expansion_name = Path(input_file).stem
+        except TypeError:  # In streamlit, the input_file is a file object.
+            input_file = cast(io.BytesIO, input_file)
+            expansion_name = Path(input_file.name).stem
         print(
             "Argument -n/--name not given. "
             f"Expansion name inferred to be {expansion_name}."
         )
 
-    df = parse_input_file(input_path)
+    df = parse_input_file(input_file)
 
     create_cards(
         df,
         expansion_name,
-        input_dir,
+        expansion_logo_path,
         output_dir,
         args["merge"],
         args["side"],

@@ -1,21 +1,34 @@
 import sys
 from pathlib import Path
+import tempfile
+
+import numpy as np
+import os
+
+import shutil
 
 import streamlit as st
-import tkinter as tk
-from tkinter import filedialog
 
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
 from ithappens.create_cards import main, parse_input_file
 
 
-def select_folder():
-    root = tk.Tk()
-    root.withdraw()
-    folder_path = filedialog.askdirectory(parent=root)
-    root.destroy()
-    return Path(folder_path)
+@st.cache_data
+def create_cards(
+    name, input_file, output_dir, expansion_logo, merge, side, format, workers, chunks
+):
+    main(
+        name=name,
+        input_file=input_file,
+        output_dir=output_dir,
+        expansion_logo_path=expansion_logo.name if expansion_logo else None,
+        merge=merge,
+        side=side,
+        format=format,
+        workers=workers,
+        chunks=chunks,
+    )
 
 
 with st.sidebar:
@@ -35,34 +48,93 @@ with st.sidebar:
         '<br><script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Lato" data-text="Buy me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
     )
 
-uploaded_file = st.file_uploader("Please provide your excel or csv input file")
-
-if uploaded_file is not None:
-    df = parse_input_file(uploaded_file)
-    expansion_name = st.text_input("Expansion name")
-    input_dir = st.session_state.get("input_dir", None)
-    folder_select_button = st.button("Select input directory")
-    if folder_select_button:
-        input_dir = select_folder()
-        st.session_state.input_dir = input_dir
-    if input_dir:
-        st.write("Selected input directory path:", input_dir)
-        output_dir = input_dir / "outputs"
-
-    merge = st.checkbox("Merge output", value=True)
-    side = st.selectbox("Side(s) to generate", ["both", "front", "back"])
-    format = st.selectbox("Output format", ["pdf", "png"])
-    workers = st.number_input("Number of workers", value=4)
-    chunks = st.number_input("Number of chunks for the workers to process", value=30)
-
-    if st.button("Create cards"):
-        main(
-            name=expansion_name,
-            input_dir=input_dir,
-            merge=merge,
-            side=side,
-            format=format,
-            workers=workers,
-            chunks=chunks,
+with st.popover("Download example data"):
+    st.write("Download example data to get started.")
+    with open(
+        Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
+        "rb",
+    ) as zip_file:
+        st.download_button(
+            label="Input csv",
+            data=zip_file,
+            file_name="example.csv",
+            mime="text/csv",
+            icon=":material/download:",
         )
-        st.write("Cards written to ", output_dir)
+    with open(
+        Path(__file__).parent.parent.parent / "examples" / "example" / "example.xlsx",
+        "rb",
+    ) as zip_file:
+        st.download_button(
+            label="Input xlsx",
+            data=zip_file,
+            file_name="example.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            icon=":material/download:",
+        )
+    with open(
+        Path(__file__).parent.parent.parent
+        / "examples"
+        / "example"
+        / "images"
+        / "expansion-logo.png",
+        "rb",
+    ) as zip_file:
+        st.download_button(
+            label="Expansion logo",
+            data=zip_file,
+            file_name="example-expansion-logo.png",
+            mime="image/png",
+            icon=":material/download:",
+        )
+
+expansion_name = st.text_input("Expansion name")
+input_file = st.file_uploader("Please provide your excel or csv input file")
+expansion_logo = st.file_uploader("Optionally provide your expansion logo")
+
+if input_file is not None:
+    df = parse_input_file(input_file)
+
+    with st.popover(":material/settings: Additional settings"):
+        merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
+        side = st.radio(
+            "Side(s) to generate", ["both", "front", "back"], horizontal=True
+        )
+        format = st.radio("Output format", ["pdf", "png"], horizontal=True)
+        workers = st.select_slider(
+            "Number of workers",
+            options=np.arange(1, os.cpu_count() + 1),
+            value=os.cpu_count(),
+        )
+        chunks = st.select_slider(
+            "Number of chunks", options=np.arange(1, len(df) + 1), value=len(df)
+        )
+
+    if st.button(":material/play_arrow: Create cards", use_container_width=True):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            with st.spinner("Creating your It Happens playing cards..."):
+                create_cards(
+                    name=expansion_name,
+                    input_file=input_file,
+                    output_dir=tmp_dir,
+                    expansion_logo=expansion_logo,
+                    merge=merge,
+                    side=side,
+                    format=format,
+                    workers=workers,
+                    chunks=chunks,
+                )
+
+                zip_file = Path(tmp_dir) / "ithappens-output.zip"
+                archive = shutil.make_archive(zip_file, "zip", tmp_dir)
+
+                with open(archive, "rb") as zip_file_buf:
+                    st.download_button(
+                        label="Download cards",
+                        data=zip_file_buf,
+                        file_name="ithappens-output.zip",
+                        mime="application/zip",
+                        type="primary",
+                        icon=":material/download:",
+                        use_container_width=True,
+                    )
