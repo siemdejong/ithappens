@@ -45,7 +45,7 @@ include-package-data = false
 where = ["src"]
 
 [tool.setuptools.package-data]
-ithappens = ["images/*.png"]
+ithappens = ["images/*.png", "style/fonts/Open_Sans/*"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
