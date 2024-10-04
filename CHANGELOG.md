@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## v7.0.0 (2024-10-04)
+
+### Breaking
+
+* feat: use input files and make ui easier
+
+Fixes #66
+
+BREAKING CHANGE: it is no longer possible to use an input directory.
+Invididual input files have to be selected. ([`986fb3a`](https://github.com/siemdejong/ithappens/commit/986fb3a983460a5151d40ba23dd78f19da56ca3c))
+
+### Unknown
+
+* Merge pull request #68 from siemdejong/use-input-files-instead-of-dir
+
+feat: use input files and make ui easier ([`c0c5397`](https://github.com/siemdejong/ithappens/commit/c0c5397409034ce09277c449414df9ac3d297a3e))
+
 ## v6.0.0 (2024-10-04)
 
 ### Breaking
