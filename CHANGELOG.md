@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v7.0.2 (2024-10-06)
+
+### Fix
+
+* fix: set page title ([`c45281a`](https://github.com/siemdejong/ithappens/commit/c45281aaa7e411ad7445fbbd81892dee6a3d1348))
+
+### Style
+
+* style: change app colors ([`8c5a30c`](https://github.com/siemdejong/ithappens/commit/8c5a30c1183a7b151a15c3314808892d2cab6a92))
+
 ## v7.0.1 (2024-10-06)
 
 ### Documentation
