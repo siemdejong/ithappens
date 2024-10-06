@@ -1,13 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
 
 
 <!-- PROJECT SHIELDS -->
@@ -23,17 +14,12 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-<!-- [![LinkedIn][linkedin-shield]][linkedin-url] -->
+[![GPLv3 License][license-shield]][license-url]
 
 
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <!-- <a href="https://github.com/siemdejong/ithappens">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
 
 <h3 align="center">It Happens</h3>
 
@@ -45,37 +31,6 @@
 </div>
 
 
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <!-- <li><a href="#roadmap">Roadmap</a></li> -->
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
-# About The Project
 
 ![Front: "You don't know how to use this tool. Misery index 80"](https://raw.githubusercontent.com/siemdejong/ithappens/main/examples/example/outputs/front/80-you-dont-know-how-to-use-this-tool.png)  |  ![Back: It Happens, Example expansion](https://raw.githubusercontent.com/siemdejong/ithappens/main/examples/example/outputs/back/80-you-dont-know-how-to-use-this-tool.png)
 :-------------------------:|:-------------------------:
@@ -90,35 +45,49 @@ This project automatically outputs playing cards in pdf format.
 This project is not related to the original card game.
 [Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections.
 
-<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `siemdejong`, `ithappens`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+# Getting started
+
+## App
+
+The tool is available as an online [app](https://ithappens.streamlit.app).
+
+## CLI
+The tool is also available as a command line interface (CLI), see [Local installation](#local-installation).
+The tool requires an Excel or csv input file and optionally an expansion logo.
+The input files must have header "misery index" and "situation".
+See the examples directory for an example.
+```
+Usage: ithappens create [OPTIONS] INPUT_FILE OUTPUT_DIR
+
+  Create cards.
+
+Options:
+  -n, --name TEXT                 Expansion name. If no name is specified,
+                                  infers name from input_dir.
+  -m, --merge                     Merge output.
+  -s, --side [front|back|both]    Side(s) to generate.
+  -e, --expansion_logo_path FILE  Expansion logo path.
+  -f, --format [pdf|png]          Output format.
+  -w, --workers INTEGER           Number of workers.
+  -c, --chunks INTEGER            Number of chunks for the workers to process
+  --help                          Show this message and exit.
+```
+
+If the output folder does not exist, it will be created.
+The format of the expansion logo must be on [this list](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+# Local installation
+The app can be installed with `pip install ithappens`.
 
-## Built With
-
-[![Python][Python]][Python-url]
-[![Streamlit][Streamlit]][Streamlit-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- GETTING STARTED -->
-# Getting Started
 ## Prerequisites
 
 A virtual environment with python 3.9 or higher.
-
-## Installation
-
-Run
-```
-pip install ithappens
-```
-from within the target environment.
-
 
 ## Installing for developers
 
@@ -148,75 +117,6 @@ This allows you to import your modified version of ithappens without re-installi
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- USAGE EXAMPLES -->
-# Usage
-
-## CLI
-The tool is available as a command line interface (CLI).
-It requires an Excel or csv input file in the input directory (default current working directory).
-The input files must have two columns with any header.
-The first column must contain the miserable situations.
-The second column must contain the corresponding misery indices.
-See the examples directory for an example.
-```
-usage: ithappens [-h] [-n NAME] [-m | --merge | --no-merge] [-s {front,back,both}] [-l {en,nl}] [-f {pdf,png}] [-r | --rank | --no-rank] [-w WORKERS] [-c CHUNKS] [input_dir]
-
-help:
-  -h, --help            show this help message and exit
-
-input:
-  input_dir             Input directory. Defaults to current working directory.
-
-options:
-  -n NAME, --name NAME  Expansion name. If no name is specified, infers name from input_dir.
-  -m, --merge, --no-merge
-                        Merge output. Defaults to --no-merge
-  -s {front,back,both}, --side {front,back,both}
-                        Side(s) to generate. Defaults to both.
-  -f {pdf,png}, --format {pdf,png}
-                        Output format. 'pdf' and 'png' supported. Defaults to 'pdf'.
-  -r, --rank, --no-rank
-                        Rank situations and output in new file. Does not guarantee a linear ranking, i.e. situations can have equal misery index. Ignores all other options. Defaults to --no-rank.
-
-multiprocessing:
-  -w WORKERS, --workers WORKERS
-                        Number of workers. Defaults to 4.
-  -c CHUNKS, --chunks CHUNKS
-                        Number of chunks for the workers to process. Defaults to 30.
-```
-The input directory must be structured as follows:
-```
-expansion
-├───images
-│   └───expansion-logo.*
-├───outputs
-│   ├───back
-│   └───front
-└───*.xlsx/*.csv
-```
-If the output folder does not exist, it will be created.
-The format of the expansion logo must be on [this list](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-<!-- ## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/siemdejong/ithappens/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
-
-
-
-<!-- CONTRIBUTING -->
 # Contributing
 
 Any contributions you make are greatly appreciated.
@@ -229,34 +129,19 @@ Any contributions you make are greatly appreciated.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Built With
+
+[![Python][Python]][Python-url]
+[![Streamlit][Streamlit]][Streamlit-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- LICENSE -->
 # License
 
 Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-# Contact
-
-Project Link: [https://github.com/siemdejong/ithappens](https://github.com/siemdejong/ithappens)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-<!-- ## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
