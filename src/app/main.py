@@ -5,7 +5,7 @@ import tempfile
 import numpy as np
 import os
 
-import shutil
+import zipfile
 
 import streamlit as st
 
@@ -30,6 +30,13 @@ def create_cards(
         chunks=chunks,
     )
 
+def zip_cards(target_file: Path, source_dir: Path):
+    with zipfile.ZipFile(target_file, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        for entry in source_dir.rglob("*"):
+            if entry.suffix == ".zip":
+                continue
+            zip_file.write(entry, entry.relative_to(tmp_dir))
+
 
 with st.sidebar:
     st.title("It Happens")
@@ -53,10 +60,10 @@ with st.popover("Download example data"):
     with open(
         Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
         "rb",
-    ) as zip_file:
+    ) as csv_file:
         st.download_button(
             label="Input csv",
-            data=zip_file,
+            data=csv_file,
             file_name="example.csv",
             mime="text/csv",
             icon=":material/download:",
@@ -64,10 +71,10 @@ with st.popover("Download example data"):
     with open(
         Path(__file__).parent.parent.parent / "examples" / "example" / "example.xlsx",
         "rb",
-    ) as zip_file:
+    ) as xlsx_file:
         st.download_button(
             label="Input xlsx",
-            data=zip_file,
+            data=xlsx_file,
             file_name="example.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             icon=":material/download:",
@@ -79,10 +86,10 @@ with st.popover("Download example data"):
         / "images"
         / "expansion-logo.png",
         "rb",
-    ) as zip_file:
+    ) as logo_file:
         st.download_button(
             label="Expansion logo",
-            data=zip_file,
+            data=logo_file,
             file_name="example-expansion-logo.png",
             mime="image/png",
             icon=":material/download:",
@@ -112,6 +119,7 @@ if input_file is not None:
 
     if st.button(":material/play_arrow: Create cards", use_container_width=True):
         with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_dir = Path(tmp_dir)
             with st.spinner("Creating your It Happens playing cards..."):
                 create_cards(
                     name=expansion_name,
@@ -125,16 +133,16 @@ if input_file is not None:
                     chunks=chunks,
                 )
 
-                zip_file = Path(tmp_dir) / "ithappens-output.zip"
-                archive = shutil.make_archive(zip_file, "zip", tmp_dir)
+                archive = tmp_dir / "ithappens-output.zip"
+                zip_cards(archive, tmp_dir)
 
-                with open(archive, "rb") as zip_file_buf:
-                    st.download_button(
-                        label="Download cards",
-                        data=zip_file_buf,
-                        file_name="ithappens-output.zip",
-                        mime="application/zip",
-                        type="primary",
-                        icon=":material/download:",
-                        use_container_width=True,
-                    )
+            with open(archive, "rb") as zip_file_buf:
+                st.download_button(
+                    label="Download cards",
+                    data=zip_file_buf,
+                    file_name=archive.name,
+                    mime="application/zip",
+                    type="primary",
+                    icon=":material/download:",
+                    use_container_width=True,
+                )
