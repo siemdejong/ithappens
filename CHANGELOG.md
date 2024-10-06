@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v7.0.1 (2024-10-06)
+
+### Documentation
+
+* docs: clarified usage and fixed layout
+
+fixes #71 ([`2e53981`](https://github.com/siemdejong/ithappens/commit/2e5398195b350c046852aa3201ca21615be635c7))
+
+* docs: link to the streamlit app ([`14e7630`](https://github.com/siemdejong/ithappens/commit/14e76304d46bf3d00c22cac19aee0bddeba1ded2))
+
+### Fix
+
+* fix: remove .zip.zip from output archive
+
+fixes #70 ([`e727594`](https://github.com/siemdejong/ithappens/commit/e727594c5db5c94406e58e4430d20a09ff04f34b))
+
+* fix: remove packages.txt
+
+tk isn&#39;t needed anymore on streamlit cloud.
+
+fixes #72 ([`9cf73d6`](https://github.com/siemdejong/ithappens/commit/9cf73d637f313e6142d3d4abd6a6e310fbbbb72d))
+
 ## v7.0.0 (2024-10-04)
 
 ### Breaking
