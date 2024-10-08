@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.0.3 (2024-10-08)
+
+### Fix
+
+* fix: don&#39;t cache creating cards ([`d6304a4`](https://github.com/siemdejong/ithappens/commit/d6304a4d1a93bd5482abf1a7ac8ba77577b3ef02))
+
 ## v7.0.2 (2024-10-06)
 
 ### Fix
