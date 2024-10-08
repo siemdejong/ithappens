@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.0.4 (2024-10-08)
+
+### Fix
+
+* fix: add page icon and set initial sidebar state to expanded ([`a6b1e2a`](https://github.com/siemdejong/ithappens/commit/a6b1e2ad0a55dd9ada3e6266cbc9cf7e4cdc6557))
+
 ## v7.0.3 (2024-10-08)
 
 ### Fix
