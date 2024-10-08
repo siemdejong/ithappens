@@ -14,7 +14,6 @@ sys.path.append(str(Path(__file__).absolute().parent.parent))
 from ithappens.create_cards import main, parse_input_file
 
 
-@st.cache_data
 def create_cards(
     name, input_file, output_dir, expansion_logo, merge, side, format, workers, chunks
 ):
