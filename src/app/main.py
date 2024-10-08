@@ -36,7 +36,11 @@ def zip_cards(target_file: Path, source_dir: Path):
                 continue
             zip_file.write(entry, entry.relative_to(tmp_dir))
 
-st.set_page_config(page_title="It Happens")
+st.set_page_config(
+    page_title="It Happens",
+    page_icon=":material/sprint:",
+    initial_sidebar_state="expanded",    
+)
 
 with st.sidebar:
     st.title("It Happens")
