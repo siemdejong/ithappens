@@ -48,14 +48,6 @@ def cli():
 @click.option(
     "-w", "--workers", "workers", type=int, default=4, help="Number of workers."
 )
-@click.option(
-    "-c",
-    "--chunks",
-    "chunks",
-    type=int,
-    default=30,
-    help="Number of chunks for the workers to process",
-)
 def create(**kwargs):
     create_cli(**kwargs)
 
