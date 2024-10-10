@@ -86,7 +86,7 @@ def text_with_wrap_autofit(
     fontsize = rect_height_inch * 72
 
     wrap_lines = 1
-    xy = (bleed + 0.5 * x, bleed + 0.95 * y)
+    xy = (bleed + 0.5 * x, bleed + 0.98 * y)
     while True:
         wrapped_txt = "\n".join(
             textwrap.wrap(txt, width=len(txt) // wrap_lines, break_long_words=False)
@@ -200,7 +200,7 @@ def plot_card_front(card: Card) -> Figure:
 
     # Add margin on all sides.
     bleed = 0.5 / cm_per_inch  # cm
-    pad = 0.3 / cm_per_inch
+    pad = 0.15 / cm_per_inch
 
     x_total = x_size + 2 * bleed
     y_total = y_size + 2 * bleed
@@ -235,34 +235,35 @@ def plot_card_front(card: Card) -> Figure:
         min_font_size=11,
         va="top",
         weight="extra bold",
-        color="yellow",
+        color="#ffdc20",
     )
 
     mi_desc = "misery index"
     ax.text(
         x_total / 2,
-        1.3 * y_size / 8 + bleed,
+        1.2 * y_size / 6 + bleed,
         mi_desc.upper(),
         **text_kwargs,
-        color="yellow",
+        color="#ffdc20",
         fontsize=13,
-        weight="extra bold",
+        weight="semibold",
         verticalalignment="center",
     )
 
     ax.text(
         x_total / 2,
-        0.05 * y_size + bleed,
+        0.07 * y_size + bleed,
+        # bleed,
         card.misery_index if ".5" in str(card.misery_index) else int(card.misery_index),
         **text_kwargs,
         color="black",
-        fontsize=23,
+        fontsize=45,
         weight="extra bold",
         verticalalignment="center",
     )
 
     mi_block = Rectangle(
-        (bleed + x_size / 4, 0), x_size / 2, y_size / 8 + bleed, fc="yellow"
+        (bleed + x_size / 6, 0), 4 * x_size / 6, y_size / 6 + bleed, fc="#ffdc20"
     )
     ax.add_patch(mi_block)
 
@@ -312,7 +313,7 @@ def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figur
         0.9 * y_size + bleed,
         game_name.upper(),
         **text_kwargs,
-        color="yellow",
+        color="#ffdc20",
         fontsize=20,
         weight="regular",
         verticalalignment="center",
@@ -329,7 +330,7 @@ def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figur
         0.83 * y_size + bleed,
         expansion_text_full.upper(),
         **text_kwargs,
-        color="yellow",
+        color="#ffdc20",
         fontsize=14,
         fontstyle="italic",
         weight="ultralight",
@@ -424,7 +425,7 @@ def create_cards(
     side: Literal["front", "back", "both"],
     ext: Literal["pdf", "png"],
     workers: int,
-    callbacks: Sequence[Callable] | None = None,
+    callbacks: Sequence[Callable] = [],
 ) -> None:
     nmax = df.shape[0]
     create_card_par = partial(
@@ -478,7 +479,7 @@ def main(**args) -> None:
 
     df = parse_input_file(input_file)
 
-    callbacks = args.get("callbacks", None)
+    callbacks = args.get("callbacks", [])
 
     create_cards(
         df,
