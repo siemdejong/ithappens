@@ -1,8 +1,8 @@
 import argparse
 import textwrap
 import io
+from collections.abc import Callable, Sequence
 from functools import partial
-from multiprocessing import Pool
 from pathlib import Path
 from typing import Literal, Optional, cast
 
@@ -424,10 +424,9 @@ def create_cards(
     side: Literal["front", "back", "both"],
     ext: Literal["pdf", "png"],
     workers: int,
-    chunks: int,
+    callbacks: Sequence[Callable] | None = None,
 ) -> None:
     nmax = df.shape[0]
-    chunksize = max(nmax // chunks, 1)
     create_card_par = partial(
         create_card,
         expansion_name=expansion_name,
@@ -437,14 +436,16 @@ def create_cards(
         ext=ext,
     )
     desc = "Plotting cards"
-    with Pool(workers) as p:
-        cards: list[Card] = list(
-            tqdm(
-                p.imap_unordered(create_card_par, df.iterrows(), chunksize),
-                total=nmax,
-                desc=desc,
-            )
-        )
+    from concurrent.futures import ProcessPoolExecutor, as_completed
+
+    with ProcessPoolExecutor(max_workers=workers) as executor:
+        futures = [executor.submit(create_card_par, row) for row in df.iterrows()]
+        cards = []
+        for future in tqdm(as_completed(futures), total=nmax, desc=desc):
+            card = future.result()
+            cards.append(card)
+            for callback in callbacks:
+                callback()
 
     if merge:
         with PdfPages(output_dir / "front" / "merged.pdf") as pdf:
@@ -477,6 +478,8 @@ def main(**args) -> None:
 
     df = parse_input_file(input_file)
 
+    callbacks = args.get("callbacks", None)
+
     create_cards(
         df,
         expansion_name,
@@ -486,7 +489,7 @@ def main(**args) -> None:
         args["side"],
         args["format"],
         args["workers"],
-        args["chunks"],
+        callbacks,
     )
 
 

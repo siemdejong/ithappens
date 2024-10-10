@@ -72,7 +72,6 @@ Options:
   -e, --expansion_logo_path FILE  Expansion logo path.
   -f, --format [pdf|png]          Output format.
   -w, --workers INTEGER           Number of workers.
-  -c, --chunks INTEGER            Number of chunks for the workers to process
   --help                          Show this message and exit.
 ```
 

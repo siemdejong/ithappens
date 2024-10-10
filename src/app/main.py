@@ -15,7 +15,15 @@ from ithappens.create_cards import main, parse_input_file
 
 
 def create_cards(
-    name, input_file, output_dir, expansion_logo, merge, side, format, workers, chunks
+    name,
+    input_file,
+    output_dir,
+    expansion_logo,
+    merge,
+    side,
+    format,
+    workers,
+    callbacks=None,
 ):
     main(
         name=name,
@@ -26,8 +34,9 @@ def create_cards(
         side=side,
         format=format,
         workers=workers,
-        chunks=chunks,
+        callbacks=callbacks,
     )
+
 
 def zip_cards(target_file: Path, source_dir: Path):
     with zipfile.ZipFile(target_file, "w", zipfile.ZIP_DEFLATED) as zip_file:
@@ -36,10 +45,11 @@ def zip_cards(target_file: Path, source_dir: Path):
                 continue
             zip_file.write(entry, entry.relative_to(tmp_dir))
 
+
 st.set_page_config(
     page_title="It Happens",
     page_icon=":material/sprint:",
-    initial_sidebar_state="expanded",    
+    initial_sidebar_state="expanded",
 )
 
 with st.sidebar:
@@ -117,28 +127,47 @@ if input_file is not None:
             options=np.arange(1, os.cpu_count() + 1),
             value=os.cpu_count(),
         )
-        chunks = st.select_slider(
-            "Number of chunks", options=np.arange(1, len(df) + 1), value=len(df)
-        )
 
     if st.button(":material/play_arrow: Create cards", use_container_width=True):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_dir = Path(tmp_dir)
-            with st.spinner("Creating your It Happens playing cards..."):
-                create_cards(
-                    name=expansion_name,
-                    input_file=input_file,
-                    output_dir=tmp_dir,
-                    expansion_logo=expansion_logo,
-                    merge=merge,
-                    side=side,
-                    format=format,
-                    workers=workers,
-                    chunks=chunks,
-                )
 
-                archive = tmp_dir / "ithappens-output.zip"
-                zip_cards(archive, tmp_dir)
+            pbar_text = "Creating your It Happens playing cards..."
+
+            class PbarCallback:
+                def __init__(self, total: int, text: str):
+                    self.pbar = st.progress(0, text)
+                    self.value = 0
+                    self.stepsize = 1 / total
+                    self.text = text
+
+                def __call__(self):
+                    self.advance()
+
+                def advance(self):
+                    self.value += self.stepsize
+                    self.pbar.progress(self.value, self.text)
+
+                def empty(self):
+                    self.pbar.empty()
+
+            pbar_callback = PbarCallback(len(df), pbar_text)
+            callbacks = (pbar_callback,)
+            create_cards(
+                name=expansion_name,
+                input_file=input_file,
+                output_dir=tmp_dir,
+                expansion_logo=expansion_logo,
+                merge=merge,
+                side=side,
+                format=format,
+                workers=workers,
+                callbacks=callbacks,
+            )
+            pbar_callback.empty()
+
+            archive = tmp_dir / "ithappens-output.zip"
+            zip_cards(archive, tmp_dir)
 
             with open(archive, "rb") as zip_file_buf:
                 st.download_button(
