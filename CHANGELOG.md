@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.0.5 (2024-10-10)
+
+### Fix
+
+* fix: show progress bar on streamlit instead of spinner
+
+fixes #67 ([`c6900ec`](https://github.com/siemdejong/ithappens/commit/c6900ec1b03d132affa83f22916f2e3f29a4dcf5))
+
+### Unknown
+
+* Merge pull request #73 from siemdejong/streamlit-pbar
+
+fix: show progress bar on streamlit instead of spinner ([`582a786`](https://github.com/siemdejong/ithappens/commit/582a786f25907a85627654ab2103deac882888e7))
+
 ## v7.0.4 (2024-10-08)
 
 ### Fix
