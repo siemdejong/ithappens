@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.0.7 (2024-10-10)
+
+### Fix
+
+* fix: make yellow warmer, mi bigger, and desc to top
+
+fixes #62 ([`b3907b0`](https://github.com/siemdejong/ithappens/commit/b3907b063a93fd1103c4bc079ebec8f7211b5d6b))
+
+### Unknown
+
+* Merge pull request #75 from siemdejong/color-and-font
+
+fix: make yellow warmer, mi bigger, and desc to top ([`28d9f2b`](https://github.com/siemdejong/ithappens/commit/28d9f2bdad06bd861e08bc178c2c3e04346bdd60))
+
 ## v7.0.6 (2024-10-10)
 
 ### Fix
