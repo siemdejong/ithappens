@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Literal, Optional, cast
 
 import matplotlib.font_manager as fm
-import matplotlib.image as mpimage
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.axes import Axes
@@ -16,6 +15,7 @@ from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox
+from PIL import Image
 from tqdm import tqdm
 
 
@@ -125,6 +125,7 @@ class ithappensArgs(argparse.Namespace):
 
 def parse_input_file(
     input_path: Path,
+    image_dir: Path | None = None,
 ) -> pd.DataFrame:
     """Parse an input file.
 
@@ -136,7 +137,7 @@ def parse_input_file(
     Returns:
         Pandas DataFrame with index, description, and misery index.
     """
-    usecols = ["misery index", "situation"]
+    usecols = ["misery index", "situation", "image"]
     try:
         df = pd.read_excel(input_path)
         df = df[usecols]
@@ -145,8 +146,6 @@ def parse_input_file(
     except KeyError:
         print(f"Make sure {input_path} has two columns named {usecols}.")
         exit()
-    else:
-        return df
 
     try:
         df = pd.read_csv(input_path)
@@ -157,8 +156,18 @@ def parse_input_file(
     except KeyError:
         print(f"Make sure {input_path} has two columns named {usecols}.")
         exit()
-    else:
-        return df
+
+    if image_dir:
+
+        def _make_path(x: str, image_dir: Path) -> Path:
+            if Path(x).is_absolute():
+                return x
+            else:
+                return image_dir / x if x else None
+
+        df["image"] = df["image"].apply(lambda x: _make_path(x, image_dir))
+
+    return df
 
 
 def plot_crop_marks(ax: Axes, bleed: float, factor: float = 0.6):
@@ -202,6 +211,9 @@ def plot_card_front(card: Card) -> Figure:
     bleed = 0.5 / cm_per_inch  # cm
     pad = 0.15 / cm_per_inch
 
+    # Margin for image.
+    image_pad = 0.08 / cm_per_inch
+
     x_total = x_size + 2 * bleed
     y_total = y_size + 2 * bleed
     xy_size = (x_total, y_total)
@@ -223,7 +235,7 @@ def plot_card_front(card: Card) -> Figure:
     text_kwargs = dict(wrap=True, horizontalalignment="center", fontproperties=prop)
 
     # Front.
-    text_with_wrap_autofit(
+    situation_text = text_with_wrap_autofit(
         ax,
         card.desc.upper(),
         (x_size, y_size),
@@ -239,7 +251,7 @@ def plot_card_front(card: Card) -> Figure:
     )
 
     mi_desc = "misery index"
-    ax.text(
+    mi_desc_text = ax.text(
         x_total / 2,
         1.2 * y_size / 6 + bleed,
         mi_desc.upper(),
@@ -250,10 +262,27 @@ def plot_card_front(card: Card) -> Figure:
         verticalalignment="center",
     )
 
+    ax.figure.canvas.draw()
+    situation_text_bbox = situation_text.get_window_extent()
+    situation_text_bbox = ax.transAxes.inverted().transform(situation_text_bbox)
+    bottom_situation_text = situation_text_bbox[0][1]
+
+    mi_desc_bbox = mi_desc_text.get_window_extent()
+    mi_desc_bbox = ax.transAxes.inverted().transform(mi_desc_bbox)
+    top_mi_desc_bbox = mi_desc_bbox[1][1]
+
+    image_height = bottom_situation_text - top_mi_desc_bbox - 2 * image_pad
+    foreground = Image.open(card.image_path)
+    image = Image.new("RGBA", foreground.size)
+    image.paste(foreground, (0, 0), foreground)
+    image = image.convert("RGB")
+    imageax = ax.inset_axes([0, top_mi_desc_bbox + image_pad, 1, image_height])
+    imageax.imshow(image)
+    imageax.axis("off")
+
     ax.text(
         x_total / 2,
         0.07 * y_size + bleed,
-        # bleed,
         card.misery_index if ".5" in str(card.misery_index) else int(card.misery_index),
         **text_kwargs,
         color="black",
@@ -342,7 +371,7 @@ def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figur
         parent_dir = Path(__file__).parent.resolve()
         expansion_logo_path = parent_dir / Path("images/expansion-logo.png")
 
-    expansion_logo = mpimage.imread(str(expansion_logo_path))
+    expansion_logo = Image.open(str(expansion_logo_path))
 
     expansion_logoax = fig.add_axes([0.2, 0.1, 0.6, 0.6])
     expansion_logoax.imshow(
@@ -403,7 +432,11 @@ def create_card(
     side,
     ext: Literal["pdf", "png"],
 ) -> Card:
-    card = Card(row[1]["situation"], row[1]["misery index"], expansion_name)
+    try:
+        image = row[1]["image"]
+    except KeyError:
+        image = None
+    card = Card(row[1]["situation"], row[1]["misery index"], expansion_name, image)
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)
@@ -477,7 +510,7 @@ def main(**args) -> None:
             f"Expansion name inferred to be {expansion_name}."
         )
 
-    df = parse_input_file(input_file)
+    df = parse_input_file(input_file, args["image_dir"])
 
     callbacks = args.get("callbacks", [])
 

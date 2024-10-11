@@ -23,6 +23,7 @@ def create_cards(
     side,
     format,
     workers,
+    image_dir,
     callbacks=None,
 ):
     main(
@@ -34,6 +35,7 @@ def create_cards(
         side=side,
         format=format,
         workers=workers,
+        image_dir=image_dir,
         callbacks=callbacks,
     )
 
@@ -112,10 +114,9 @@ with st.popover("Download example data"):
 expansion_name = st.text_input("Expansion name")
 input_file = st.file_uploader("Please provide your excel or csv input file")
 expansion_logo = st.file_uploader("Optionally provide your expansion logo")
+images = st.file_uploader("Upload your front images", accept_multiple_files=True)
 
 if input_file is not None:
-    df = parse_input_file(input_file)
-
     with st.popover(":material/settings: Additional settings"):
         merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
         side = st.radio(
@@ -131,6 +132,14 @@ if input_file is not None:
     if st.button(":material/play_arrow: Create cards", use_container_width=True):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_dir = Path(tmp_dir)
+
+            image_dir = tmp_dir / "images"
+            image_dir.mkdir()
+            for image in images:
+                with open(image_dir / image.name, "wb") as image_file:
+                    image_file.write(image.getbuffer())
+
+            df = parse_input_file(input_file, image_dir)
 
             pbar_text = "Creating your It Happens playing cards..."
 
@@ -162,6 +171,7 @@ if input_file is not None:
                 side=side,
                 format=format,
                 workers=workers,
+                image_dir=image_dir,
                 callbacks=callbacks,
             )
             pbar_callback.empty()
