@@ -57,10 +57,11 @@ The tool is available as an online [app](https://ithappens.streamlit.app).
 ## CLI
 The tool is also available as a command line interface (CLI), see [Local installation](#local-installation).
 The tool requires an Excel or csv input file and optionally an expansion logo.
-The input files must have header "misery index" and "situation".
+The input files must have header "misery index" and "situation" and optional "image" for the front image.
+If an image name is given (stem + ext), it must live in the image dir, given by the optional third positional argument.
 See the examples directory for an example.
 ```
-Usage: ithappens create [OPTIONS] INPUT_FILE OUTPUT_DIR
+Usage: ithappens create [OPTIONS] INPUT_FILE OUTPUT_DIR [IMAGE_DIR]
 
   Create cards.
 

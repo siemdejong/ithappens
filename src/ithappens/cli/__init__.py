@@ -1,4 +1,5 @@
 import click
+from pathlib import Path
 
 from ithappens.create_cards import main_cli as create_cli
 from ithappens.sort_situations import main_cli as sort_cli
@@ -47,6 +48,9 @@ def cli():
 )
 @click.option(
     "-w", "--workers", "workers", type=int, default=4, help="Number of workers."
+)
+@click.argument(
+    "image_dir", type=click.Path(file_okay=False, path_type=Path), required=False
 )
 def create(**kwargs):
     create_cli(**kwargs)
