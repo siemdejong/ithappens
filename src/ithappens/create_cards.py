@@ -482,12 +482,14 @@ def create_cards(
                 callback()
 
     if merge:
-        with PdfPages(output_dir / "front" / "merged.pdf") as pdf:
-            for card in cards:
-                pdf.savefig(card.fig_front)
-        with PdfPages(output_dir / "back" / "merged.pdf") as pdf:
-            for card in cards:
-                pdf.savefig(card.fig_back)
+        if side == "front":
+            with PdfPages(output_dir / "front" / "merged.pdf") as pdf:
+                for card in cards:
+                    pdf.savefig(card.fig_front)
+        if side == "back":
+            with PdfPages(output_dir / "back" / "merged.pdf") as pdf:
+                for card in cards:
+                    pdf.savefig(card.fig_back)
 
 
 def main(**args) -> None:
