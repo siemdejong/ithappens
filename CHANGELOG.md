@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.1.0 (2024-10-11)
+
+### Feature
+
+* feat: add front image
+
+fixes #2 ([`7caf2f8`](https://github.com/siemdejong/ithappens/commit/7caf2f8382768184d90a76b555edfca7b1b94450))
+
+### Unknown
+
+* Merge pull request #76 from siemdejong/image
+
+feat: add front image ([`52e3206`](https://github.com/siemdejong/ithappens/commit/52e32060448dafe9a26d96c3d10f20b9b75da5fe))
+
 ## v7.0.7 (2024-10-10)
 
 ### Fix
