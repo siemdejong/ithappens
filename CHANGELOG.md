@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v7.1.2 (2024-10-11)
+
+### Documentation
+
+* docs: add example logo back in ([`054504e`](https://github.com/siemdejong/ithappens/commit/054504e55dabb3b221172ca0b77d61c542887c9f))
+
+### Fix
+
+* fix: merge only applied on selected side ([`adcaf96`](https://github.com/siemdejong/ithappens/commit/adcaf963f6130b6457dacebbc349c9c7334f01bb))
+
 ## v7.1.1 (2024-10-11)
 
 ### Fix
