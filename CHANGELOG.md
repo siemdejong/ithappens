@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v7.1.1 (2024-10-11)
+
+### Fix
+
+* fix: write logo to file and reference it
+
+fixes #80 ([`db2ee89`](https://github.com/siemdejong/ithappens/commit/db2ee89a13fc14983afe4ff2c76802cccc94b25f))
+
+### Unknown
+
+* Merge pull request #81 from siemdejong/fix-expansion-logo-streamlit
+
+fix: write logo to file and reference it ([`2b623b3`](https://github.com/siemdejong/ithappens/commit/2b623b350a4823e995b6b6b42fe71a208cb3e501))
+
 ## v7.1.0 (2024-10-11)
 
 ### Feature
