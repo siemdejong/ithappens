@@ -18,7 +18,7 @@ def create_cards(
     name,
     input_file,
     output_dir,
-    expansion_logo,
+    expansion_logo_path,
     merge,
     side,
     format,
@@ -30,7 +30,7 @@ def create_cards(
         name=name,
         input_file=input_file,
         output_dir=output_dir,
-        expansion_logo_path=expansion_logo.name if expansion_logo else None,
+        expansion_logo_path=expansion_logo_path,
         merge=merge,
         side=side,
         format=format,
@@ -139,6 +139,10 @@ if input_file is not None:
                 with open(image_dir / image.name, "wb") as image_file:
                     image_file.write(image.getbuffer())
 
+            expansion_logo_path = image_dir / expansion_logo.name
+            with open(expansion_logo_path, "wb") as logo_file:
+                logo_file.write(expansion_logo.getbuffer())
+
             df = parse_input_file(input_file, image_dir)
 
             pbar_text = "Creating your It Happens playing cards..."
@@ -166,7 +170,7 @@ if input_file is not None:
                 name=expansion_name,
                 input_file=input_file,
                 output_dir=tmp_dir,
-                expansion_logo=expansion_logo,
+                expansion_logo_path=expansion_logo_path,
                 merge=merge,
                 side=side,
                 format=format,
