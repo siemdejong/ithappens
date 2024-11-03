@@ -1,8 +1,16 @@
 # CHANGELOG
 
+## v7.3.0 (2024-11-03)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`929b8be`](https://github.com/siemdejong/ithappens/commit/929b8be3dba4291b7a60075999ce770fd109b270))
+
 ## v7.2.0 (2024-11-03)
 
 ### Feature
+
+* feat: allow example img download ([`9adf795`](https://github.com/siemdejong/ithappens/commit/9adf795ce45114e80183cdeceec869762c3737d6))
 
 * feat: allow yaml input ([`b78377b`](https://github.com/siemdejong/ithappens/commit/b78377b2c28ea3076c60dd1d49e9c062ef5f9a95))
 
