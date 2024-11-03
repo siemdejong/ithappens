@@ -1,0 +1,6 @@
+- situation: "You don't know how to use this tool"
+  misery index: 80
+  image: umbrella.png
+- situation: "This is just an example"
+  misery index: 1
+  image: simple stick figure.png

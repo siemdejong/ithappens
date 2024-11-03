@@ -74,6 +74,17 @@ with st.sidebar:
 with st.popover("Download example data"):
     st.write("Download example data to get started.")
     with open(
+        Path(__file__).parent.parent.parent / "examples" / "example" / "example.yaml",
+        "rb",
+    ) as yaml_file:
+        st.download_button(
+            label="Input yaml",
+            data=yaml_file,
+            file_name="example.yaml",
+            mime="text/yaml",
+            icon=":material/download:",
+        )
+    with open(
         Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
         "rb",
     ) as csv_file:
@@ -139,9 +150,10 @@ if input_file is not None:
                 with open(image_dir / image.name, "wb") as image_file:
                     image_file.write(image.getbuffer())
 
-            expansion_logo_path = image_dir / expansion_logo.name
-            with open(expansion_logo_path, "wb") as logo_file:
-                logo_file.write(expansion_logo.getbuffer())
+            if expansion_logo is not None:
+                expansion_logo_path = image_dir / expansion_logo.name
+            else:
+                expansion_logo_path = None
 
             df = parse_input_file(input_file, image_dir)
 

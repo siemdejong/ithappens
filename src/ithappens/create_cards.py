@@ -17,6 +17,7 @@ from matplotlib.text import Annotation
 from matplotlib.transforms import Bbox
 from PIL import Image
 from tqdm import tqdm
+from yaml import safe_load
 
 
 from ithappens.card import Card
@@ -138,24 +139,44 @@ def parse_input_file(
         Pandas DataFrame with index, description, and misery index.
     """
     usecols = ["misery index", "situation", "image"]
+
+    df = None
     try:
-        df = pd.read_excel(input_path)
-        df = df[usecols]
+        with open(input_path, 'r') as f:
+            df = pd.json_normalize(safe_load(f))
+            df = df[usecols]
+    except TypeError:
+            bytes_data = input_path.getvalue()
+            df = pd.json_normalize(safe_load(bytes_data))
+            df = df[usecols]
     except ValueError:
         pass
     except KeyError:
-        print(f"Make sure {input_path} has two columns named {usecols}.")
+        print(f"yaml: Make sure {input_path} has two columns named {usecols}.")
         exit()
+    except Exception as e:
+        raise e
 
-    try:
-        df = pd.read_csv(input_path)
-        df = df[usecols]
-    except UnicodeDecodeError:
-        print(f"{input_path} is not a valid .csv or .xlsx file.")
-        exit()
-    except KeyError:
-        print(f"Make sure {input_path} has two columns named {usecols}.")
-        exit()
+    if df is None:
+        try:
+            df = pd.read_excel(input_path)
+            df = df[usecols]
+        except ValueError:
+            pass
+        except KeyError:
+            print(f"excel: Make sure {input_path} has two columns named {usecols}.")
+            exit()
+
+    if df is None:
+        try:
+            df = pd.read_csv(input_path)
+            df = df[usecols]
+        except UnicodeDecodeError:
+            print(f"{input_path} is not a valid .csv or .xlsx file.")
+            exit()
+        except KeyError:
+            print(f"csv: Make sure {input_path} has two columns named {usecols}.")
+            exit()
 
     if image_dir:
 
