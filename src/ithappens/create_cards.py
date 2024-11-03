@@ -152,7 +152,7 @@ def parse_input_file(
     except ValueError:
         pass
     except KeyError:
-        print(f"yaml: Make sure {input_path} has two columns named {usecols}.")
+        print(f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
         exit()
     except Exception as e:
         raise e
@@ -164,7 +164,7 @@ def parse_input_file(
         except ValueError:
             pass
         except KeyError:
-            print(f"excel: Make sure {input_path} has two columns named {usecols}.")
+            print(f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
             exit()
 
     if df is None:
@@ -175,13 +175,15 @@ def parse_input_file(
             print(f"{input_path} is not a valid .csv or .xlsx file.")
             exit()
         except KeyError:
-            print(f"csv: Make sure {input_path} has two columns named {usecols}.")
+            print(f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
             exit()
 
     if image_dir:
 
         def _make_path(x: str, image_dir: Path) -> Path:
-            if Path(x).is_absolute():
+            if x is None:
+                return None
+            elif Path(x).is_absolute():
                 return x
             else:
                 return image_dir / x if x else None
@@ -293,13 +295,14 @@ def plot_card_front(card: Card) -> Figure:
     top_mi_desc_bbox = mi_desc_bbox[1][1]
 
     image_height = bottom_situation_text - top_mi_desc_bbox - 2 * image_pad
-    foreground = Image.open(card.image_path)
-    image = Image.new("RGBA", foreground.size)
-    image.paste(foreground, (0, 0), foreground)
-    image = image.convert("RGB")
-    imageax = ax.inset_axes([0, top_mi_desc_bbox + image_pad, 1, image_height])
-    imageax.imshow(image)
-    imageax.axis("off")
+    if card.image_path is not None:
+        foreground = Image.open(card.image_path)
+        image = Image.new("RGBA", foreground.size)
+        image.paste(foreground, (0, 0), foreground)
+        image = image.convert("RGB")
+        imageax = ax.inset_axes([0, top_mi_desc_bbox + image_pad, 1, image_height])
+        imageax.imshow(image)
+        imageax.axis("off")
 
     ax.text(
         x_total / 2,

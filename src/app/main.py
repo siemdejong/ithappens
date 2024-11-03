@@ -153,7 +153,7 @@ with st.popover("Download example data"):
         )
 
 expansion_name = st.text_input("Expansion name")
-input_file = st.file_uploader("Please provide your excel or csv input file")
+input_file = st.file_uploader("Please provide your yaml, excel or csv input file")
 expansion_logo = st.file_uploader("Optionally provide your expansion logo")
 images = st.file_uploader("Upload your front images", accept_multiple_files=True)
 
