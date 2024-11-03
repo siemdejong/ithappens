@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.3.1 (2024-11-03)
+
+### Fix
+
+* fix: allow empty image item in input ([`8188ee3`](https://github.com/siemdejong/ithappens/commit/8188ee3c5198e4d5d90b5f94ef1215224885b71b))
+
 ## v7.3.0 (2024-11-03)
 
 ### Unknown
