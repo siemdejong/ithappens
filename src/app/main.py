@@ -121,6 +121,36 @@ with st.popover("Download example data"):
             mime="image/png",
             icon=":material/download:",
         )
+    with open(
+        Path(__file__).parent.parent.parent
+        / "examples"
+        / "example"
+        / "images"
+        / "umbrella.png",
+        "rb",
+    ) as logo_file:
+        st.download_button(
+            label="umbrella.png",
+            data=logo_file,
+            file_name="umbrella.png",
+            mime="image/png",
+            icon=":material/download:",
+        )
+    with open(
+        Path(__file__).parent.parent.parent
+        / "examples"
+        / "example"
+        / "images"
+        / "simple stick figure.png",
+        "rb",
+    ) as logo_file:
+        st.download_button(
+            label="simple stick figure.png",
+            data=logo_file,
+            file_name="simple stick figure.png",
+            mime="image/png",
+            icon=":material/download:",
+        )
 
 expansion_name = st.text_input("Expansion name")
 input_file = st.file_uploader("Please provide your excel or csv input file")
