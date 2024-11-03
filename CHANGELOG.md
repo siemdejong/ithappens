@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v7.2.0 (2024-11-03)
+
+### Feature
+
+* feat: allow yaml input ([`b78377b`](https://github.com/siemdejong/ithappens/commit/b78377b2c28ea3076c60dd1d49e9c062ef5f9a95))
+
+### Unknown
+
+* Added Dev Container Folder ([`9e76deb`](https://github.com/siemdejong/ithappens/commit/9e76debcb69571db9ae84715e1d1c2af9f2af145))
+
 ## v7.1.2 (2024-10-11)
 
 ### Documentation
