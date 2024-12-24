@@ -1,6 +1,0 @@
-matplotlib
-pandas
-openpyxl
-tqdm
-streamlit
-pyyaml

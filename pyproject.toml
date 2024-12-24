@@ -11,7 +11,6 @@ authors = [
 description = "Create your own Shit Happens playing cards!"
 readme = "README.md"
 requires-python = ">=3.9"
-dynamic = ["dependencies", "optional-dependencies"]
 license = {file = "LICENSE"}
 keywords = ["shit happens", "card game", "it happens"]
 classifiers = [
@@ -30,6 +29,14 @@ classifiers = [
     "Topic :: Games/Entertainment :: Board Games",
     "Typing :: Typed",
 ]
+dependencies = [
+    "matplotlib>=3.9.4",
+    "openpyxl>=3.1.5",
+    "pandas>=2.2.3",
+    "pyyaml>=6.0.2",
+    "streamlit>=1.41.1",
+    "tqdm>=4.67.1",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/siemdejong/ithappens"
@@ -46,10 +53,6 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 ithappens = ["images/*.png", "style/fonts/Open_Sans/*"]
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-optional-dependencies = {dev = { file = ["requirements-dev.txt"] }}
 
 [tool.semantic_release]
 version_variables = ["pyproject.toml:version"] # version location
@@ -108,3 +111,8 @@ insecure = false
 [tool.semantic_release.publish]
 dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = true
+
+[tool.uv]
+dev-dependencies = [
+    "ruff>=0.8.4",
+]
