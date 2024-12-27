@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 import tempfile
+from PIL import Image
 
 import numpy as np
 import os
@@ -54,126 +55,126 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-with st.sidebar:
-    st.title("It Happens")
-    st.write("Create your own Shit Happens playing cards!")
-    st.write(
-        "Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/shit-happens) playing cards? Now you can. Write down the most miserable situations you can think of and rank them. This project automatically outputs playing cards in pdf format."
-    )
-    st.write(
-        "This project is not related to the original card game. [Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections."
-    )
-    st.write(
-        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">This project is open source.<br>See <a href=https://github.com/siemdejong/ithappens><i class="fa-brands fa-github">&nbsp;</i>siemdejong/ithappens</a>.',
-        unsafe_allow_html=True,
-    )
-    st.components.v1.html(
-        '<br><script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Lato" data-text="Buy me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
-    )
 
-with st.popover("Download example data"):
-    st.write("Download example data to get started.")
-    with open(
-        Path(__file__).parent.parent.parent / "examples" / "example" / "example.yaml",
-        "rb",
-    ) as yaml_file:
-        st.download_button(
-            label="Input yaml",
-            data=yaml_file,
-            file_name="example.yaml",
-            mime="text/yaml",
-            icon=":material/download:",
-        )
-    with open(
-        Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
-        "rb",
-    ) as csv_file:
-        st.download_button(
-            label="Input csv",
-            data=csv_file,
-            file_name="example.csv",
-            mime="text/csv",
-            icon=":material/download:",
-        )
-    with open(
-        Path(__file__).parent.parent.parent / "examples" / "example" / "example.xlsx",
-        "rb",
-    ) as xlsx_file:
-        st.download_button(
-            label="Input xlsx",
-            data=xlsx_file,
-            file_name="example.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            icon=":material/download:",
-        )
-    with open(
-        Path(__file__).parent.parent.parent
-        / "examples"
-        / "example"
-        / "images"
-        / "expansion-logo.png",
-        "rb",
-    ) as logo_file:
-        st.download_button(
-            label="Expansion logo",
-            data=logo_file,
-            file_name="example-expansion-logo.png",
-            mime="image/png",
-            icon=":material/download:",
-        )
-    with open(
-        Path(__file__).parent.parent.parent
-        / "examples"
-        / "example"
-        / "images"
-        / "umbrella.png",
-        "rb",
-    ) as logo_file:
-        st.download_button(
-            label="umbrella.png",
-            data=logo_file,
-            file_name="umbrella.png",
-            mime="image/png",
-            icon=":material/download:",
-        )
-    with open(
-        Path(__file__).parent.parent.parent
-        / "examples"
-        / "example"
-        / "images"
-        / "simple stick figure.png",
-        "rb",
-    ) as logo_file:
-        st.download_button(
-            label="simple stick figure.png",
-            data=logo_file,
-            file_name="simple stick figure.png",
-            mime="image/png",
-            icon=":material/download:",
-        )
+st.title("It Happens")
+st.write("Create your own Shit Happens playing cards!")
+st.write(
+    "Ever wanted to play with your own [Shit Happens](https://boardgamegeek.com/boardgame/196379/shit-happens) playing cards? Now you can. Write down the most miserable situations you can think of and rank them. This project automatically outputs playing cards in pdf format."
+)
+st.write(
+    "This project is not related to the original card game. [Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections."
+)
+st.write(
+    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">This project is open source.<br>See <a href=https://github.com/siemdejong/ithappens><i class="fa-brands fa-github">&nbsp;</i>siemdejong/ithappens</a>.',
+    unsafe_allow_html=True,
+)
 
-expansion_name = st.text_input("Expansion name")
-input_file = st.file_uploader("Please provide your yaml, excel or csv input file")
-expansion_logo = st.file_uploader("Optionally provide your expansion logo")
-images = st.file_uploader("Upload your front images", accept_multiple_files=True)
 
-if input_file is not None:
-    with st.popover(":material/settings: Additional settings"):
-        merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
-        side = st.radio(
-            "Side(s) to generate", ["both", "front", "back"], horizontal=True
-        )
-        format = st.radio("Output format", ["pdf", "png"], horizontal=True)
-        workers = st.select_slider(
-            "Number of workers",
-            options=np.arange(1, os.cpu_count() + 1),
-            value=os.cpu_count(),
-        )
+with tempfile.TemporaryDirectory() as tmp_dir:
+    tmp_dir = Path(tmp_dir)
+    with st.sidebar:
 
-    if st.button(":material/play_arrow: Create cards", use_container_width=True):
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            tmp_dir = Path(tmp_dir)
+        with st.popover("Download example data"):
+            st.write("Download example data to get started.")
+            with open(
+                Path(__file__).parent.parent.parent / "examples" / "example" / "example.yaml",
+                "rb",
+            ) as yaml_file:
+                st.download_button(
+                    label="Input yaml",
+                    data=yaml_file,
+                    file_name="example.yaml",
+                    mime="text/yaml",
+                    icon=":material/download:",
+                )
+            with open(
+                Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
+                "rb",
+            ) as csv_file:
+                st.download_button(
+                    label="Input csv",
+                    data=csv_file,
+                    file_name="example.csv",
+                    mime="text/csv",
+                    icon=":material/download:",
+                )
+            with open(
+                Path(__file__).parent.parent.parent / "examples" / "example" / "example.xlsx",
+                "rb",
+            ) as xlsx_file:
+                st.download_button(
+                    label="Input xlsx",
+                    data=xlsx_file,
+                    file_name="example.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    icon=":material/download:",
+                )
+            with open(
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "images"
+                / "expansion-logo.png",
+                "rb",
+            ) as logo_file:
+                st.download_button(
+                    label="Expansion logo",
+                    data=logo_file,
+                    file_name="example-expansion-logo.png",
+                    mime="image/png",
+                    icon=":material/download:",
+                )
+            with open(
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "images"
+                / "umbrella.png",
+                "rb",
+            ) as logo_file:
+                st.download_button(
+                    label="umbrella.png",
+                    data=logo_file,
+                    file_name="umbrella.png",
+                    mime="image/png",
+                    icon=":material/download:",
+                )
+            with open(
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "images"
+                / "simple stick figure.png",
+                "rb",
+            ) as logo_file:
+                st.download_button(
+                    label="simple stick figure.png",
+                    data=logo_file,
+                    file_name="simple stick figure.png",
+                    mime="image/png",
+                    icon=":material/download:",
+                )
 
+        expansion_name = st.text_input("Expansion name")
+        input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
+        expansion_logo = st.file_uploader("Expansion logo (optional)")
+        images = st.file_uploader("Front images (optional, required if specified)", accept_multiple_files=True)
+
+        with st.popover(":material/settings: Additional settings"):
+            merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
+            side = st.radio(
+                "Side(s) to generate", ["both", "front", "back"], horizontal=True
+            )
+            format = st.radio("Output format", ["pdf", "png"], horizontal=True)
+            workers = st.select_slider(
+                "Number of workers",
+                options=np.arange(1, os.cpu_count() + 1),
+                value=os.cpu_count(),
+            )
+
+        create_cards_button = st.button(":material/play_arrow: Create cards", use_container_width=True)
+
+        if input_file is not None and create_cards_button:
             image_dir = tmp_dir / "images"
             image_dir.mkdir()
             for image in images:
@@ -206,20 +207,23 @@ if input_file is not None:
                 def empty(self):
                     self.pbar.empty()
 
-            pbar_callback = PbarCallback(len(df), pbar_text)
+            pbar_callback = PbarCallback(len(df) * 2, pbar_text)
             callbacks = (pbar_callback,)
-            create_cards(
-                name=expansion_name,
-                input_file=input_file,
-                output_dir=tmp_dir,
-                expansion_logo_path=expansion_logo_path,
-                merge=merge,
-                side=side,
-                format=format,
-                workers=workers,
-                image_dir=image_dir,
-                callbacks=callbacks,
-            )
+
+            for fmt in ["png", "pdf"]:
+                create_cards(
+                    name=expansion_name,
+                    input_file=input_file,
+                    output_dir=tmp_dir,
+                    expansion_logo_path=expansion_logo_path,
+                    merge=merge,
+                    side=side,
+                    format=fmt,
+                    workers=workers,
+                    image_dir=image_dir,
+                    callbacks=callbacks,
+                )
+
             pbar_callback.empty()
 
             archive = tmp_dir / "ithappens-output.zip"
@@ -235,3 +239,30 @@ if input_file is not None:
                     icon=":material/download:",
                     use_container_width=True,
                 )
+
+    def sort_by_mi(path: Path):
+        return int(path.stem.split("-")[0])
+
+    if create_cards_button:
+        st.markdown("## Preview")
+        st.markdown("Preview your custom cards below. Download them via the button in the sidebar.")
+        showcase_cards = sorted((tmp_dir / "front").rglob("*.png"), key=sort_by_mi)
+        with st.container():
+            columns = st.columns(len(showcase_cards))
+            for card, col in zip(showcase_cards, columns):
+                pil_img = Image.open(card)
+                pil_img.thumbnail((256, 256), Image.Resampling.BICUBIC)
+                col.image(np.array(pil_img))
+        with st.sidebar:
+            st.components.v1.html(
+                '<br><script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Lato" data-text="Buy me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
+            )
+    else:
+        st.markdown("## Demo")
+        showcase_cards = sorted(Path("examples/example/outputs/front").rglob("*.png"), key=sort_by_mi)
+        with st.container():
+            columns = st.columns(len(showcase_cards))
+            for card, col in zip(showcase_cards, columns):
+                pil_img = Image.open(card)
+                pil_img.thumbnail((256, 256), Image.Resampling.BICUBIC)
+                col.image(np.array(pil_img))
