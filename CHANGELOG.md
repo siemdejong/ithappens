@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v7.4.0 (2024-12-27)
+
+### Build
+
+* build: use uv
+
+Use uv to manage dependencies.
+
+fixes #83 ([`f607292`](https://github.com/siemdejong/ithappens/commit/f6072921e8cc1c32c997973d69dcc4f1b659f82e))
+
+### Feature
+
+* feat: add preview
+
+fixes #69 ([`b5bebd4`](https://github.com/siemdejong/ithappens/commit/b5bebd47e681fdcc32ea2f7dee3cf501d86defa4))
+
+### Unknown
+
+* Update ci-cd.yml ([`33f1251`](https://github.com/siemdejong/ithappens/commit/33f12513982277efe406348283adf9db19c996cd))
+
 ## v7.3.1 (2024-11-03)
 
 ### Fix
