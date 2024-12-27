@@ -1,5 +1,6 @@
-import click
 from pathlib import Path
+
+import click
 
 from ithappens.create_cards import main_cli as create_cli
 from ithappens.sort_situations import main_cli as sort_cli

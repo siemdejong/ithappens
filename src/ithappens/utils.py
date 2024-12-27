@@ -1,7 +1,8 @@
 import re
 import unicodedata
-from pathlib import Path
 from glob import glob
+from pathlib import Path
+
 import click
 
 

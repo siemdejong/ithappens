@@ -1,6 +1,6 @@
 import argparse
-import textwrap
 import io
+import textwrap
 from collections.abc import Callable, Sequence
 from functools import partial
 from pathlib import Path
@@ -18,7 +18,6 @@ from matplotlib.transforms import Bbox
 from PIL import Image
 from tqdm import tqdm
 from yaml import safe_load
-
 
 from ithappens.card import Card
 from ithappens.utils import slugify
@@ -142,17 +141,19 @@ def parse_input_file(
 
     df = None
     try:
-        with open(input_path, 'r') as f:
+        with open(input_path, "r") as f:
             df = pd.json_normalize(safe_load(f))
             df = df[usecols]
     except TypeError:
-            bytes_data = input_path.getvalue()
-            df = pd.json_normalize(safe_load(bytes_data))
-            df = df[usecols]
+        bytes_data = input_path.getvalue()
+        df = pd.json_normalize(safe_load(bytes_data))
+        df = df[usecols]
     except ValueError:
         pass
     except KeyError:
-        print(f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
+        print(
+            f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+        )
         exit()
     except Exception as e:
         raise e
@@ -164,7 +165,9 @@ def parse_input_file(
         except ValueError:
             pass
         except KeyError:
-            print(f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
+            print(
+                f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+            )
             exit()
 
     if df is None:
@@ -175,7 +178,9 @@ def parse_input_file(
             print(f"{input_path} is not a valid .csv or .xlsx file.")
             exit()
         except KeyError:
-            print(f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}.")
+            print(
+                f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+            )
             exit()
 
     if image_dir:

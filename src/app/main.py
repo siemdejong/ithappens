@@ -1,14 +1,12 @@
+import os
 import sys
-from pathlib import Path
 import tempfile
-from PIL import Image
+import zipfile
+from pathlib import Path
 
 import numpy as np
-import os
-
-import zipfile
-
 import streamlit as st
+from PIL import Image
 
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
@@ -73,11 +71,13 @@ st.write(
 with tempfile.TemporaryDirectory() as tmp_dir:
     tmp_dir = Path(tmp_dir)
     with st.sidebar:
-
         with st.popover("Download example data"):
             st.write("Download example data to get started.")
             with open(
-                Path(__file__).parent.parent.parent / "examples" / "example" / "example.yaml",
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "example.yaml",
                 "rb",
             ) as yaml_file:
                 st.download_button(
@@ -88,7 +88,10 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                 )
             with open(
-                Path(__file__).parent.parent.parent / "examples" / "example" / "example.csv",
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "example.csv",
                 "rb",
             ) as csv_file:
                 st.download_button(
@@ -99,7 +102,10 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                 )
             with open(
-                Path(__file__).parent.parent.parent / "examples" / "example" / "example.xlsx",
+                Path(__file__).parent.parent.parent
+                / "examples"
+                / "example"
+                / "example.xlsx",
                 "rb",
             ) as xlsx_file:
                 st.download_button(
@@ -158,7 +164,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
         expansion_name = st.text_input("Expansion name")
         input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
         expansion_logo = st.file_uploader("Expansion logo (optional)")
-        images = st.file_uploader("Front images (optional, required if specified)", accept_multiple_files=True)
+        images = st.file_uploader(
+            "Front images (optional, required if specified)", accept_multiple_files=True
+        )
 
         with st.popover(":material/settings: Additional settings"):
             merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
@@ -172,7 +180,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 value=os.cpu_count(),
             )
 
-        create_cards_button = st.button(":material/play_arrow: Create cards", use_container_width=True)
+        create_cards_button = st.button(
+            ":material/play_arrow: Create cards", use_container_width=True
+        )
 
         if input_file is not None and create_cards_button:
             image_dir = tmp_dir / "images"
@@ -245,7 +255,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
 
     if create_cards_button:
         st.markdown("## Preview")
-        st.markdown("Preview your custom cards below. Download them via the button in the sidebar.")
+        st.markdown(
+            "Preview your custom cards below. Download them via the button in the sidebar."
+        )
         showcase_cards = sorted((tmp_dir / "front").rglob("*.png"), key=sort_by_mi)
         with st.container():
             columns = st.columns(len(showcase_cards))
@@ -259,7 +271,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
             )
     else:
         st.markdown("## Demo")
-        showcase_cards = sorted(Path("examples/example/outputs/front").rglob("*.png"), key=sort_by_mi)
+        showcase_cards = sorted(
+            Path("examples/example/outputs/front").rglob("*.png"), key=sort_by_mi
+        )
         with st.container():
             columns = st.columns(len(showcase_cards))
             for card, col in zip(showcase_cards, columns):
