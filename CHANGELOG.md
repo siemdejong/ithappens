@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v7.4.1 (2024-12-27)
+
+### Fix
+
+* fix: accept expansion logo and merge cards ([`1f966d9`](https://github.com/siemdejong/ithappens/commit/1f966d9e58d821d8d32e53b6d3c359d3795fe1d5))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`cbc7fb1`](https://github.com/siemdejong/ithappens/commit/cbc7fb17de374b7ffa2589cc6e2fdaf115984075))
+
 ## v7.4.0 (2024-12-27)
 
 ### Build
@@ -15,6 +25,10 @@ fixes #83 ([`f607292`](https://github.com/siemdejong/ithappens/commit/f6072921e8
 * feat: add preview
 
 fixes #69 ([`b5bebd4`](https://github.com/siemdejong/ithappens/commit/b5bebd47e681fdcc32ea2f7dee3cf501d86defa4))
+
+### Style
+
+* style: add ruff ([`55a44ca`](https://github.com/siemdejong/ithappens/commit/55a44ca0d353f4d914523febff47bae336b6289c))
 
 ### Unknown
 
