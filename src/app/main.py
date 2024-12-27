@@ -161,9 +161,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                 )
 
-        expansion_name = st.text_input("Expansion name")
+        expansion_name = st.text_input("Custom name")
         input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
-        expansion_logo = st.file_uploader("Expansion logo (optional)")
+        expansion_logo = st.file_uploader("Custom logo (optional)")
         images = st.file_uploader(
             "Front images (optional, required if specified)", accept_multiple_files=True
         )
@@ -193,6 +193,8 @@ with tempfile.TemporaryDirectory() as tmp_dir:
 
             if expansion_logo is not None:
                 expansion_logo_path = image_dir / expansion_logo.name
+                with open(expansion_logo_path, "wb") as expansion_logo_file:
+                    expansion_logo_file.write(expansion_logo.getbuffer())
             else:
                 expansion_logo_path = None
 
