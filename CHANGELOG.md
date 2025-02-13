@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.4.4 (2025-02-13)
+
+### Fix
+
+* fix: improve error messaging for user ([`5446f49`](https://github.com/siemdejong/ithappens/commit/5446f4954dbed87549a0ea8109f4c70831fdcaed))
+
 ## v7.4.3 (2025-02-13)
 
 ### Unknown
