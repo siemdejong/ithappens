@@ -1,6 +1,18 @@
 # CHANGELOG
 
+## v7.5.0 (2025-02-13)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`04e76f3`](https://github.com/siemdejong/ithappens/commit/04e76f3596bfda1199c0f195e1cc05d0ac569abf))
+
 ## v7.4.5 (2025-02-13)
+
+### Feature
+
+* feat: allow to edit misery index description
+
+Fixes #91 ([`364f40e`](https://github.com/siemdejong/ithappens/commit/364f40e9ab455a503d83b896c9c0d717b9063587))
 
 ### Fix
 
