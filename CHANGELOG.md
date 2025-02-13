@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v7.4.5 (2025-02-13)
+
+### Fix
+
+* fix: allow to edit misery index description
+
+Fixes #91 ([`c666f5c`](https://github.com/siemdejong/ithappens/commit/c666f5c5321f6d156bae6b0a956bc12f7b12cb97))
+
 ## v7.4.4 (2025-02-13)
 
 ### Fix
