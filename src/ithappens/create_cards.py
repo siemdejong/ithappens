@@ -341,9 +341,9 @@ def plot_card_front(card: Card) -> Figure:
 
     image_height = bottom_situation_text - top_mi_desc_bbox - 2 * image_pad
     if card.image_path is not None:
-        foreground = Image.open(card.image_path)
+        foreground = Image.open(card.image_path).convert("RGBA")
         image = Image.new("RGBA", foreground.size)
-        image.paste(foreground, (0, 0), foreground)
+        image = Image.alpha_composite(image, foreground)
         image = image.convert("RGB")
         imageax = ax.inset_axes([0, top_mi_desc_bbox + image_pad, 1, image_height])
         imageax.imshow(image)
@@ -440,7 +440,9 @@ def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figur
         parent_dir = Path(__file__).parent.resolve()
         expansion_logo_path = parent_dir / Path("images/expansion-logo.png")
 
-    expansion_logo = Image.open(str(expansion_logo_path))
+    expansion_logo = Image.open(str(expansion_logo_path)).convert("RGBA")
+    background = Image.new('RGBA', expansion_logo.size)
+    expansion_logo = Image.alpha_composite(background, expansion_logo).convert("RGB")
 
     expansion_logoax = fig.add_axes([0.2, 0.1, 0.6, 0.6])
     expansion_logoax.imshow(
