@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v7.4.2 (2025-02-13)
+
+### Fix
+
+* fix: allow decimals as misery index
+
+Fixes #87 ([`64022df`](https://github.com/siemdejong/ithappens/commit/64022df5d24f6ccc09c792b122442ee966731482))
+
 ## v7.4.1 (2024-12-27)
 
 ### Fix
