@@ -319,7 +319,7 @@ def plot_card_front(card: Card) -> Figure:
         color="#ffdc20",
     )
 
-    mi_desc = "misery index"
+    mi_desc = card.misery_index_desc
     mi_desc_text = ax.text(
         x_total / 2,
         1.2 * y_size / 6 + bleed,
@@ -506,6 +506,7 @@ def create_card(
     output_dir,
     side,
     ext: Literal["pdf", "png"],
+    misery_index_desc: str = "misery index",
 ) -> Card:
     try:
         image = row[1]["image"]
@@ -513,7 +514,7 @@ def create_card(
         image = None
     
     misery_index = float(str(row[1]["misery index"]).replace(",", "."))
-    card = Card(row[1]["situation"], misery_index, expansion_name, image)
+    card = Card(row[1]["situation"], misery_index, expansion_name, image, misery_index_desc=misery_index_desc)
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)
@@ -535,6 +536,7 @@ def create_cards(
     side: Literal["front", "back", "both"],
     ext: Literal["pdf", "png"],
     workers: int,
+    misery_index_desc: str = "misery_index",
     callbacks: Sequence[Callable] = [],
 ) -> None:
     nmax = df.shape[0]
@@ -545,6 +547,7 @@ def create_cards(
         output_dir=output_dir,
         side=side,
         ext=ext,
+        misery_index_desc=misery_index_desc,
     )
     desc = "Plotting cards"
     from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -602,6 +605,7 @@ def main(**args) -> None:
         args["side"],
         args["format"],
         args["workers"],
+        args["misery_index_desc"],
         callbacks,
     )
 

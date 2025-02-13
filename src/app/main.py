@@ -24,6 +24,7 @@ def create_cards(
     format,
     workers,
     image_dir,
+    misery_index_desc="misery index",
     callbacks=None,
 ):
     main(
@@ -36,6 +37,7 @@ def create_cards(
         format=format,
         workers=workers,
         image_dir=image_dir,
+        misery_index_desc=misery_index_desc,
         callbacks=callbacks,
     )
 
@@ -174,6 +176,9 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 options=np.arange(1, os.cpu_count() + 1),
                 value=os.cpu_count(),
             )
+            misery_index_desc = st.text_input(
+                "Misery index description", "misery index"
+            )
 
         expansion_name = st.text_input("Custom name", "It Happens")
         input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
@@ -236,6 +241,7 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                         format=fmt,
                         workers=workers,
                         image_dir=image_dir,
+                        misery_index_desc=misery_index_desc,
                         callbacks=callbacks,
                     )
             except ItHappensException as e:
