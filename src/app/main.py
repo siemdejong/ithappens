@@ -11,6 +11,7 @@ from PIL import Image
 sys.path.append(str(Path(__file__).absolute().parent.parent))
 
 from ithappens.create_cards import main, parse_input_file
+from ithappens.exceptions import ItHappensException
 
 
 def create_cards(
@@ -63,7 +64,7 @@ st.write(
     "This project is not related to the original card game. [Open an issue](https://github.com/siemdejong/ithappens/issues/new/choose) in case of any objections."
 )
 st.write(
-    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">This project is open source.<br>See <a href=https://github.com/siemdejong/ithappens><i class="fa-brands fa-github">&nbsp;</i>siemdejong/ithappens</a>.',
+    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">This project is open source. See <a href=https://github.com/siemdejong/ithappens><i class="fa-brands fa-github">&nbsp;</i>siemdejong/ithappens</a>.',
     unsafe_allow_html=True,
 )
 
@@ -71,7 +72,8 @@ st.write(
 with tempfile.TemporaryDirectory() as tmp_dir:
     tmp_dir = Path(tmp_dir)
     with st.sidebar:
-        with st.popover("Download example data"):
+        example_data_col, additional_settings_col = st.columns(2)
+        with example_data_col.popover("Download example data"):
             st.write("Download example data to get started.")
             with open(
                 Path(__file__).parent.parent.parent
@@ -161,14 +163,7 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                 )
 
-        expansion_name = st.text_input("Custom name")
-        input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
-        expansion_logo = st.file_uploader("Custom logo (optional)")
-        images = st.file_uploader(
-            "Front images (optional, required if specified)", accept_multiple_files=True
-        )
-
-        with st.popover(":material/settings: Additional settings"):
+        with additional_settings_col.popover(":material/settings: Additional settings"):
             merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
             side = st.radio(
                 "Side(s) to generate", ["both", "front", "back"], horizontal=True
@@ -179,6 +174,13 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 options=np.arange(1, os.cpu_count() + 1),
                 value=os.cpu_count(),
             )
+
+        expansion_name = st.text_input("Custom name", "It Happens")
+        input_file = st.file_uploader("Input file (csv, xlsx, or yaml)")
+        expansion_logo = st.file_uploader("Custom logo (optional)")
+        images = st.file_uploader(
+            "Front images (optional, required if specified)", accept_multiple_files=True
+        )
 
         create_cards_button = st.button(
             ":material/play_arrow: Create cards", use_container_width=True
@@ -222,24 +224,31 @@ with tempfile.TemporaryDirectory() as tmp_dir:
             pbar_callback = PbarCallback(len(df) * 2, pbar_text)
             callbacks = (pbar_callback,)
 
-            for fmt in ["png", "pdf"]:
-                create_cards(
-                    name=expansion_name,
-                    input_file=input_file,
-                    output_dir=tmp_dir,
-                    expansion_logo_path=expansion_logo_path,
-                    merge=merge,
-                    side=side,
-                    format=fmt,
-                    workers=workers,
-                    image_dir=image_dir,
-                    callbacks=callbacks,
-                )
+            try:
+                for fmt in ["png", "pdf"]:
+                    create_cards(
+                        name=expansion_name,
+                        input_file=input_file,
+                        output_dir=tmp_dir,
+                        expansion_logo_path=expansion_logo_path,
+                        merge=merge,
+                        side=side,
+                        format=fmt,
+                        workers=workers,
+                        image_dir=image_dir,
+                        callbacks=callbacks,
+                    )
+            except ItHappensException as e:
+                st.error(e)
+                st.stop()
 
             pbar_callback.empty()
 
             archive = tmp_dir / "ithappens-output.zip"
             zip_cards(archive, tmp_dir)
+
+            if expansion_name:
+                st.warning("Please provide a custom name for your expansion.")
 
             with open(archive, "rb") as zip_file_buf:
                 st.download_button(
@@ -251,26 +260,31 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                     use_container_width=True,
                 )
+                
+            st.components.v1.html(
+                '<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Poppins" data-text="Consider buying me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
+            )
+
+
+        elif input_file is None and create_cards_button:
+            st.error("Please provide an input file and click the button to create cards.")
 
     def sort_by_mi(path: Path):
         return int(path.stem.split("-")[0])
 
-    if create_cards_button:
+    showcase_cards = sorted((tmp_dir / "front").rglob("*.png"), key=sort_by_mi)
+
+    if create_cards_button and len(showcase_cards):
         st.markdown("## Preview")
         st.markdown(
             "Preview your custom cards below. Download them via the button in the sidebar."
         )
-        showcase_cards = sorted((tmp_dir / "front").rglob("*.png"), key=sort_by_mi)
         with st.container():
             columns = st.columns(len(showcase_cards))
             for card, col in zip(showcase_cards, columns):
                 pil_img = Image.open(card)
                 pil_img.thumbnail((256, 256), Image.Resampling.BICUBIC)
                 col.image(np.array(pil_img))
-        with st.sidebar:
-            st.components.v1.html(
-                '<br><script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Lato" data-text="Buy me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
-            )
     else:
         st.markdown("## Demo")
         showcase_cards = sorted(

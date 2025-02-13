@@ -23,6 +23,7 @@ from yaml import safe_load
 
 from ithappens.card import Card
 from ithappens.utils import slugify
+from ithappens.exceptions import ItHappensImageNotFoundError
 
 
 def text_with_wrap_autofit(
@@ -341,7 +342,10 @@ def plot_card_front(card: Card) -> Figure:
 
     image_height = bottom_situation_text - top_mi_desc_bbox - 2 * image_pad
     if card.image_path is not None:
-        foreground = Image.open(card.image_path).convert("RGBA")
+        try:
+            foreground = Image.open(card.image_path).convert("RGBA")
+        except FileNotFoundError as e:
+            raise ItHappensImageNotFoundError(card.image_path) from e
         image = Image.new("RGBA", foreground.size)
         image = Image.alpha_composite(image, foreground)
         image = image.convert("RGB")
