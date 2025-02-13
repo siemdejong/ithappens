@@ -6,9 +6,11 @@ from functools import partial
 from pathlib import Path
 from typing import Literal, Optional, cast
 
+import csv
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import pandas as pd
+import yaml
 from matplotlib.axes import Axes
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
@@ -122,6 +124,33 @@ class ithappensArgs(argparse.Namespace):
     workers: int
     chunks: int
 
+def df_from_yaml(f):
+    return pd.json_normalize(safe_load(f.getvalue()))
+
+def df_from_csv(f):
+    data = [row for row in csv.DictReader(f.getvalue().decode('utf-8').splitlines())]
+    return pd.json_normalize(data)
+
+def df_from_xlsx(f):
+    return pd.read_excel(f)
+
+def construct_df(f):
+    for method in [df_from_yaml, df_from_csv, df_from_xlsx]:
+        try:
+            df = method(f)
+            return df
+        except Exception as e:
+            pass
+    else:
+        raise ValueError("Could not parse input file.")
+
+def open_input_file(input_path):
+    try:
+        with open(input_path, "rb") as f:
+            return f
+    except TypeError:
+        return input_path
+
 
 def parse_input_file(
     input_path: Path,
@@ -139,49 +168,60 @@ def parse_input_file(
     """
     usecols = ["misery index", "situation", "image"]
 
-    df = None
+    input_bytes = open_input_file(input_path)
+    df = construct_df(input_bytes)
+    
     try:
-        with open(input_path, "r") as f:
-            df = pd.json_normalize(safe_load(f))
-            df = df[usecols]
-    except TypeError:
-        bytes_data = input_path.getvalue()
-        df = pd.json_normalize(safe_load(bytes_data))
         df = df[usecols]
-    except ValueError:
-        pass
     except KeyError:
         print(
-            f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+            f"Make sure {input_path} has {len(usecols)} columns named {usecols}."
         )
         exit()
-    except Exception as e:
-        raise e
 
-    if df is None:
-        try:
-            df = pd.read_excel(input_path)
-            df = df[usecols]
-        except ValueError:
-            pass
-        except KeyError:
-            print(
-                f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}."
-            )
-            exit()
+    # df = None
+    # try:
+    #     with open(input_path, "r") as f:
+    #         df = pd.json_normalize(safe_load(f))
+    #         df = df[usecols]
+    # except TypeError:
+    #     bytes_data = input_path.getvalue()
+    #     df = pd.json_normalize(safe_load(bytes_data))
+    #     df = df[usecols]
+    # except (ValueError, yaml.reader.ReaderError):
+    #     pass
+    # except KeyError:
+    #     print(
+    #         f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+    #     )
+    #     exit()
+    # except Exception as e:
+    #     raise e
 
-    if df is None:
-        try:
-            df = pd.read_csv(input_path)
-            df = df[usecols]
-        except UnicodeDecodeError:
-            print(f"{input_path} is not a valid .csv or .xlsx file.")
-            exit()
-        except KeyError:
-            print(
-                f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}."
-            )
-            exit()
+    # if df is None:
+    #     try:
+    #         df = pd.read_excel(input_path)
+    #         df = df[usecols]
+    #     except ValueError:
+    #         pass
+    #     except KeyError:
+    #         print(
+    #             f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+    #         )
+    #         exit()
+
+    # if df is None:
+    #     try:
+    #         df = pd.read_csv(input_path)
+    #         df = df[usecols]
+    #     except UnicodeDecodeError:
+    #         print(f"{input_path} is not a valid .csv or .xlsx file.")
+    #         exit()
+    #     except KeyError:
+    #         print(
+    #             f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}."
+    #         )
+    #         exit()
 
     if image_dir:
 
@@ -312,7 +352,7 @@ def plot_card_front(card: Card) -> Figure:
     ax.text(
         x_total / 2,
         0.07 * y_size + bleed,
-        card.misery_index if ".5" in str(card.misery_index) else int(card.misery_index),
+        card.misery_index,
         **text_kwargs,
         color="black",
         fontsize=45,
@@ -465,7 +505,9 @@ def create_card(
         image = row[1]["image"]
     except KeyError:
         image = None
-    card = Card(row[1]["situation"], row[1]["misery index"], expansion_name, image)
+    
+    misery_index = float(str(row[1]["misery index"]).replace(",", "."))
+    card = Card(row[1]["situation"], misery_index, expansion_name, image)
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)

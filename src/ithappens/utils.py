@@ -22,9 +22,10 @@ def slugify(value, allow_unicode=False):
     dashes to single dashes. Remove characters that aren't alphanumerics,
     underscores, or hyphens. Convert to lowercase. Also strip leading and
     trailing whitespace, dashes, and underscores.
-    Source: https://github.com/django/django/blob/0b78ac3fc7bd9f0c57518d0c1a153582318edd59/django/utils/text.py#L420.
+    Adapted from: https://github.com/django/django/blob/0b78ac3fc7bd9f0c57518d0c1a153582318edd59/django/utils/text.py#L420.
     """
     value = str(value)
+    value = value.replace(".", "_")
     if allow_unicode:
         value = unicodedata.normalize("NFKC", value)
     else:
