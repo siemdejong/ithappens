@@ -1,8 +1,18 @@
 # CHANGELOG
 
+## v7.4.3 (2025-02-13)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`b04bd88`](https://github.com/siemdejong/ithappens/commit/b04bd884eeb6be3dabc6daafe4ddd4f81e24619c))
+
 ## v7.4.2 (2025-02-13)
 
 ### Fix
+
+* fix: accept images with alpha front and back image
+
+Fixes #88 ([`554975d`](https://github.com/siemdejong/ithappens/commit/554975db1d2eadfb7c240957f2374a20478ccc6d))
 
 * fix: allow decimals as misery index
 
