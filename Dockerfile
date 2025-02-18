@@ -1,5 +1,6 @@
-FROM python:3.12-slim-bookworm
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+FROM ghcr.io/astral-sh/uv:0.6.1-python3.12-bookworm-slim
+
+LABEL org.opencontainers.image.source=https://github.com/siemdejong/ithappens
 
 WORKDIR /app
 
@@ -16,4 +17,5 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --compile-bytecode --no-editable
 
 EXPOSE 8501
-CMD ["uv", "run", "streamlit", "run", "--server.port", "8501", "src/app/main.py"]
+ENTRYPOINT ["uv", "run", "streamlit", "run", "src/app/main.py"]
+CMD ["--server.port", "8501"]
