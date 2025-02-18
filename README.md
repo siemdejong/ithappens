@@ -52,7 +52,11 @@ This project is not related to the original card game.
 
 ## App
 
-The tool is available as an online [app](https://ithappens.streamlit.app).
+The tool is available as an online [Streamlit Cloud app](https://ithappens.streamlit.app) or via Docker
+
+```
+docker run -p 8051:8051 ghcr.io/siemdejong/ithappens
+```
 
 ## CLI
 The tool is also available as a command line interface (CLI), see [Local installation](#local-installation).
