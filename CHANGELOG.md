@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.6.1 (2025-02-18)
+
+### Fix
+
+* fix: specify tag ([`44bd26c`](https://github.com/siemdejong/ithappens/commit/44bd26c5581d54de35694b6f79245fcbb140380f))
+
 ## v7.6.0 (2025-02-18)
 
 ### Feature
