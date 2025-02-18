@@ -52,7 +52,7 @@ This project is not related to the original card game.
 
 ## App
 
-The tool is available as an online [Streamlit Cloud app](https://ithappens.streamlit.app) or via Docker
+The tool is available as an online [Streamlit Community Cloud app](https://ithappens.streamlit.app) or via Docker
 
 ```
 docker run -p 8501:8501 ghcr.io/siemdejong/ithappens
