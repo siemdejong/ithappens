@@ -1,6 +1,5 @@
-FROM ghcr.io/astral-sh/uv:0.6.1-python3.12-bookworm-slim
-
-LABEL org.opencontainers.image.source=https://github.com/siemdejong/ithappens
+FROM python:3.12-slim-bookworm
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -16,9 +15,5 @@ ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --compile-bytecode --no-editable
 
-RUN groupadd -r ithappens && useradd --no-log-init -r -g ithappens ithappens
-USER ithappens:ithappens
-
 EXPOSE 8501
-ENTRYPOINT ["uv", "run", "streamlit", "run", "src/app/main.py"]
-CMD ["--server.port", "8501"]
+CMD ["uv", "run", "streamlit", "run", "--server.port", "8501", "src/app/main.py"]

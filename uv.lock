@@ -352,7 +352,7 @@ wheels = [
 
 [[package]]
 name = "ithappens"
-version = "7.6.1"
+version = "7.5.0"
 source = { editable = "." }
 dependencies = [
     { name = "matplotlib" },
