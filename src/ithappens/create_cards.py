@@ -1,4 +1,5 @@
 import argparse
+import csv
 import io
 import textwrap
 from collections.abc import Callable, Sequence
@@ -6,11 +7,9 @@ from functools import partial
 from pathlib import Path
 from typing import Literal, Optional, cast
 
-import csv
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import pandas as pd
-import yaml
 from matplotlib.axes import Axes
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
@@ -22,8 +21,8 @@ from tqdm import tqdm
 from yaml import safe_load
 
 from ithappens.card import Card
-from ithappens.utils import slugify
 from ithappens.exceptions import ItHappensImageNotFoundError
+from ithappens.utils import slugify
 
 
 def text_with_wrap_autofit(
@@ -125,25 +124,30 @@ class ithappensArgs(argparse.Namespace):
     workers: int
     chunks: int
 
+
 def df_from_yaml(f):
     return pd.json_normalize(safe_load(f.getvalue()))
 
+
 def df_from_csv(f):
-    data = [row for row in csv.DictReader(f.getvalue().decode('utf-8').splitlines())]
+    data = [row for row in csv.DictReader(f.getvalue().decode("utf-8").splitlines())]
     return pd.json_normalize(data)
+
 
 def df_from_xlsx(f):
     return pd.read_excel(f)
+
 
 def construct_df(f):
     for method in [df_from_yaml, df_from_csv, df_from_xlsx]:
         try:
             df = method(f)
             return df
-        except Exception as e:
+        except Exception:
             pass
     else:
         raise ValueError("Could not parse input file.")
+
 
 def open_input_file(input_path):
     try:
@@ -171,13 +175,11 @@ def parse_input_file(
 
     input_bytes = open_input_file(input_path)
     df = construct_df(input_bytes)
-    
+
     try:
         df = df[usecols]
     except KeyError:
-        print(
-            f"Make sure {input_path} has {len(usecols)} columns named {usecols}."
-        )
+        print(f"Make sure {input_path} has {len(usecols)} columns named {usecols}.")
         exit()
 
     # df = None
@@ -445,7 +447,7 @@ def plot_card_back(card: Card, expansion_logo_path: Path | None = None) -> Figur
         expansion_logo_path = parent_dir / Path("images/expansion-logo.png")
 
     expansion_logo = Image.open(str(expansion_logo_path)).convert("RGBA")
-    background = Image.new('RGBA', expansion_logo.size)
+    background = Image.new("RGBA", expansion_logo.size)
     expansion_logo = Image.alpha_composite(background, expansion_logo).convert("RGB")
 
     expansion_logoax = fig.add_axes([0.2, 0.1, 0.6, 0.6])
@@ -512,9 +514,15 @@ def create_card(
         image = row[1]["image"]
     except KeyError:
         image = None
-    
+
     misery_index = float(str(row[1]["misery index"]).replace(",", "."))
-    card = Card(row[1]["situation"], misery_index, expansion_name, image, misery_index_desc=misery_index_desc)
+    card = Card(
+        row[1]["situation"],
+        misery_index,
+        expansion_name,
+        image,
+        misery_index_desc=misery_index_desc,
+    )
 
     if side == "front" or side == "both":
         card.fig_front = plot_card_front(card)

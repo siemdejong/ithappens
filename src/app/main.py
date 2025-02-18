@@ -266,14 +266,15 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                     icon=":material/download:",
                     use_container_width=True,
                 )
-                
+
             st.components.v1.html(
                 '<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="siemdejong" data-color="#FFDD00" data-emoji="🍺"  data-font="Poppins" data-text="Consider buying me a beer" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>'
             )
 
-
         elif input_file is None and create_cards_button:
-            st.error("Please provide an input file and click the button to create cards.")
+            st.error(
+                "Please provide an input file and click the button to create cards."
+            )
 
     def sort_by_mi(path: Path):
         return int(path.stem.split("-")[0])
