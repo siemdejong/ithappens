@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.6.0 (2025-02-18)
+
+### Feature
+
+* feat: add docker ([`06a42f9`](https://github.com/siemdejong/ithappens/commit/06a42f95fa9cfde8b7278aabf8a487410434cfea))
+
 ## v7.5.0 (2025-02-13)
 
 ### Unknown
