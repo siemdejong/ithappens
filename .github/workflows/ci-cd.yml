@@ -61,6 +61,8 @@ jobs:
     - name: Publish to PyPI
       if: steps.release.outputs.released == 'true'
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        attestations: false
 
     - name: Test install from PyPI
       if: steps.release.outputs.released == 'true'
