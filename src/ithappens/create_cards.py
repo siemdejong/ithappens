@@ -118,7 +118,6 @@ class ithappensArgs(argparse.Namespace):
     input_dir: str
     name: str
     merge: bool
-    rank: bool
     side: Literal["front", "back", "both"]
     format: Literal["pdf", "png"]
     workers: int

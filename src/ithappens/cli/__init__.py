@@ -3,7 +3,6 @@ from pathlib import Path
 import click
 
 from ithappens.create_cards import main_cli as create_cli
-from ithappens.sort_situations import main_cli as sort_cli
 
 
 @click.group(help="Create custom Shit Happens expansion playing cards.")
@@ -55,33 +54,3 @@ def cli():
 )
 def create(**kwargs):
     create_cli(**kwargs)
-
-
-@cli.command(help="Rank situation.")
-@click.argument("input_dir")
-@click.option(
-    "-s",
-    "--strategy",
-    "strategy",
-    type=click.Choice(["swiss", "round-robin"], case_sensitive=False),
-    default="swiss",
-    help="Ranking strategy.",
-)
-@click.option(
-    "-r",
-    "--rounds",
-    "rounds",
-    type=int,
-    default=9,
-    help="The number of rounds to use with the swiss strategy.",
-)
-@click.option(
-    "-p",
-    "--prescore",
-    "prescore",
-    type=int,
-    default=10,
-    help="The number of groups to prescore.",
-)
-def rank(**kwargs):
-    sort_cli(**kwargs)
