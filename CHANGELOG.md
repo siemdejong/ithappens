@@ -1,10 +1,18 @@
 # CHANGELOG
 
+## v7.6.4 (2025-02-21)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`73b2775`](https://github.com/siemdejong/ithappens/commit/73b27757c674ce61c9adef4c6da3d762a33101f0))
+
 ## v7.6.3 (2025-02-21)
 
 ### Fix
 
 * fix: number of workers for cc ([`4f72ac9`](https://github.com/siemdejong/ithappens/commit/4f72ac9aa6a7187f546b532382f3e745cb478b06))
+
+* fix: number of workers for cc ([`158bf5d`](https://github.com/siemdejong/ithappens/commit/158bf5dc557d43772c003ffc7b11b5efb3446193))
 
 ## v7.6.2 (2025-02-21)
 
