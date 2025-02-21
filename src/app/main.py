@@ -13,6 +13,9 @@ sys.path.append(str(Path(__file__).absolute().parent.parent))
 from ithappens.create_cards import main, parse_input_file
 from ithappens.exceptions import ItHappensException
 
+# True if app is running on Streamlit Community Cloud
+# https://discuss.streamlit.io/t/environment-variable-indicating-my-app-is-running-on-streamlit-sharing/8668/4
+IS_STREAMLIT_SHARING = os.getenv('USER') == 'appuser'
 
 def create_cards(
     name,
@@ -171,10 +174,12 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 "Side(s) to generate", ["both", "front", "back"], horizontal=True
             )
             format = st.radio("Output format", ["pdf", "png"], horizontal=True)
+            max_workers = 2 if IS_STREAMLIT_SHARING else os.cpu_count() + 1
+            default_workers = 2 if IS_STREAMLIT_SHARING else 4
             workers = st.select_slider(
                 "Number of workers",
-                options=np.arange(1, os.cpu_count() + 1),
-                value=os.cpu_count(),
+                options=np.arange(1, max_workers),
+                value=default_workers,
             )
             misery_index_desc = st.text_input(
                 "Misery index description", "misery index"

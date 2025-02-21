@@ -182,50 +182,6 @@ def parse_input_file(
         print(f"Make sure {input_path} has {len(usecols)} columns named {usecols}.")
         exit()
 
-    # df = None
-    # try:
-    #     with open(input_path, "r") as f:
-    #         df = pd.json_normalize(safe_load(f))
-    #         df = df[usecols]
-    # except TypeError:
-    #     bytes_data = input_path.getvalue()
-    #     df = pd.json_normalize(safe_load(bytes_data))
-    #     df = df[usecols]
-    # except (ValueError, yaml.reader.ReaderError):
-    #     pass
-    # except KeyError:
-    #     print(
-    #         f"yaml: Make sure {input_path} has {len(usecols)} columns named {usecols}."
-    #     )
-    #     exit()
-    # except Exception as e:
-    #     raise e
-
-    # if df is None:
-    #     try:
-    #         df = pd.read_excel(input_path)
-    #         df = df[usecols]
-    #     except ValueError:
-    #         pass
-    #     except KeyError:
-    #         print(
-    #             f"excel: Make sure {input_path} has {len(usecols)} columns named {usecols}."
-    #         )
-    #         exit()
-
-    # if df is None:
-    #     try:
-    #         df = pd.read_csv(input_path)
-    #         df = df[usecols]
-    #     except UnicodeDecodeError:
-    #         print(f"{input_path} is not a valid .csv or .xlsx file.")
-    #         exit()
-    #     except KeyError:
-    #         print(
-    #             f"csv: Make sure {input_path} has {len(usecols)} columns named {usecols}."
-    #         )
-    #         exit()
-
     if image_dir:
 
         def _make_path(x: str, image_dir: Path) -> Path:
@@ -507,6 +463,7 @@ def create_card(
     expansion_logo_path,
     output_dir,
     side,
+    merge,
     ext: Literal["pdf", "png"],
     misery_index_desc: str = "misery index",
 ) -> Card:
@@ -524,13 +481,18 @@ def create_card(
         misery_index_desc=misery_index_desc,
     )
 
-    if side == "front" or side == "both":
+    if side in ["front", "both"]:
         card.fig_front = plot_card_front(card)
-        save_card(card, output_dir, "front", format=ext)
 
-    if side == "back" or side == "both":
+    if side in ["back", "both"]:
         card.fig_back = plot_card_back(card, expansion_logo_path)
-        save_card(card, output_dir, "back", format=ext)
+
+    if not merge:
+        if side == "front" or side == "both":
+            save_card(card, output_dir, "front", format=ext)
+
+        if side == "back" or side == "both":
+            save_card(card, output_dir, "back", format=ext)
 
     return card
 
@@ -553,7 +515,8 @@ def create_cards(
         expansion_name=expansion_name,
         expansion_logo_path=expansion_logo_path,
         output_dir=output_dir,
-        side=side,
+        side="front",
+        merge=merge,
         ext=ext,
         misery_index_desc=misery_index_desc,
     )
@@ -562,20 +525,31 @@ def create_cards(
 
     with ProcessPoolExecutor(max_workers=workers) as executor:
         futures = [executor.submit(create_card_par, row) for row in df.iterrows()]
-        cards = []
+        cards: list[Card] = []
         for future in tqdm(as_completed(futures), total=nmax, desc=desc):
             card = future.result()
             cards.append(card)
             for callback in callbacks:
                 callback()
+    
+    # Because all the backs are duplicated, create it only once
+    # and reference it for the others.
+    if side in ["back", "both"]:
+        cards[0].fig_back = plot_card_back(card, expansion_logo_path)
+        for card in cards[1:]:
+            card.fig_back = cards[0].fig_back
 
     if merge:
         if side in ["front", "both"]:
-            with PdfPages(output_dir / "front" / "merged.pdf") as pdf:
+            front_output_dir = output_dir / "front"
+            front_output_dir.mkdir(parents=True, exist_ok=True)
+            with PdfPages(front_output_dir / "merged.pdf") as pdf:
                 for card in cards:
                     pdf.savefig(card.fig_front)
         if side in ["back", "both"]:
-            with PdfPages(output_dir / "back" / "merged.pdf") as pdf:
+            back_output_dir = output_dir / "back"
+            back_output_dir.mkdir(parents=True, exist_ok=True)
+            with PdfPages(back_output_dir / "merged.pdf") as pdf:
                 for card in cards:
                     pdf.savefig(card.fig_back)
 
