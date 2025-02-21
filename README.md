@@ -48,54 +48,19 @@ This project is not related to the original card game.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-# Getting started
-
-## App
-
+# App
 The tool is available as an online [Streamlit Community Cloud app](https://ithappens.streamlit.app) or via Docker
 
 ```
 docker run -p 8501:8501 ghcr.io/siemdejong/ithappens
 ```
 
-## CLI
-The tool is also available as a command line interface (CLI), see [Local installation](#local-installation).
-The tool requires an Excel or csv input file and optionally an expansion logo.
-The input files must have header "misery index" and "situation" and optional "image" for the front image.
-If an image name is given (stem + ext), it must live in the image dir, given by the optional third positional argument.
-See the examples directory for an example.
-```
-Usage: ithappens create [OPTIONS] INPUT_FILE OUTPUT_DIR [IMAGE_DIR]
-
-  Create cards.
-
-Options:
-  -n, --name TEXT                 Expansion name. If no name is specified,
-                                  infers name from input_dir.
-  -m, --merge                     Merge output.
-  -s, --side [front|back|both]    Side(s) to generate.
-  -e, --expansion_logo_path FILE  Expansion logo path.
-  -f, --format [pdf|png]          Output format.
-  -w, --workers INTEGER           Number of workers.
-  --help                          Show this message and exit.
-```
-
-If the output folder does not exist, it will be created.
-The format of the expansion logo must be on [this list](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-# Local installation
-The app can be installed with `pip install ithappens`.
-
+# Development
 ## Prerequisites
+The dependencies are managed with `uv`.
+Otherwise, a virtual environment with python 3.9 or higher is required.
 
-A virtual environment with python 3.9 or higher.
-
-## Installing for developers
-
-### Retrieve the latest version of the code
+## Installation
 Developers should fork this repository and run
 ```
 git clone https://github.com/<your-username>/ithappens.git
@@ -106,17 +71,9 @@ Change into this directory before continuing:
 cd ithappens
 ```
 
-### Create a dedicated environment
+## Create a dedicated environment
 You should set up a dedicated environment to decouple your ithappens development from other Python and ithappens installations on your system.
-
-### Installing ithappens in editable mode
-Install ithappens in editable mode from the ithappens directory using the command
-```
-python -m pip install -e .[dev]
-```
-The 'editable/develop mode', builds everything and places links in your Python environment so that Python will be able to import ithappens from your development source directory.
-This allows you to import your modified version of ithappens without re-installing after every change.
-
+Run `uv sync` or `pip install -e .` to sync your python environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
