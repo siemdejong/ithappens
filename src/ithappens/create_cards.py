@@ -10,6 +10,7 @@ from typing import Literal, Optional, cast
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 import pandas as pd
+import pymupdf
 from matplotlib.axes import Axes
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
@@ -438,23 +439,19 @@ def save_card(
     fn = f"{card.misery_index}-{card.desc}"
     fn = slugify(fn)
     save_fn = (output_dir / fn).with_suffix("." + format)
+    savefig_args = {
+        "format": format,
+        "pad_inches": 0,
+        "dpi": dpi,
+        "transparent": False,
+    }
 
     if side == "front":
-        card.fig_front.savefig(
-            str(save_fn),
-            format=save_fn.suffix[1:],
-            pad_inches=0,
-            dpi=dpi,
-            transparent=False,
-        )
+        card.front_save_fn = save_fn
+        card.fig_front.savefig(save_fn, **savefig_args)
     elif side == "back":
-        card.fig_back.savefig(
-            str(save_fn),
-            format=save_fn.suffix[1:],
-            pad_inches=0,
-            dpi=dpi,
-            transparent=False,
-        )
+        card.back_save_fn = save_fn
+        card.fig_back.savefig(save_fn, **savefig_args)
 
 
 def create_card(
@@ -463,7 +460,6 @@ def create_card(
     expansion_logo_path,
     output_dir,
     side,
-    merge,
     ext: Literal["pdf", "png"],
     misery_index_desc: str = "misery index",
 ) -> Card:
@@ -483,16 +479,13 @@ def create_card(
 
     if side in ["front", "both"]:
         card.fig_front = plot_card_front(card)
+        save_card(card, output_dir, "front", format=ext)
+        card.fig_front = None  # Free up memory
 
     if side in ["back", "both"]:
         card.fig_back = plot_card_back(card, expansion_logo_path)
-
-    if not merge:
-        if side == "front" or side == "both":
-            save_card(card, output_dir, "front", format=ext)
-
-        if side == "back" or side == "both":
-            save_card(card, output_dir, "back", format=ext)
+        save_card(card, output_dir, "back", format=ext)
+        card.fig_back = None  # Free up memory
 
     return card
 
@@ -516,7 +509,6 @@ def create_cards(
         expansion_logo_path=expansion_logo_path,
         output_dir=output_dir,
         side="front",
-        merge=merge,
         ext=ext,
         misery_index_desc=misery_index_desc,
     )
@@ -536,22 +528,37 @@ def create_cards(
     # and reference it for the others.
     if side in ["back", "both"]:
         cards[0].fig_back = plot_card_back(card, expansion_logo_path)
+        fn = f"{card.misery_index}-{card.desc}"
+        fn = slugify(fn)
+        cards[0].back_save_fn = (output_dir / fn).with_suffix("." + ext)
+        save_card(cards[0], output_dir, "back", format=ext)
+        cards[0].fig_back = None
         for card in cards[1:]:
-            card.fig_back = cards[0].fig_back
+            card.back_save_fn = cards[0].back_save_fn
 
     if merge:
         if side in ["front", "both"]:
             front_output_dir = output_dir / "front"
             front_output_dir.mkdir(parents=True, exist_ok=True)
-            with PdfPages(front_output_dir / "merged.pdf") as pdf:
-                for card in cards:
-                    pdf.savefig(card.fig_front)
+            merged_pdf = pymupdf.open()
+
+            for card in cards:
+                with pymupdf.open(card.front_save_fn) as front_pdf:
+                    merged_pdf.insert_pdf(front_pdf)
+            
+            merged_pdf.save(str(front_output_dir / "merged.pdf"))
+
         if side in ["back", "both"]:
             back_output_dir = output_dir / "back"
             back_output_dir.mkdir(parents=True, exist_ok=True)
-            with PdfPages(back_output_dir / "merged.pdf") as pdf:
-                for card in cards:
-                    pdf.savefig(card.fig_back)
+            merged_pdf = pymupdf.open()
+
+            for card in cards:
+                with pymupdf.open(card.back_save_fn) as back_pdf:
+                    merged_pdf.insert_pdf(back_pdf)
+            
+            merged_pdf.save(back_output_dir / "merged.pdf")
+    
 
 
 def main(**args) -> None:

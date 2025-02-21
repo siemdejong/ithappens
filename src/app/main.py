@@ -169,11 +169,11 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 )
 
         with additional_settings_col.popover(":material/settings: Additional settings"):
-            merge = st.toggle(":material/picture_as_pdf: Merge output", value=True)
+            format = st.radio("Output format", ["pdf", "png"], horizontal=True)
             side = st.radio(
                 "Side(s) to generate", ["both", "front", "back"], horizontal=True
             )
-            format = st.radio("Output format", ["pdf", "png"], horizontal=True)
+            merge = st.toggle(":material/picture_as_pdf: Merge output", value=True if format == "pdf" else False, disabled=True if format == "png" else False)
             max_workers = 2 if IS_STREAMLIT_SHARING else os.cpu_count() + 1
             default_workers = 2 if IS_STREAMLIT_SHARING else 4
             workers = st.select_slider(
@@ -231,24 +231,23 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 def empty(self):
                     self.pbar.empty()
 
-            pbar_callback = PbarCallback(len(df) * 2, pbar_text)
+            pbar_callback = PbarCallback(len(df), pbar_text)
             callbacks = (pbar_callback,)
 
             try:
-                for fmt in ["png", "pdf"]:
-                    create_cards(
-                        name=expansion_name,
-                        input_file=input_file,
-                        output_dir=tmp_dir,
-                        expansion_logo_path=expansion_logo_path,
-                        merge=merge,
-                        side=side,
-                        format=fmt,
-                        workers=workers,
-                        image_dir=image_dir,
-                        misery_index_desc=misery_index_desc,
-                        callbacks=callbacks,
-                    )
+                create_cards(
+                    name=expansion_name,
+                    input_file=input_file,
+                    output_dir=tmp_dir,
+                    expansion_logo_path=expansion_logo_path,
+                    merge=merge,
+                    side=side,
+                    format=format,
+                    workers=workers,
+                    image_dir=image_dir,
+                    misery_index_desc=misery_index_desc,
+                    callbacks=callbacks,
+                )
             except ItHappensException as e:
                 st.error(e)
                 st.stop()
