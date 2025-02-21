@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.6.3 (2025-02-21)
+
+### Fix
+
+* fix: number of workers for cc ([`4f72ac9`](https://github.com/siemdejong/ithappens/commit/4f72ac9aa6a7187f546b532382f3e745cb478b06))
+
 ## v7.6.2 (2025-02-21)
 
 ### Build
