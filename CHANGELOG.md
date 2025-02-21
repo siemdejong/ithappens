@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v8.0.0 (2025-02-21)
+
+### Breaking
+
+* fix: remove rank
+
+fixes #78
+
+BREAKING CHANGE: ranking situations is no longer possible ([`aff15a7`](https://github.com/siemdejong/ithappens/commit/aff15a78264b3eab176dcc3d2e0ee017b5e0184b))
+
+### Documentation
+
+* docs: uv ([`78092fe`](https://github.com/siemdejong/ithappens/commit/78092feefdf34a2f4657c6351b4c78f43c86fb77))
+
 ## v7.6.4 (2025-02-21)
 
 ### Unknown
