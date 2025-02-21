@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v8.0.2 (2025-02-21)
+
+### Fix
+
+* fix: text visibility ([`dc59001`](https://github.com/siemdejong/ithappens/commit/dc5900104e0d9a6858ebf71d8164a11211ead08c))
+
 ## v8.0.1 (2025-02-21)
 
 ### Fix
