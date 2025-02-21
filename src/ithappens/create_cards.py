@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pymupdf
 from matplotlib.axes import Axes
-from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.text import Annotation
@@ -523,7 +522,7 @@ def create_cards(
             cards.append(card)
             for callback in callbacks:
                 callback()
-    
+
     # Because all the backs are duplicated, create it only once
     # and reference it for the others.
     if side in ["back", "both"]:
@@ -545,7 +544,7 @@ def create_cards(
             for card in cards:
                 with pymupdf.open(card.front_save_fn) as front_pdf:
                     merged_pdf.insert_pdf(front_pdf)
-            
+
             merged_pdf.save(str(front_output_dir / "merged.pdf"))
 
         if side in ["back", "both"]:
@@ -556,9 +555,8 @@ def create_cards(
             for card in cards:
                 with pymupdf.open(card.back_save_fn) as back_pdf:
                     merged_pdf.insert_pdf(back_pdf)
-            
+
             merged_pdf.save(back_output_dir / "merged.pdf")
-    
 
 
 def main(**args) -> None:
