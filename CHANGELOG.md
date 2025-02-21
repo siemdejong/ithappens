@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v8.0.1 (2025-02-21)
+
+### Fix
+
+* fix: disable attestations
+
+fixes #89 ([`c375cb9`](https://github.com/siemdejong/ithappens/commit/c375cb90feea4e813b262a4b2e62404ba3e0d7ac))
+
 ## v8.0.0 (2025-02-21)
 
 ### Breaking
