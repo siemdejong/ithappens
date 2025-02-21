@@ -179,7 +179,7 @@ with tempfile.TemporaryDirectory() as tmp_dir:
                 value=True if format == "pdf" else False,
                 disabled=True if format == "png" else False,
             )
-            max_workers = 2 if IS_STREAMLIT_SHARING else os.cpu_count() + 1
+            max_workers = 3 if IS_STREAMLIT_SHARING else os.cpu_count() + 1
             default_workers = 2 if IS_STREAMLIT_SHARING else 4
             workers = st.select_slider(
                 "Number of workers",
