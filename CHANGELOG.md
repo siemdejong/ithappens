@@ -1,10 +1,50 @@
 # CHANGELOG
 
+## v7.6.2 (2025-02-21)
+
+### Build
+
+* build: condense base, add entrypoint, add source label ([`8c448c1`](https://github.com/siemdejong/ithappens/commit/8c448c1068743645ba3b8b100c5219d1574a72a5))
+
+### Documentation
+
+* docs: fix typo ([`94f898e`](https://github.com/siemdejong/ithappens/commit/94f898ef717676bcda7f5413504d424018bde97c))
+
+* docs: fix typo ([`84a26da`](https://github.com/siemdejong/ithappens/commit/84a26da11387839b3fd70ffa766ed475d7db467a))
+
+### Performance
+
+* perf: lower up memory usage
+
+Do not replot the back.
+Do not plot png and pdf if only pdf requested.
+Save cards to disk and merge one by one. ([`07b2af9`](https://github.com/siemdejong/ithappens/commit/07b2af90b07bde2fd2816e34d91c486006e21389))
+
+* perf: max workers, only one copy ([`c648432`](https://github.com/siemdejong/ithappens/commit/c64843242f3776b776af6c474b68521d7d704ef0))
+
+### Style
+
+* style: apply ruff ([`20997b6`](https://github.com/siemdejong/ithappens/commit/20997b6e30eea2853c952010b155c95f0140ffee))
+
+* style: follow dockerfile best practices ([`86faa1c`](https://github.com/siemdejong/ithappens/commit/86faa1c695ebca2dc78a6c9db0fd83ee91bac20b))
+
+### Unknown
+
+* Revert &#34;style: follow dockerfile best practices&#34;
+
+This reverts commit 86faa1c695ebca2dc78a6c9db0fd83ee91bac20b. ([`a6e332d`](https://github.com/siemdejong/ithappens/commit/a6e332dd2950078dc93447ced0ac84526683842d))
+
+* Merge branch &#39;main&#39; of https://github.com/siemdejong/ithappens ([`a370ae0`](https://github.com/siemdejong/ithappens/commit/a370ae0cc6f17c45cc9de85c75d25d5e3e0075c3))
+
 ## v7.6.1 (2025-02-18)
 
 ### Fix
 
 * fix: specify tag ([`44bd26c`](https://github.com/siemdejong/ithappens/commit/44bd26c5581d54de35694b6f79245fcbb140380f))
+
+### Style
+
+* style: ruff ([`35aaa9e`](https://github.com/siemdejong/ithappens/commit/35aaa9e7b3890040e2511c82952aac75e9e606aa))
 
 ## v7.6.0 (2025-02-18)
 
