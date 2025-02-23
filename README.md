@@ -59,7 +59,7 @@ To create custom It Happens cards, you need to have a list of situations.
 Every situation has a misery index and optionally an image.
 Example input files are available in YAML, CSV, or Excel and can be downloaded via the app.
 Once you're happy with your situations, upload your input file.
-The app will generate 62mm x 88mm cards with cropmarks.
+The app will generate 300dpi 62mm x 88mm cards with cropmarks.
 
 Optionally, you can choose to generate individual PNGs, generate only one side of a card, set a custom name, or change the "misery index" text.
 
