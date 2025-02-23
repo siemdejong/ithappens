@@ -54,6 +54,14 @@ The tool is available as an online [Streamlit Community Cloud app](https://ithap
 ```
 docker run -p 8501:8501 ghcr.io/siemdejong/ithappens
 ```
+## Usage
+To create custom It Happens cards, you need to have a list of situations.
+Every situation has a misery index and optionally an image.
+Example input files are available in YAML, CSV, or Excel and can be downloaded via the app.
+Once you're happy with your situations, upload your input file.
+The app will generate 62mm x 88mm cards with cropmarks.
+
+Optionally, you can choose to generate individual PNGs, generate only one side of a card, set a custom name, or change the "misery index" text.
 
 # Development
 ## Prerequisites
